@@ -19,5 +19,5 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Renviron
-docs/
 po/*~
+2024-07-01-ucsb-intro-geospatial.Rproj
