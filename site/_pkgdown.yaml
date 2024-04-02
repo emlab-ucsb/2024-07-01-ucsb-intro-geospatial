@@ -3,7 +3,7 @@
 # If you want to make changes, please edit '/Users/echelleburns/Documents/2024-07-01-ucsb-intro-geospatial/config.yaml'
 # ------------------------------------------------------------------ information
 
-title: Lesson Title
+title: Intro to Geospatial Raster/Vector Data
 lang: en
 home:
   title: Home
@@ -12,7 +12,7 @@ home:
 template:
   package: varnish
   params:
-    time: 2024-04-02 17:27:00 +0000
+    time: 2024-04-02 17:42:29 +0000
     source: https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial
     branch: main
     contact: team@carpentries.org
@@ -20,18 +20,18 @@ template:
     handout: ~
     cp: no
     lc: no
-    dc: no
+    dc: yes
     swc: no
-    carpentry: incubator
-    carpentry_name: Carpentries Incubator
-    carpentry_icon: incubator
-    life_cycle: pre-alpha
-    pre_alpha: yes
+    carpentry: dc
+    carpentry_name: Data Carpentry
+    carpentry_icon: data
+    life_cycle: stable
+    pre_alpha: no
     alpha: no
     beta: no
-    stable: no
+    stable: yes
     doi: ~
-    title: Lesson Title
+    title: Intro to Geospatial Raster/Vector Data
     created: '2024-04-02'
     keywords: software, data, lesson, The Carpentries
     episodes: ~

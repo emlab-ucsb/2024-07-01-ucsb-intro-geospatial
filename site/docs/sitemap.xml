@@ -67,6 +67,9 @@
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/aio.html</loc>
+  </url>
+  <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/data/Global/Boundaries/ne_110m_graticules_all/ne_110m_graticules_1.README.html</loc>
   </url>
   <url>
@@ -89,6 +92,9 @@
   </url>
   <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/data/Global/Boundaries/ne_110m_land/ne_110m_land.README.html</loc>
+  </url>
+  <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/images.html</loc>
   </url>
   <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/index.html</loc>
@@ -160,13 +166,31 @@
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/images.html</loc>
+  </url>
+  <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/index.html</loc>
+  </url>
+  <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/key-points.html</loc>
   </url>
   <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/profiles.html</loc>
   </url>
   <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/key-points.html</loc>
   </url>
   <url>
     <loc>https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/profiles.html</loc>
