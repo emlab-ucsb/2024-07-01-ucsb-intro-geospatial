@@ -110,22 +110,6 @@ class(gapminder$year)
 [1] "integer"
 ```
 
-```r
-class(gapminder$country)
-```
-
-```{.output}
-[1] "character"
-```
-
-```r
-str(gapminder$country)
-```
-
-```{.output}
- chr [1:1704] "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
-```
-
 We can also interrogate the data frame for information about its dimensions;
 remembering that `str(gapminder)` said there were 1704 observations of 6
 variables in gapminder, what do you think the following will produce, and why?
@@ -137,15 +121,6 @@ length(gapminder)
 
 A fair guess would have been to say that the length of a data frame would be the
 number of rows it has (1704), but this is not the case; it gives us the number of columns.
-
-
-```r
-class(gapminder)
-```
-
-```{.output}
-[1] "data.frame"
-```
 
 To get the number of rows and columns in our dataset, try:
 
@@ -293,17 +268,152 @@ We would like to create a new column to hold information on whether the life exp
 
 ```r
 below_average <- gapminder$lifeExp < 70.5
-head(gapminder)
+below_average
 ```
 
 ```{.output}
-      country year      pop continent lifeExp gdpPercap
-1 Afghanistan 1952  8425333      Asia  28.801  779.4453
-2 Afghanistan 1957  9240934      Asia  30.332  820.8530
-3 Afghanistan 1962 10267083      Asia  31.997  853.1007
-4 Afghanistan 1967 11537966      Asia  34.020  836.1971
-5 Afghanistan 1972 13079460      Asia  36.088  739.9811
-6 Afghanistan 1977 14880372      Asia  38.438  786.1134
+   [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+  [13]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+  [25]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+  [37]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+  [49]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+  [61]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+  [73]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+  [85]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+  [97]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [109]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [121]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [133]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [145]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+ [157]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [169]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [181]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+ [193]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [205]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [217]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [229]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [241]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [253]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [265]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [277]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+ [289]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [301]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [313]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [325]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [337]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [349]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [361]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [373]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+ [385]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [397]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [409] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [421]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [433]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [445]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+ [457]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+ [469]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [481]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [493]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [505]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [517]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [529]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [541]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [553]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [565]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [577]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [589]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [601]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [613]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [625]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [637]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [649]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [661]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [673]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+ [685] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [697]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [709]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+ [721]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+ [733]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [745]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [757]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [769]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [781]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+ [793]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [805]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [817]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [829]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE
+ [841]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+ [853]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+ [865]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+ [877]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [889]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [901]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+ [913]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [925]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [937]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+ [949]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [961]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [973]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+ [985]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+ [997]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1009]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1021]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+[1033]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1045]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1057]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1069]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1081] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1093]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1105]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+[1117]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1129]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1141] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1153]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+[1165]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1177]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+[1189]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+[1201]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+[1213]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+[1225]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1237]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+[1249]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1261]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+[1273]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+[1285]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1297]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1309]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+[1321]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1333]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+[1345]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1357]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1369]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+[1381]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1393]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1405]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1417]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1429]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+[1441]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1453]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1465] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1477]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1489]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+[1501]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1513]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1525]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+[1537]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1549]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1561]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+[1573]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+[1585]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1597]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1609]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[1621]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+[1633]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+[1645]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+[1657]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+[1669]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1681]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+[1693]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
 ```
 
 We can then add this as a column via:
@@ -313,42 +423,12 @@ We can then add this as a column via:
 cbind(gapminder, below_average)
 ```
 
-
-```{.output}
-      country year      pop continent lifeExp gdpPercap below_average
-1 Afghanistan 1952  8425333      Asia  28.801  779.4453          TRUE
-2 Afghanistan 1957  9240934      Asia  30.332  820.8530          TRUE
-3 Afghanistan 1962 10267083      Asia  31.997  853.1007          TRUE
-4 Afghanistan 1967 11537966      Asia  34.020  836.1971          TRUE
-5 Afghanistan 1972 13079460      Asia  36.088  739.9811          TRUE
-6 Afghanistan 1977 14880372      Asia  38.438  786.1134          TRUE
-```
-
-We probably don't want to print the entire dataframe each time, so
-let's put our `cbind` command within a call to `head` to return
-only the first six lines of the output.
-
-
-```r
-head(cbind(gapminder, below_average))
-```
-
-```{.output}
-      country year      pop continent lifeExp gdpPercap below_average
-1 Afghanistan 1952  8425333      Asia  28.801  779.4453          TRUE
-2 Afghanistan 1957  9240934      Asia  30.332  820.8530          TRUE
-3 Afghanistan 1962 10267083      Asia  31.997  853.1007          TRUE
-4 Afghanistan 1967 11537966      Asia  34.020  836.1971          TRUE
-5 Afghanistan 1972 13079460      Asia  36.088  739.9811          TRUE
-6 Afghanistan 1977 14880372      Asia  38.438  786.1134          TRUE
-```
-
 Note that if we tried to add a vector of `below_average` with a different number of entries than the number of rows in the dataframe, it would fail:
 
 
 ```r
 below_average <- c(TRUE, TRUE, TRUE, TRUE, TRUE)
-head(cbind(gapminder, below_average))
+cbind(gapminder, below_average)
 ```
 
 ```{.error}
@@ -395,19 +475,41 @@ head(cbind(gapminder, below_average))
 
 The sequence `TRUE,TRUE,FALSE` is repeated over all the gapminder rows.
 
-Let's overwrite the content of gapminder with our new data frame.
+Let's overwrite the content of gapminder with our new data frame. We can do this in two ways: using `cbind` and overwriting the `gapminder` object, or by identifying and adding a new column. 
 
 
 ```r
-below_average <-  as.logical(gapminder$lifeExp<70.5)
+below_average <- gapminder$lifeExp<70.5
+
+# Option 1 - use cbind and overwrite the object
 gapminder <- cbind(gapminder, below_average)
+
+# Option 2 - identifying and adding a new column
+gapminder$below_average <- below_average
 ```
 
-Now how about adding rows? The rows of a data frame are lists:
+Now how about adding rows? The rows of a data frame are lists, so we can add a new row by either specifying a new list, or a new data frame.
 
 
 ```r
-new_row <- list('Norway', 2016, 5000000, 'Nordic', 80.3, 49400.0, FALSE)
+# Option 1 - create a new list
+new_row <- list(country = 'Norway', 
+                year = 2016, 
+                pop = 5000000, 
+                continent = 'Nordic', 
+                lifeExp = 80.3, 
+                gdpPercap = 49400.0, 
+                below_average = FALSE)
+
+# Option 2 - perhaps more intuitive, create a new data frame
+new_row <- data.frame(country = 'Norway', 
+                      year = 2016, 
+                      pop = 5000000, 
+                      continent = 'Nordic', 
+                      lifeExp = 80.3, 
+                      gdpPercap = 49400.0, 
+                      below_average = FALSE)
+
 gapminder_norway <- rbind(gapminder, new_row)
 tail(gapminder_norway)
 ```
@@ -422,24 +524,26 @@ tail(gapminder_norway)
 1705   Norway 2016  5000000    Nordic  80.300 49400.0000         FALSE
 ```
 
-To understand why R is giving us a warning when we try to add this row, let's learn a little more about factors.
-
 ## Factors
 
 Here is another thing to look out for: in a `factor`, each different value
-represents what is called a `level`. In our case, the `factor` "continent" has 5
+represents what is called a `level`. Let's alter our gapminder data so that the "continent" column is a factor. 
+
+
+```r
+gapminder$continent <- factor(gapminder$continent)
+head(gapminder$continent)
+```
+
+```{.output}
+[1] Asia Asia Asia Asia Asia Asia
+Levels: Africa Americas Asia Europe Oceania
+```
+
+Now the `factor` "continent" has 5
 levels: "Africa", "Americas", "Asia", "Europe" and "Oceania". R will only accept
 values that match one of the levels. If you add a new value, it will become
 `NA`.
-
-The warning is telling us that we unsuccessfully added "Nordic" to our
-*continent* factor, but 2016 (a numeric), 5000000 (a numeric), 80.3 (a numeric),
-49400\.0 (a numeric) and `FALSE` (a logical) were successfully added to
-*country*, *year*, *pop*, *lifeExp*, *gdpPercap* and *below\_average*
-respectively, since those variables are not factors. 'Norway' was also
-successfully added since it corresponds to an existing level. To successfully
-add a gapminder row with a "Nordic" *continent*, add "Nordic" as a *level* of
-the factor:
 
 
 ```r
@@ -447,31 +551,22 @@ levels(gapminder$continent)
 ```
 
 ```{.output}
-NULL
+[1] "Africa"   "Americas" "Asia"     "Europe"   "Oceania" 
 ```
 
 ```r
 levels(gapminder$continent) <- c(levels(gapminder$continent), "Nordic")
-gapminder_norway  <- rbind(gapminder,
-                           list('Norway', 2016, 5000000, 'Nordic', 80.3,49400.0, FALSE))
-```
-
-```{.warning}
-Warning in `[<-.factor`(`*tmp*`, ri, value = structure(c("Asia", "Asia", :
-invalid factor level, NA generated
-```
-
-```r
+gapminder_norway  <- rbind(gapminder, new_row)
 tail(gapminder_norway)
 ```
 
 ```{.output}
       country year      pop continent lifeExp  gdpPercap below_average
-1700 Zimbabwe 1987  9216418      <NA>  62.351   706.1573          TRUE
-1701 Zimbabwe 1992 10704340      <NA>  60.377   693.4208          TRUE
-1702 Zimbabwe 1997 11404948      <NA>  46.809   792.4500          TRUE
-1703 Zimbabwe 2002 11926563      <NA>  39.989   672.0386          TRUE
-1704 Zimbabwe 2007 12311143      <NA>  43.487   469.7093          TRUE
+1700 Zimbabwe 1987  9216418    Africa  62.351   706.1573          TRUE
+1701 Zimbabwe 1992 10704340    Africa  60.377   693.4208          TRUE
+1702 Zimbabwe 1997 11404948    Africa  46.809   792.4500          TRUE
+1703 Zimbabwe 2002 11926563    Africa  39.989   672.0386          TRUE
+1704 Zimbabwe 2007 12311143    Africa  43.487   469.7093          TRUE
 1705   Norway 2016  5000000    Nordic  80.300 49400.0000         FALSE
 ```
 
@@ -489,8 +584,7 @@ str(gapminder)
  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
  $ pop          : num  8425333 9240934 10267083 11537966 13079460 ...
- $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...
-  ..- attr(*, "levels")= chr "Nordic"
+ $ continent    : Factor w/ 6 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...
  $ gdpPercap    : num  779 821 853 836 740 ...
  $ below_average: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
@@ -529,25 +623,6 @@ tail(gapminder, n=3)
 3406 Zimbabwe 1997 11404948    Africa  46.809  792.4500          TRUE
 3407 Zimbabwe 2002 11926563    Africa  39.989  672.0386          TRUE
 3408 Zimbabwe 2007 12311143    Africa  43.487  469.7093          TRUE
-```
-
-But now the row names are unnecessarily complicated (not consecutive numbers).
-We can remove the rownames, and R will automatically re-name them sequentially:
-
-
-```r
-rownames(gapminder) <- NULL
-head(gapminder)
-```
-
-```{.output}
-      country year      pop continent lifeExp gdpPercap below_average
-1 Afghanistan 1952  8425333      Asia  28.801  779.4453          TRUE
-2 Afghanistan 1957  9240934      Asia  30.332  820.8530          TRUE
-3 Afghanistan 1962 10267083      Asia  31.997  853.1007          TRUE
-4 Afghanistan 1967 11537966      Asia  34.020  836.1971          TRUE
-5 Afghanistan 1972 13079460      Asia  36.088  739.9811          TRUE
-6 Afghanistan 1977 14880372      Asia  38.438  786.1134          TRUE
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge

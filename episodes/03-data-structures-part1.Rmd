@@ -25,7 +25,7 @@ source: Rmd
 ```
 
 One of R's most powerful features is its ability to deal with tabular data -
-such as you may already have in a spreadsheet or a CSV file. Let's start by
+like you may already have in a spreadsheet or a CSV file. Let's start by
 downloading and reading in a file `nordic-data.csv`. We will
 save this data as an object named `nordic`:
 
@@ -137,24 +137,27 @@ data structures are, and how they behave.
 ## Vectors and Type Coercion
 
 To better understand this behavior, let's meet another of the data structures:
-the vector.
-
-```{r}
-my_vector <- vector(length = 3)
-my_vector
-```
+the vector. 
 
 A vector in R is essentially an ordered list of things, with the special
 condition that everything in the vector must be the same basic data type. If
 you don't choose the data type, it'll default to `logical`; or, you can declare
 an empty vector of whatever type you like.
 
+You can specify a vector either using the `vector()` function or the combine (`c()`) function. 
+
+```{r}
+vector(length = 3) # this creates an empty vector of logical values
+c(1, 2, 3) # this creates a vector with numerical values
+c("this", "that", "the other") # this creates a vector with character values
+```
+
 ```{r}
 another_vector <- vector(mode = 'character', length = 3)
 another_vector
 ```
 
-You can check if something is a vector:
+You can check if something is a vector using `str` which asks for an object's structure:
 
 ```{r}
 str(another_vector)
@@ -197,13 +200,6 @@ our lives easier in R.
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-You can also make vectors with explicit contents with the combine function:
-
-```{r}
-combine_vector <- c(2, 6, 3)
-combine_vector
-```
 
 Given what we've learned so far, what do you think the following will produce?
 
@@ -492,9 +488,12 @@ we have seen already, each column of data frame is a vector.
 
 ```{r}
 nordic$country
+```
+
+So far, we've specified columns as object$column, but we can also use indexing to identify different columns and rows. We do this by object[row, column]. If we keep the row value empty (e.g., object[,column]), R will return all rows. Likewise, if we keep the column value empty (e.g., object[row,]), R will return all columns. Note that R starts indexing at 1 - the first value will have the index 1. 
+
+```{r}
 nordic[, 1]
-class(nordic[, 1])
-str(nordic[, 1])
 ```
 
 Each row is an *observation* of different variables, itself a data frame, and
@@ -502,8 +501,12 @@ thus can be composed of elements of different types.
 
 ```{r}
 nordic[1, ]
-class(nordic[1, ])
-str(nordic[1, ])
+```
+
+We can also call to the contents within the items in a list via indexing. For example, if we wanted to just return the contents from the first object in `another_list` (the title), we can do that by using double brackets. 
+
+```{r}
+another_list[[1]]
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge

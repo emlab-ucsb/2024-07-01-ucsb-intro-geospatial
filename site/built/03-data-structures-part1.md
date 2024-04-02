@@ -24,7 +24,7 @@ source: Rmd
 
 
 One of R's most powerful features is its ability to deal with tabular data -
-such as you may already have in a spreadsheet or a CSV file. Let's start by
+like you may already have in a spreadsheet or a CSV file. Let's start by
 downloading and reading in a file `nordic-data.csv`. We will
 save this data as an object named `nordic`:
 
@@ -219,22 +219,39 @@ data structures are, and how they behave.
 ## Vectors and Type Coercion
 
 To better understand this behavior, let's meet another of the data structures:
-the vector.
+the vector. 
+
+A vector in R is essentially an ordered list of things, with the special
+condition that everything in the vector must be the same basic data type. If
+you don't choose the data type, it'll default to `logical`; or, you can declare
+an empty vector of whatever type you like.
+
+You can specify a vector either using the `vector()` function or the combine (`c()`) function. 
 
 
 ```r
-my_vector <- vector(length = 3)
-my_vector
+vector(length = 3) # this creates an empty vector of logical values
 ```
 
 ```{.output}
 [1] FALSE FALSE FALSE
 ```
 
-A vector in R is essentially an ordered list of things, with the special
-condition that everything in the vector must be the same basic data type. If
-you don't choose the data type, it'll default to `logical`; or, you can declare
-an empty vector of whatever type you like.
+```r
+c(1, 2, 3) # this creates a vector with numerical values
+```
+
+```{.output}
+[1] 1 2 3
+```
+
+```r
+c("this", "that", "the other") # this creates a vector with character values
+```
+
+```{.output}
+[1] "this"      "that"      "the other"
+```
 
 
 ```r
@@ -246,7 +263,7 @@ another_vector
 [1] "" "" ""
 ```
 
-You can check if something is a vector:
+You can check if something is a vector using `str` which asks for an object's structure:
 
 
 ```r
@@ -299,18 +316,6 @@ our lives easier in R.
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-You can also make vectors with explicit contents with the combine function:
-
-
-```r
-combine_vector <- c(2, 6, 3)
-combine_vector
-```
-
-```{.output}
-[1] 2 6 3
-```
 
 Given what we've learned so far, what do you think the following will produce?
 
@@ -861,28 +866,15 @@ nordic$country
 [1] "Denmark" "Sweden"  "Norway" 
 ```
 
+So far, we've specified columns as object$column, but we can also use indexing to identify different columns and rows. We do this by object[row, column]. If we keep the row value empty (e.g., object[,column]), R will return all rows. Likewise, if we keep the column value empty (e.g., object[row,]), R will return all columns. Note that R starts indexing at 1 - the first value will have the index 1. 
+
+
 ```r
 nordic[, 1]
 ```
 
 ```{.output}
 [1] "Denmark" "Sweden"  "Norway" 
-```
-
-```r
-class(nordic[, 1])
-```
-
-```{.output}
-[1] "character"
-```
-
-```r
-str(nordic[, 1])
-```
-
-```{.output}
- chr [1:3] "Denmark" "Sweden" "Norway"
 ```
 
 Each row is an *observation* of different variables, itself a data frame, and
@@ -898,23 +890,15 @@ nordic[1, ]
 1 Denmark 2002    77.2
 ```
 
+We can also call to the contents within the items in a list via indexing. For example, if we wanted to just return the contents from the first object in `another_list` (the title), we can do that by using double brackets. 
+
+
 ```r
-class(nordic[1, ])
+another_list[[1]]
 ```
 
 ```{.output}
-[1] "data.frame"
-```
-
-```r
-str(nordic[1, ])
-```
-
-```{.output}
-'data.frame':	1 obs. of  3 variables:
- $ country: chr "Denmark"
- $ year   : int 2002
- $ lifeExp: num 77.2
+[1] "Numbers"
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge

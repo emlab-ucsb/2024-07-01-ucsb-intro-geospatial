@@ -90,8 +90,6 @@ We can also examine individual columns of the data frame with our `class` functi
 
 ```{r}
 class(gapminder$year)
-class(gapminder$country)
-str(gapminder$country)
 ```
 
 We can also interrogate the data frame for information about its dimensions;
@@ -104,10 +102,6 @@ length(gapminder)
 
 A fair guess would have been to say that the length of a data frame would be the
 number of rows it has (1704), but this is not the case; it gives us the number of columns.
-
-```{r}
-class(gapminder)
-```
 
 To get the number of rows and columns in our dataset, try:
 
@@ -219,7 +213,7 @@ We would like to create a new column to hold information on whether the life exp
 
 ```{r}
 below_average <- gapminder$lifeExp < 70.5
-head(gapminder)
+below_average
 ```
 
 We can then add this as a column via:
@@ -228,23 +222,11 @@ We can then add this as a column via:
 cbind(gapminder, below_average)
 ```
 
-```{r, eval=TRUE, echo=FALSE}
-head(cbind(gapminder, below_average))
-```
-
-We probably don't want to print the entire dataframe each time, so
-let's put our `cbind` command within a call to `head` to return
-only the first six lines of the output.
-
-```{r, eval=TRUE}
-head(cbind(gapminder, below_average))
-```
-
 Note that if we tried to add a vector of `below_average` with a different number of entries than the number of rows in the dataframe, it would fail:
 
 ```{r, error=TRUE}
 below_average <- c(TRUE, TRUE, TRUE, TRUE, TRUE)
-head(cbind(gapminder, below_average))
+cbind(gapminder, below_average)
 ```
 
 Why didn't this work? R wants to see one element in our new column
@@ -264,45 +246,62 @@ head(cbind(gapminder, below_average))
 
 The sequence `TRUE,TRUE,FALSE` is repeated over all the gapminder rows.
 
-Let's overwrite the content of gapminder with our new data frame.
+Let's overwrite the content of gapminder with our new data frame. We can do this in two ways: using `cbind` and overwriting the `gapminder` object, or by identifying and adding a new column. 
 
 ```{r}
-below_average <-  as.logical(gapminder$lifeExp<70.5)
+below_average <- gapminder$lifeExp<70.5
+
+# Option 1 - use cbind and overwrite the object
 gapminder <- cbind(gapminder, below_average)
+
+# Option 2 - identifying and adding a new column
+gapminder$below_average <- below_average
 ```
 
-Now how about adding rows? The rows of a data frame are lists:
+Now how about adding rows? The rows of a data frame are lists, so we can add a new row by either specifying a new list, or a new data frame.
 
 ```{r}
-new_row <- list('Norway', 2016, 5000000, 'Nordic', 80.3, 49400.0, FALSE)
+# Option 1 - create a new list
+new_row <- list(country = 'Norway', 
+                year = 2016, 
+                pop = 5000000, 
+                continent = 'Nordic', 
+                lifeExp = 80.3, 
+                gdpPercap = 49400.0, 
+                below_average = FALSE)
+
+# Option 2 - perhaps more intuitive, create a new data frame
+new_row <- data.frame(country = 'Norway', 
+                      year = 2016, 
+                      pop = 5000000, 
+                      continent = 'Nordic', 
+                      lifeExp = 80.3, 
+                      gdpPercap = 49400.0, 
+                      below_average = FALSE)
+
 gapminder_norway <- rbind(gapminder, new_row)
 tail(gapminder_norway)
 ```
 
-To understand why R is giving us a warning when we try to add this row, let's learn a little more about factors.
-
 ## Factors
 
 Here is another thing to look out for: in a `factor`, each different value
-represents what is called a `level`. In our case, the `factor` "continent" has 5
+represents what is called a `level`. Let's alter our gapminder data so that the "continent" column is a factor. 
+
+```{r}
+gapminder$continent <- factor(gapminder$continent)
+head(gapminder$continent)
+```
+
+Now the `factor` "continent" has 5
 levels: "Africa", "Americas", "Asia", "Europe" and "Oceania". R will only accept
 values that match one of the levels. If you add a new value, it will become
 `NA`.
 
-The warning is telling us that we unsuccessfully added "Nordic" to our
-*continent* factor, but 2016 (a numeric), 5000000 (a numeric), 80.3 (a numeric),
-49400\.0 (a numeric) and `FALSE` (a logical) were successfully added to
-*country*, *year*, *pop*, *lifeExp*, *gdpPercap* and *below\_average*
-respectively, since those variables are not factors. 'Norway' was also
-successfully added since it corresponds to an existing level. To successfully
-add a gapminder row with a "Nordic" *continent*, add "Nordic" as a *level* of
-the factor:
-
 ```{r}
 levels(gapminder$continent)
 levels(gapminder$continent) <- c(levels(gapminder$continent), "Nordic")
-gapminder_norway  <- rbind(gapminder,
-                           list('Norway', 2016, 5000000, 'Nordic', 80.3,49400.0, FALSE))
+gapminder_norway  <- rbind(gapminder, new_row)
 tail(gapminder_norway)
 ```
 
@@ -325,14 +324,6 @@ vectors and rows are lists.* We can also glue two data frames together with
 ```{r}
 gapminder <- rbind(gapminder, gapminder)
 tail(gapminder, n=3)
-```
-
-But now the row names are unnecessarily complicated (not consecutive numbers).
-We can remove the rownames, and R will automatically re-name them sequentially:
-
-```{r}
-rownames(gapminder) <- NULL
-head(gapminder)
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge

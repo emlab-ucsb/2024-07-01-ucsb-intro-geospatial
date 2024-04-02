@@ -222,7 +222,7 @@ would have learned back in school.
 
 From highest to lowest precedence:
 
-- Parentheses: `(`, `)`
+- Parentheses: `(` `)`
 - Exponents: `^` or `**`
 - Divide: `/`
 - Multiply: `*`
@@ -628,7 +628,7 @@ These packages will be installed into "~/Documents/2024-07-01-ucsb-intro-geospat
 
 # Installing packages --------------------------------------------------------
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 1 package in 5 milliseconds.
+Successfully installed 1 package in 4.9 milliseconds.
 ```
 
 It's important to note that we only need to install the R package on our computer once. Well, if we install a new version of R on the same computer, then we will likely need to also re-install the R packages too.

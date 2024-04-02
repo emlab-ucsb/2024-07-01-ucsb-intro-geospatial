@@ -1,5 +1,5 @@
 Package: lesson
-Title: Lesson Title
+Title: Intro to Geospatial Raster and Vector Data
 Version: 1.0.0
 Authors@R: 
     person("Jo", "Carpenter", , "team@carpentries.org", role = c("aut", "cre"))

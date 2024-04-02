@@ -218,7 +218,7 @@ would have learned back in school.
 
 From highest to lowest precedence:
 
-- Parentheses: `(`, `)`
+- Parentheses: `(` `)`
 - Exponents: `^` or `**`
 - Divide: `/`
 - Multiply: `*`
