@@ -69,16 +69,6 @@ x[1]
 5.4 
 ```
 
-
-```r
-x[4]
-```
-
-```{.output}
-  d 
-4.8 
-```
-
 It may look different, but the square brackets operator is a function. For vectors
 (and matrices), it means "get me the nth element".
 
