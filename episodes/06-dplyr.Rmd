@@ -19,16 +19,14 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{r, include=FALSE}
-gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
-```
-
 Manipulation of dataframes means many things to many researchers, we often
 select certain observations (rows) or variables (columns), we often group the
 data by a certain variable(s), or we even calculate summary statistics. We can
 do these operations using the normal base R operations:
 
 ```{r}
+gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
+
 mean(gapminder[gapminder$continent == "Africa", "gdpPercap"])
 mean(gapminder[gapminder$continent == "Americas", "gdpPercap"])
 mean(gapminder[gapminder$continent == "Asia", "gdpPercap"])
@@ -177,12 +175,14 @@ exciting in conjunction with `summarize()`. This will allow us to create new
 variable(s) by using functions that repeat for each of the continent-specific
 data frames. That is to say, using the `group_by()` function, we split our
 original dataframe into multiple pieces, then we can run functions
-(e.g. `mean()` or `sd()`) within `summarize()`.
+(e.g. `mean()` or `sd()`) within `summarize()`. To end our `group_by()`, we need
+to close off the pipe by using `ungroup()`.
 
 ```{r}
 gdp_bycontinents <- gapminder %>%
   group_by(continent) %>%
-  summarize(mean_gdpPercap = mean(gdpPercap))
+  summarize(mean_gdpPercap = mean(gdpPercap)) %>% 
+  ungroup()
 
 gdp_bycontinents
 ```
@@ -206,7 +206,8 @@ expectancy and which has the shortest average life expectancy?
 ```{r}
 lifeExp_bycountry <- gapminder %>%
    group_by(country) %>%
-   summarize(mean_lifeExp=mean(lifeExp))
+   summarize(mean_lifeExp=mean(lifeExp)) %>% 
+   ungroup()
 
 lifeExp_bycountry %>%
    filter(mean_lifeExp == min(mean_lifeExp) | mean_lifeExp == max(mean_lifeExp))
@@ -233,21 +234,23 @@ lifeExp_bycountry %>%
 
 The function `group_by()` allows us to group by multiple variables. Let's group by `year` and `continent`.
 
-```{r}
+```{r message=FALSE}
 gdp_bycontinents_byyear <- gapminder %>%
   group_by(continent, year) %>%
-  summarize(mean_gdpPercap = mean(gdpPercap))
+  summarize(mean_gdpPercap = mean(gdpPercap)) %>% 
+  ungroup()
 ```
 
 That is already quite powerful, but it gets even better! You're not limited to defining 1 new variable in `summarize()`.
 
-```{r}
+```{r message=FALSE}
 gdp_pop_bycontinents_byyear <- gapminder %>%
   group_by(continent,year) %>%
   summarize(mean_gdpPercap = mean(gdpPercap),
             sd_gdpPercap = sd(gdpPercap),
             mean_pop = mean(pop),
-            sd_pop = sd(pop))
+            sd_pop = sd(pop)) %>% 
+  ungroup()
 ```
 
 ## `count()` and `n()`
@@ -272,11 +275,14 @@ expectancy per continent:
 
 ```{r}
 gapminder %>%
-    group_by(continent) %>%
-    summarize(se_le = sd(lifeExp)/sqrt(n()))
+  group_by(continent) %>%
+  summarize(sd_le = sd(lifeExp), # standard deviation
+            n_le = n(), # number of observations
+            se_le = sd_le/sqrt(n_le)) %>% # standard error
+  ungroup()
 ```
 
-You can also chain together several summary operations; in this case calculating the `minimum`, `maximum`, `mean` and `se` of each continent's per-country life-expectancy:
+In the above example, we chained together several summary operations to simplify our calculation of standard error. We can also chain operations to calculate the `minimum`, `maximum`, `mean` and `se` of each continent's per-country life-expectancy. This time, we will calculate the `se` in just one line:
 
 ```{r}
 gapminder %>%
@@ -285,14 +291,15 @@ gapminder %>%
       mean_le = mean(lifeExp),
       min_le = min(lifeExp),
       max_le = max(lifeExp),
-      se_le = sd(lifeExp)/sqrt(n()))
+      se_le = sd(lifeExp)/sqrt(n())) %>% 
+  ungroup()
 ```
 
 ## Using `mutate()`
 
 We can also create new variables prior to (or even after) summarizing information using `mutate()`.
 
-```{r}
+```{r message=FALSE}
 gdp_pop_bycontinents_byyear <- gapminder %>%
   mutate(gdp_billion = gdpPercap*pop/10^9) %>%
   group_by(continent, year) %>%
@@ -301,7 +308,8 @@ gdp_pop_bycontinents_byyear <- gapminder %>%
             mean_pop = mean(pop),
             sd_pop = sd(pop),
             mean_gdp_billion = mean(gdp_billion),
-            sd_gdp_billion = sd(gdp_billion))
+            sd_gdp_billion = sd(gdp_billion)) %>% 
+  ungroup()
 ```
 
 ## Other great resources

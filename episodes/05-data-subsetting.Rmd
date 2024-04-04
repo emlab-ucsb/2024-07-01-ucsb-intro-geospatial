@@ -224,13 +224,7 @@ subsetting operations, but the names will always remain the same!
 
 ## Subsetting through other logical operations
 
-We can also use any logical vector to subset:
-
-```{r}
-x[c(FALSE, FALSE, TRUE, FALSE, TRUE)]
-```
-
-Since comparison operators (e.g. `>`, `<`, `==`) evaluate to logical vectors, we can also
+We can also use any logical vector to subset. Since comparison operators (e.g. `>`, `<`, `==`) evaluate to logical vectors, we can also
 use them to succinctly subset vectors: the following statement gives
 the same result as the previous one.
 
@@ -269,10 +263,7 @@ remaining elements. In general you should not use the two-character
 operators in data analysis; save them
 for programming, i.e. deciding whether to execute a statement.
 
-- `!`, the "logical NOT" operator: converts `TRUE` to `FALSE` and `FALSE` to
-  `TRUE`. It can negate a single logical condition (eg `!TRUE` becomes
-  `FALSE`), or a whole vector of conditions(eg `!c(TRUE, FALSE)` becomes
-  `c(FALSE, TRUE)`).
+- `!`, the "logical NOT" operator can be useful if you want everything other than a value. For example `!= 5` means you want all the values that are not equal to 5. 
 
 Additionally, you can compare the elements within a single vector using the
 `all` function (which returns `TRUE` if every element of the vector is `TRUE`)
@@ -311,15 +302,6 @@ print(x_subset)
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Tip: Getting help for operators
-
-Remember you can search for help on operators by wrapping them in quotes:
-`help("%in%")` or `?"%in%"`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Handling special values
 
 At some point you will encounter functions in R that cannot handle missing, infinite,
@@ -351,14 +333,17 @@ the rest of the workshop focus on `dplyr` syntax.
 Remember the data frames are lists underneath the hood, so similar rules
 apply. However they are also two dimensional objects:
 
-`[` with one argument will act the same way as for lists, where each list
+`[]` with one argument will act the same way as for lists, where each list
 element corresponds to a column. The resulting object will be a data frame:
 
 ```{r}
+# Read in gapminder data if you don't have it already
+gapminder <- read.csv("data/gapminder_data.csv")
+
 head(gapminder[3])
 ```
 
-Similarly, `[[` will act to extract *a single column*:
+Similarly, `[[]]` will act to extract the *values* from a single column:
 
 ```{r}
 head(gapminder[["lifeExp"]])
@@ -370,7 +355,7 @@ And `$` provides a convenient shorthand to extract columns by name:
 head(gapminder$year)
 ```
 
-To select specific rows and/or columns, you can provide two arguments to `[`
+To select specific rows and/or columns, you can provide two arguments to `[]`. Remember that the way to index data frames is always `object[row(s), column(s)]`.
 
 ```{r}
 gapminder[1:3, ]
@@ -465,7 +450,7 @@ Fix each of the following common data frame subsetting errors:
   ```{r, eval=FALSE}
   # gapminder[gapminder$year == 2002 | 2007,]
   gapminder[gapminder$year == 2002 | gapminder$year == 2007,]
-  gapminder[gapminder$year %in% c(2002, 2007),]
+  gapminder[gapminder$year %in% c(2002, 2007),] # another, more advanced way 
   ```
 
 :::::::::::::::::::::::::

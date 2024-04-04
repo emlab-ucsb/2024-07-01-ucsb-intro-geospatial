@@ -19,17 +19,11 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{r, include=FALSE}
-gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
-library(dplyr)
-```
-
 Plotting our data is one of the best ways to quickly explore it and the various
 relationships between variables. There are three main plotting systems in R, the
 [base plotting system](https://www.statmethods.net/graphs/), the
 [lattice](https://www.statmethods.net/advgraphs/trellis.html) package, and the
-[ggplot2](https://www.statmethods.net/advgraphs/ggplot2.html) package. Today and
-tomorrow we'll be learning about the ggplot2 package, because it is the most
+[ggplot2](https://www.statmethods.net/advgraphs/ggplot2.html) package. In this lesson we'll be learning about the ggplot2 package, because it is the most
 effective for creating publication quality graphics. In this episode, we will
 introduce the key features of a ggplot and make a few example plots. We will
 expand on these concepts and see how they apply to geospatial data types when we
@@ -46,17 +40,26 @@ Data](https://datacarpentry.org/r-raster-vector-geospatial/) lesson.
 
 :::::::::::::::::::::::::::::::::::::::
 
-ggplot2 is built on the grammar of graphics, the idea that any plot can be
+`ggplot2` is built on the grammar of graphics, the idea that any plot can be
 expressed from the same set of components: a **data** set, a **coordinate
 system**, and a set of **geoms**\--the visual representation of data points. The
-key to understanding ggplot2 is thinking about a figure in layers. This idea may
+key to understanding `ggplot2` is thinking about a figure in layers. This idea may
 be familiar to you if you have used image editing programs like Photoshop,
 Illustrator, or Inkscape. In this episode we will focus on two geoms
 
-- histograms and bar plot. In the [R for Raster and Vector Data](https://datacarpentry.org/r-raster-vector-geospatial/) lesson we will work with a number of other geometries
-  and learn how to customize our plots.
+- histograms
+- bar plots
 
-Let's start off with an example plotting the
+Let's start by loading in the appropriate packages and data. Remember that we will have to load libraries and data at the start of each R script. 
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
+```
+
+For our first example, we will be plotting the
 distribution of life expectancy in our dataset. The first thing we do is call the `ggplot` function. This function lets R
 know that we're creating a new plot, and any of the arguments we give the
 `ggplot()` function are the global options for the plot: they apply to all
@@ -72,7 +75,6 @@ want to plot the "lifeExp" column of the gapminder data frame on the x-axis. We 
 for histograms.
 
 ```{r lifeExp-vs-gdpPercap-scatter, fig.cap="Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75", message=FALSE}
-library("ggplot2")
 ggplot(data = gapminder, aes(x = lifeExp)) +   
   geom_histogram()
 ```
