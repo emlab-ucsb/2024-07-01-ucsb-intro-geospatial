@@ -68,21 +68,21 @@ layers on the plot.
 We will pass in two arguments to `ggplot`. First, we tell
 `ggplot` what data we
 want to show on our figure, in this example we use the gapminder data we read in
-earlier. For the second argument we pass in the `aes()` function, which
+earlier. For the second argument we pass in the `mapping = aes()` function, which
 tells `ggplot` how variables in the data map to aesthetic properties of
 the figure. Here we will tell `ggplot` we
 want to plot the "lifeExp" column of the gapminder data frame on the x-axis. We don't need to specify a y-axis
 for histograms.
 
 ```{r lifeExp-vs-gdpPercap-scatter, fig.cap="Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75", message=FALSE}
-ggplot(data = gapminder, aes(x = lifeExp)) +   
+ggplot(data = gapminder, mapping = aes(x = lifeExp)) +   
   geom_histogram()
 ```
 
 By itself, the call to `ggplot` isn't enough to draw a figure:
 
 ```{r blank-plot}
-ggplot(data = gapminder, aes(x = lifeExp))
+ggplot(data = gapminder, mapping = aes(x = lifeExp))
 ```
 
 We need to tell `ggplot` how we want to visually represent the data, which we
@@ -91,7 +91,7 @@ tells `ggplot` we want to visually represent the
 distribution of one variable (in our case "lifeExp"):
 
 ```{r lifeExp-vs-gdpPercap-scatter2, fig.cap="Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75"}
-ggplot(data = gapminder, aes(x = lifeExp)) +   
+ggplot(data = gapminder, mapping = aes(x = lifeExp)) +   
   geom_histogram()
 ```
 
@@ -108,7 +108,7 @@ expectancy:
 ## Solution to challenge 1
 
 ```{r ch1-sol}
-ggplot(data = gapminder, aes(x = gdpPercap)) +   
+ggplot(data = gapminder, mapping = aes(x = gdpPercap)) +   
  geom_histogram()
 ```
 
@@ -133,7 +133,7 @@ We will plot countries on the x-axis (listed in alphabetic order
 by default) and gdp per capita on the y-axis.
 
 ```{r hist-subset-gapminder, fig.cap="Barplot of GDP per capita. Country names on x-axis overlap and are not readable"}
-ggplot(data = gapminder_small, aes(x = country, y = gdpPercap)) + 
+ggplot(data = gapminder_small, mapping = aes(x = country, y = gdpPercap)) + 
   geom_col()
 ```
 
@@ -142,7 +142,7 @@ x-axis labels. A quick fix to this is the add the `coord_flip()`
 function to the end of our plot code.
 
 ```{r hist-subset-gapminder-flipped, fig.cap="Barplot showing GDP per capita. Country names on the y-axis are readable"}
-ggplot(data = gapminder_small, aes(x = country, y = gdpPercap)) + 
+ggplot(data = gapminder_small, mapping = aes(x = country, y = gdpPercap)) + 
   geom_col() +
   coord_flip()
 ```
@@ -188,7 +188,7 @@ is "stack".
 
 ```{r gpd-per-cap}
 ggplot(gapminder_small_2, 
-       aes(x = country, y = gdpPercap, 
+       mapping = aes(x = country, y = gdpPercap, 
        fill = as.factor(year))) +
    geom_col(position = "dodge") + 
    coord_flip()
@@ -200,7 +200,7 @@ ggplot(gapminder_small_2,
 
 The examples given here are just the start of
 creating complex and beautiful graphics with R.
-In [a later lesson](https://datacarpentry.org/r-raster-vector-geospatial/) we will go into much
+In a later lesson we will go into much
 more depth, including:
 
 - plotting geospatial specific data types
