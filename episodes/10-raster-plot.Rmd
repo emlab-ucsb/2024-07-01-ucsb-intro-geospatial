@@ -271,6 +271,8 @@ to a `scale_something()` function or by setting
 
 We can layer another raster on top of our hillshade by adding another call to
 the `geom_raster()` function. Let's overlay `DSM_HARV` on top of the `hill_HARV`.
+We can also add a title to our plot within the `labs()` function using 
+`labs(title = "Plot title")` or we can use `ggtitle("Plot title")`.
 
 ```{r overlay-hillshade}
 ggplot() +
