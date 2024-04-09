@@ -339,19 +339,7 @@ subsetting operations, but the names will always remain the same!
 
 ## Subsetting through other logical operations
 
-We can also use any logical vector to subset:
-
-
-```r
-x[c(FALSE, FALSE, TRUE, FALSE, TRUE)]
-```
-
-```{.output}
-  c   e 
-7.1 7.5 
-```
-
-Since comparison operators (e.g. `>`, `<`, `==`) evaluate to logical vectors, we can also
+We can also use any logical vector to subset. Since comparison operators (e.g. `>`, `<`, `==`) evaluate to logical vectors, we can also
 use them to succinctly subset vectors: the following statement gives
 the same result as the previous one.
 
@@ -382,38 +370,77 @@ x[names(x) == "a"]
 5.4 
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Tip: Combining logical conditions
-
-We often want to combine multiple logical
-criteria. For example, we might want to find all the countries that are
-located in Asia **or** Europe **and** have life expectancies within a certain
-range. Several operations for combining logical vectors exist in R:
-
-- `&`, the "logical AND" operator: returns `TRUE` if both the left and right
-  are `TRUE`.
-- `|`, the "logical OR" operator: returns `TRUE`, if either the left or right
-  (or both) are `TRUE`.
-
-You may sometimes see `&&` and `||` instead of `&` and `|`. These two-character operators
-only look at the first element of each vector and ignore the
-remaining elements. In general you should not use the two-character
-operators in data analysis; save them
-for programming, i.e. deciding whether to execute a statement.
-
-- `!`, the "logical NOT" operator: converts `TRUE` to `FALSE` and `FALSE` to
-  `TRUE`. It can negate a single logical condition (eg `!TRUE` becomes
-  `FALSE`), or a whole vector of conditions(eg `!c(TRUE, FALSE)` becomes
-  `c(FALSE, TRUE)`).
-
-Additionally, you can compare the elements within a single vector using the
-`all` function (which returns `TRUE` if every element of the vector is `TRUE`)
-and the `any` function (which returns `TRUE` if one or more elements of the
-vector are `TRUE`).
+We can also evaluate multiple logical criteria. For example, if we want
+all values of x that are greater than 5 *and* less than 7; we can use
+`&` to denote "and": 
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+```r
+x[x > 5 & x < 7]
+```
+
+```{.output}
+  a   b 
+5.4 6.2 
+```
+
+Or, maybe we want the values less than 5 *or* more than 7; we can use
+'|' to denote "or": 
+
+
+```r
+x[x < 5 | x > 7]
+```
+
+```{.output}
+  c   d   e 
+7.1 4.8 7.5 
+```
+
+Finally, we can evaluate whether variables are present in another 
+vector by using the `%in%` command. For example, if we wanted to
+grab all values of x with the names "a", "c", and "d" we could
+do this: 
+
+
+```r
+x[names(x) %in% c("a", "c", "d")]
+```
+
+```{.output}
+  a   c   d 
+5.4 7.1 4.8 
+```
+
+which is just a simpler way of writing it like this: 
+
+
+```r
+x[names(x) == "a" | names(x) == "c" | names(x) == "d"]
+```
+
+```{.output}
+  a   c   d 
+5.4 7.1 4.8 
+```
+
+We also might want to grab the values that are *not*
+equal to something. For this we can pair the `!` symbol
+with the `=` (equal to), `>` (greater than), 
+`<` (less than), `>=` (greater than or equal to), 
+`<=` (less than or equal to) symbols to say we want the
+*opposite* answer. For example, this will return all 
+values in `x` that do *not* have the name `a`: 
+
+
+```r
+x[names(x) != "a"]
+```
+
+```{.output}
+  b   c   d   e 
+6.2 7.1 4.8 7.5 
+```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -456,15 +483,6 @@ print(x_subset)
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Tip: Getting help for operators
-
-Remember you can search for help on operators by wrapping them in quotes:
-`help("%in%")` or `?"%in%"`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Handling special values
 
 At some point you will encounter functions in R that cannot handle missing, infinite,
@@ -496,11 +514,14 @@ the rest of the workshop focus on `dplyr` syntax.
 Remember the data frames are lists underneath the hood, so similar rules
 apply. However they are also two dimensional objects:
 
-`[` with one argument will act the same way as for lists, where each list
+`[]` with one argument will act the same way as for lists, where each list
 element corresponds to a column. The resulting object will be a data frame:
 
 
 ```r
+# Read in gapminder data if you don't have it already
+gapminder <- read.csv("data/gapminder_data.csv")
+
 head(gapminder[3])
 ```
 
@@ -514,7 +535,7 @@ head(gapminder[3])
 6 14880372
 ```
 
-Similarly, `[[` will act to extract *a single column*:
+Similarly, `[[]]` will act to extract the *values* from a single column:
 
 
 ```r
@@ -536,7 +557,7 @@ head(gapminder$year)
 [1] 1952 1957 1962 1967 1972 1977
 ```
 
-To select specific rows and/or columns, you can provide two arguments to `[`
+To select specific rows and/or columns, you can provide two arguments to `[]`. Remember that the way to index data frames is always `object[row(s), column(s)]`.
 
 
 ```r
@@ -655,7 +676,7 @@ Fix each of the following common data frame subsetting errors:
   ```r
   # gapminder[gapminder$year == 2002 | 2007,]
   gapminder[gapminder$year == 2002 | gapminder$year == 2007,]
-  gapminder[gapminder$year %in% c(2002, 2007),]
+  gapminder[gapminder$year %in% c(2002, 2007),] # another, more advanced way 
   ```
 
 :::::::::::::::::::::::::

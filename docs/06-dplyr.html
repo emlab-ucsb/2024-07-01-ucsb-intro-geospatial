@@ -374,7 +374,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data frame Manipulation with dplyr</h1>
-        <p>Last updated on 2024-04-02 |
+        <p>Last updated on 2024-04-09 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/06-dplyr.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -420,7 +420,9 @@ operations:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">mean</span><span class="op">(</span><span class="va">gapminder</span><span class="op">[</span><span class="va">gapminder</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="st">"gdpPercap"</span><span class="op">]</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">gapminder</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span><span class="st">"data/gapminder_data.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">mean</span><span class="op">(</span><span class="va">gapminder</span><span class="op">[</span><span class="va">gapminder</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="st">"gdpPercap"</span><span class="op">]</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -551,7 +553,7 @@ why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to Challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -641,14 +643,16 @@ by using functions that repeat for each of the continent-specific data
 frames. That is to say, using the <code>group_by()</code> function, we
 split our original dataframe into multiple pieces, then we can run
 functions (e.g. <code>mean()</code> or <code>sd()</code>) within
-<code>summarize()</code>.</p>
+<code>summarize()</code>. To end our <code>group_by()</code>, we need to
+close off the pipe by using <code>ungroup()</code>.</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gdp_bycontinents</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">continent</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>mean_gdpPercap <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>mean_gdpPercap <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">gdp_bycontinents</span></span></code></pre>
 </div>
@@ -685,7 +689,7 @@ expectancy?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to Challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -693,7 +697,8 @@ expectancy?</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lifeExp_bycountry</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span></span>
 <span>   <span class="fu">group_by</span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>   <span class="fu">summarize</span><span class="op">(</span>mean_lifeExp<span class="op">=</span><span class="fu">mean</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span></span>
+<span>   <span class="fu">summarize</span><span class="op">(</span>mean_lifeExp<span class="op">=</span><span class="fu">mean</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>   <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">lifeExp_bycountry</span> <span class="op">%&gt;%</span></span>
 <span>   <span class="fu">filter</span><span class="op">(</span><span class="va">mean_lifeExp</span> <span class="op">==</span> <span class="fu">min</span><span class="op">(</span><span class="va">mean_lifeExp</span><span class="op">)</span> <span class="op">|</span> <span class="va">mean_lifeExp</span> <span class="op">==</span> <span class="fu">max</span><span class="op">(</span><span class="va">mean_lifeExp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
@@ -758,17 +763,12 @@ variables. Let’s group by <code>year</code> and
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gdp_bycontinents_byyear</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">continent</span>, <span class="va">year</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>mean_gdpPercap <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>`summarise()` has grouped output by 'continent'. You can override using the
-`.groups` argument.</code></pre>
+<span>  <span class="fu">summarize</span><span class="op">(</span>mean_gdpPercap <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <p>That is already quite powerful, but it gets even better! You’re not
 limited to defining 1 new variable in <code>summarize()</code>.</p>
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -777,13 +777,8 @@ limited to defining 1 new variable in <code>summarize()</code>.</p>
 <span>  <span class="fu">summarize</span><span class="op">(</span>mean_gdpPercap <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span>,</span>
 <span>            sd_gdpPercap <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span>,</span>
 <span>            mean_pop <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span>,</span>
-<span>            sd_pop <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>`summarise()` has grouped output by 'continent'. You can override using the
-`.groups` argument.</code></pre>
+<span>            sd_pop <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 </section><section id="count-and-n"><h2 class="section-heading">
 <code>count()</code> and <code>n()</code><a class="anchor" aria-label="anchor" href="#count-and-n"></a>
@@ -796,7 +791,7 @@ in the dataset for the year 2002, we can use the <code>count()</code>
 function. It takes the name of one or more columns that contain the
 groups we are interested in, and we can optionally sort the results in
 descending order by adding <code>sort=TRUE</code>:</p>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -817,31 +812,36 @@ descending order by adding <code>sort=TRUE</code>:</p>
 <p>If we need to use the number of observations in calculations, the
 <code>n()</code> function is useful. For instance, if we wanted to get
 the standard error of the life expectancy per continent:</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gapminder</span> <span class="op">%&gt;%</span></span>
-<span>    <span class="fu">group_by</span><span class="op">(</span><span class="va">continent</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>    <span class="fu">summarize</span><span class="op">(</span>se_le <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">/</span><span class="fu">sqrt</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">continent</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>sd_le <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>, <span class="co"># standard deviation</span></span>
+<span>            n_le <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>, <span class="co"># number of observations</span></span>
+<span>            se_le <span class="op">=</span> <span class="va">sd_le</span><span class="op">/</span><span class="fu">sqrt</span><span class="op">(</span><span class="va">n_le</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># standard error</span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># A tibble: 5 × 2
-  continent se_le
-  &lt;chr&gt;     &lt;dbl&gt;
-1 Africa    0.366
-2 Americas  0.540
-3 Asia      0.596
-4 Europe    0.286
-5 Oceania   0.775</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 5 × 4
+  continent sd_le  n_le se_le
+  &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1 Africa     9.15   624 0.366
+2 Americas   9.35   300 0.540
+3 Asia      11.9    396 0.596
+4 Europe     5.43   360 0.286
+5 Oceania    3.80    24 0.775</code></pre>
 </div>
-<p>You can also chain together several summary operations; in this case
-calculating the <code>minimum</code>, <code>maximum</code>,
+<p>In the above example, we chained together several summary operations
+to simplify our calculation of standard error. We can also chain
+operations to calculate the <code>minimum</code>, <code>maximum</code>,
 <code>mean</code> and <code>se</code> of each continent’s per-country
-life-expectancy:</p>
-<div class="codewrapper sourceCode" id="cb33">
+life-expectancy. This time, we will calculate the <code>se</code> in
+just one line:</p>
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -851,7 +851,8 @@ life-expectancy:</p>
 <span>      mean_le <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>,</span>
 <span>      min_le <span class="op">=</span> <span class="fu">min</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>,</span>
 <span>      max_le <span class="op">=</span> <span class="fu">max</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>,</span>
-<span>      se_le <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">/</span><span class="fu">sqrt</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>      se_le <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">/</span><span class="fu">sqrt</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -869,7 +870,7 @@ life-expectancy:</p>
 </h2>
 <hr class="half-width"><p>We can also create new variables prior to (or even after) summarizing
 information using <code>mutate()</code>.</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -881,13 +882,8 @@ information using <code>mutate()</code>.</p>
 <span>            mean_pop <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span>,</span>
 <span>            sd_pop <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span>,</span>
 <span>            mean_gdp_billion <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdp_billion</span><span class="op">)</span>,</span>
-<span>            sd_gdp_billion <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">gdp_billion</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>`summarise()` has grouped output by 'continent'. You can override using the
-`.groups` argument.</code></pre>
+<span>            sd_gdp_billion <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">gdp_billion</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 </section><section id="other-great-resources"><h2 class="section-heading">Other great resources<a class="anchor" aria-label="anchor" href="#other-great-resources"></a>
 </h2>
@@ -979,8 +975,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/06-dplyr.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/06-dplyr.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-02",
-  "datePublished": "2024-04-02"
+  "dateModified": "2024-04-09",
+  "datePublished": "2024-04-09"
 }
 
   </script><script>

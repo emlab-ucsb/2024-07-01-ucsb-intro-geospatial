@@ -360,7 +360,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Visualization</h1>
-        <p>Last updated on 2024-04-02 |
+        <p>Last updated on 2024-04-09 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/07-plot-ggplot2.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -401,7 +401,7 @@ the various relationships between variables. There are three main
 plotting systems in R, the <a href="https://www.statmethods.net/graphs/" class="external-link">base plotting system</a>, the
 <a href="https://www.statmethods.net/advgraphs/trellis.html" class="external-link">lattice</a>
 package, and the <a href="https://www.statmethods.net/advgraphs/ggplot2.html" class="external-link">ggplot2</a>
-package. Today and tomorrow we’ll be learning about the ggplot2 package,
+package. In this lesson we’ll be learning about the ggplot2 package,
 because it is the most effective for creating publication quality
 graphics. In this episode, we will introduce the key features of a
 ggplot and make a few example plots. We will expand on these concepts
@@ -409,18 +409,54 @@ and see how they apply to geospatial data types when we start working
 with geospatial data in the <a href="https://datacarpentry.org/r-raster-vector-geospatial/" class="external-link">R for
 Raster and Vector Data</a> lesson.</p>
 
-<p>ggplot2 is built on the grammar of graphics, the idea that any plot
-can be expressed from the same set of components: a
+<p><code>ggplot2</code> is built on the grammar of graphics, the idea
+that any plot can be expressed from the same set of components: a
 <strong>data</strong> set, a <strong>coordinate system</strong>, and a
 set of <strong>geoms</strong>--the visual representation of data points.
-The key to understanding ggplot2 is thinking about a figure in layers.
-This idea may be familiar to you if you have used image editing programs
-like Photoshop, Illustrator, or Inkscape. In this episode we will focus
-on two geoms</p>
-<ul><li>histograms and bar plot. In the <a href="https://datacarpentry.org/r-raster-vector-geospatial/" class="external-link">R for
-Raster and Vector Data</a> lesson we will work with a number of other
-geometries and learn how to customize our plots.</li>
-</ul><p>Let’s start off with an example plotting the distribution of life
+The key to understanding <code>ggplot2</code> is thinking about a figure
+in layers. This idea may be familiar to you if you have used image
+editing programs like Photoshop, Illustrator, or Inkscape. In this
+episode we will focus on two geoms</p>
+<ul><li>histograms</li>
+<li>bar plots</li>
+</ul><p>Let’s start by loading in the appropriate packages and data. Remember
+that we will have to load libraries and data at the start of each R
+script.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gapminder</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span><span class="st">"data/gapminder_data.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+</div>
+<p>For our first example, we will be plotting the distribution of life
 expectancy in our dataset. The first thing we do is call the
 <code>ggplot</code> function. This function lets R know that we’re
 creating a new plot, and any of the arguments we give the
@@ -429,17 +465,16 @@ apply to all layers on the plot.</p>
 <p>We will pass in two arguments to <code>ggplot</code>. First, we tell
 <code>ggplot</code> what data we want to show on our figure, in this
 example we use the gapminder data we read in earlier. For the second
-argument we pass in the <code>aes()</code> function, which tells
-<code>ggplot</code> how variables in the data map to aesthetic
+argument we pass in the <code>mapping = aes()</code> function, which
+tells <code>ggplot</code> how variables in the data map to aesthetic
 properties of the figure. Here we will tell <code>ggplot</code> we want
 to plot the “lifeExp” column of the gapminder data frame on the x-axis.
 We don’t need to specify a y-axis for histograms.</p>
-<div class="codewrapper sourceCode" id="cb1">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="st">"ggplot2"</span><span class="op">)</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter-1.png" alt="Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75" class="figure mx-auto d-block"><figcaption>
@@ -447,22 +482,22 @@ Histogram of life expectancy by country showing bimodal distribution
 with modes at 45 and 75
 </figcaption></figure><p>By itself, the call to <code>ggplot</code> isn’t enough to draw a
 figure:</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/07-plot-ggplot2-rendered-blank-plot-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We need to tell <code>ggplot</code> how we want to visually represent
 the data, which we do by adding a geom layer. In our example, we used
 <code>geom_histogram()</code>, which tells <code>ggplot</code> we want
 to visually represent the distribution of one variable (in our case
 “lifeExp”):</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -493,11 +528,11 @@ per capita, rather than life expectancy:</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
 <span> <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -514,7 +549,7 @@ single categorical variable. What if we want to compare the gdp per
 capita of the countries in our dataset? We can use a bar (or column)
 plot. To simplify our plot, let’s look at data only from the most recent
 year and only from countries in the Americas.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -523,11 +558,11 @@ year and only from countries in the Americas.</p>
 <p>This time, we will use the <code>geom_col()</code> function as our
 geometry. We will plot countries on the x-axis (listed in alphabetic
 order by default) and gdp per capita on the y-axis.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder_small</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder_small</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-hist-subset-gapminder-1.png" alt="Barplot of GDP per capita. Country names on x-axis overlap and are not readable" class="figure mx-auto d-block"><figcaption>
@@ -536,11 +571,11 @@ readable
 </figcaption></figure><p>With this many bars plotted, it’s impossible to read all of the
 x-axis labels. A quick fix to this is the add the
 <code>coord_flip()</code> function to the end of our plot code.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder_small</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">gapminder_small</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
@@ -573,7 +608,7 @@ Americas for the years 1952 and 2007, color coded by year.</p>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>First we create a new object with our filtered data:</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -587,12 +622,12 @@ function. We color bars using the <code>fill</code> parameter within the
 country, we use the <code>position</code> parameter to “dodge” them so
 they appear side-by-side. The default behavior for <code>postion</code>
 in <code>geom_col()</code> is “stack”.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">gapminder_small_2</span>, </span>
-<span>       <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">gdpPercap</span>, </span>
+<span>       mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">gdpPercap</span>, </span>
 <span>       fill <span class="op">=</span> <span class="fu">as.factor</span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>   <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre>
@@ -602,8 +637,8 @@ in <code>geom_col()</code> is “stack”.</p>
 </div>
 </div>
 <p>The examples given here are just the start of creating complex and
-beautiful graphics with R. In <a href="https://datacarpentry.org/r-raster-vector-geospatial/" class="external-link">a later
-lesson</a> we will go into much more depth, including:</p>
+beautiful graphics with R. In a later lesson we will go into much more
+depth, including:</p>
 <ul><li>plotting geospatial specific data types</li>
 <li>adjusting the color scheme of our plots</li>
 <li>setting and formatting plot titles, subtitles, and axis labels</li>
@@ -693,8 +728,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/07-plot-ggplot2.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/07-plot-ggplot2.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-02",
-  "datePublished": "2024-04-02"
+  "dateModified": "2024-04-09",
+  "datePublished": "2024-04-09"
 }
 
   </script><script>

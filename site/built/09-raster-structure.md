@@ -6,14 +6,6 @@ source: Rmd
 ---
 
 
-```{.warning}
-Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory
-```
-
-```{.error}
-Error in file(filename, "r", encoding = encoding): cannot open the connection
-```
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
@@ -34,16 +26,6 @@ Error in file(filename, "r", encoding = encoding): cannot open the connection
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-
-::::::::::::::::::::::::::::::::::::::::::  prereq
-
-## Things You'll Need To Complete This Episode
-
-See the [lesson homepage](.) for detailed information about the software,
-data, and other prerequisites you will need to work through the examples in this episode.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 In this episode, we will introduce the fundamental principles, packages and
 metadata/raster attributes that are needed to work with raster data in R. We will
@@ -72,20 +54,24 @@ If not already discussed, introduce the datasets that will be used in this
 lesson. A brief introduction to the datasets can be found on the
 [Geospatial workshop homepage](https://datacarpentry.org/geospatial-workshop/#data).
 
-For more detailed information about the datasets, check
-out the [Geospatial workshop data
-page](https://datacarpentry.org/geospatial-workshop/data/).
-
-
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## View Raster File Attributes
 
 We will be working with a series of GeoTIFF files in this lesson. The
 GeoTIFF format contains a set of embedded tags with metadata about the raster
-data. We can use the function `describe()` to get information about our raster
-data before we read that data into R. It is ideal to do this before importing
-your data.
+data. We can use the function `describe()` in the `terra` package 
+to get information about our raster data before we read that data into R. 
+It is ideal to do this before importing your data.
+
+::::::::::::::::::::::::::::::::::::::: instructor
+
+To minimize transcription errors, show students that they can use the
+"tab" button after typing in `describe("` to get a list of files available
+to choose from. Users can then click through the appropriate folders to
+get to the desired location/file
+
+:::::::::::::::::::::::::::::::::::::::
 
 
 ```r
@@ -177,7 +163,7 @@ episode. By the end of this episode, you will be able to explain and understand 
 
 Now that we've previewed the metadata for our GeoTIFF, let's import this
 raster dataset into R and explore its metadata more closely. We can use the `rast()`
-function to open a raster in R.
+function in the `terra` package to open a raster in R.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -257,9 +243,10 @@ summary(values(DSM_HARV))
 ```
 
 To visualise this data in R using `ggplot2`, we need to convert it to a
-dataframe. We learned about dataframes in [an earlier
-lesson](https://datacarpentry.org/r-intro-geospatial/04-data-structures-part2/index.html).
+dataframe. We learned about dataframes in the Exploring Data Frames lesson.
 The `terra` package has an built-in function for conversion to a plotable dataframe.
+Setting `xy = TRUE` maintains the spatial locations of the data, so that we
+can plot the data as a map.
 
 
 ```r
@@ -291,7 +278,8 @@ ggplot2 if needed, you can learn about them at their help page `?coord_map`.
 
 ```r
 ggplot() +
-    geom_raster(data = DSM_HARV_df , aes(x = x, y = y, fill = HARV_dsmCrop)) +
+    geom_raster(data = DSM_HARV_df , 
+                mapping = aes(x = x, y = y, fill = HARV_dsmCrop)) +
     scale_fill_viridis_c() +
     coord_quickmap()
 ```
@@ -315,7 +303,7 @@ More information about the Viridis palette used above at
 
 ## Plotting Tip
 
-For faster, simpler plots, you can use the `plot` function from the `terra` package.
+For faster, simpler plots of raster objects, you can use the `plot` function from the `terra` package.
 
 
 :::::::::::::::  solution
@@ -340,9 +328,7 @@ This map shows the elevation of our study site in Harvard Forest. From the
 legend, we can see that the maximum elevation is ~400, but we can't tell whether
 this is 400 feet or 400 meters because the legend doesn't show us the units. We
 can look at the metadata of our object to see what the units are. Much of the
-metadata that we're interested in is part of the CRS. We introduced the
-concept of a CRS in [an earlier
-lesson](https://datacarpentry.org/organization-geospatial/03-crs).
+metadata that we're interested in is part of the CRS. 
 
 Now we will see how features of the CRS appear in our data file and what
 meanings they have.
@@ -471,7 +457,7 @@ raster: surface elevation in meters for one time period.
 
 A raster dataset can contain one or more bands. We can use the `rast()`
 function to import one single band from a single or multi-band raster. We can
-view the number of bands in a raster using the `nly()` function.
+view the number of bands in a raster using the `nlyr()` function.
 
 
 ```r
@@ -484,10 +470,8 @@ nlyr(DSM_HARV)
 
 However, raster data can also be multi-band, meaning that one raster file
 contains data for more than one variable or time period for each cell. By
-default the `raster()` function only imports the first band in a raster
-regardless of whether it has one or more bands. Jump to a later episode in
-this series for information on working with multi-band rasters:
-[Work with Multi-band Rasters in R](05-raster-multi-band-in-r/).
+default the `ras()` function only imports the first band in a raster
+regardless of whether it has one or more bands. 
 
 ## Dealing with Missing Data
 
@@ -548,7 +532,9 @@ of `NA` will be ignored by R as demonstrated above.
 ## Challenge
 
 Use the output from the `describe()` and `sources()` functions to find out what 
-`NoDataValue` is used for our `DSM_HARV` dataset.
+`NoDataValue` is used for our `DSM_HARV` dataset. We need to use `sources()` 
+to give us the file path of the `DSM_HARV` object; `describe()` only works for
+file paths.
 
 :::::::::::::::  solution
 
@@ -670,7 +656,7 @@ useful in identifying outliers and bad data values in our raster data.
 
 ```r
 ggplot() +
-    geom_histogram(data = DSM_HARV_df, aes(HARV_dsmCrop))
+    geom_histogram(data = DSM_HARV_df, mapping = aes(HARV_dsmCrop))
 ```
 
 ```{.output}
@@ -690,7 +676,9 @@ by using the `bins` value in the `geom_histogram()` function.
 
 ```r
 ggplot() +
-    geom_histogram(data = DSM_HARV_df, aes(HARV_dsmCrop), bins = 40)
+    geom_histogram(data = DSM_HARV_df, 
+                   mapping = aes(HARV_dsmCrop), 
+                   bins = 40)
 ```
 
 <img src="fig/09-raster-structure-rendered-view-raster-histogram2-1.png" style="display: block; margin: auto;" />
@@ -808,6 +796,7 @@ describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif")
 ## More Resources
 
 - [Read more about the `terra` package in R.](https://cran.r-project.org/package=terra)
+- We use the `ggplot2` package for plotting in this workshop, but the [`tmap`](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) package actually makes plotting rasters even easier. `tmap` is especially useful if you plan to plot rasters and vectors in the same plot. 
   
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::

@@ -370,7 +370,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Explore and Plot by Vector Layer Attributes</h1>
-        <p>Last updated on 2024-04-02 |
+        <p>Last updated on 2024-04-09 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/13-vector-shapefile-attributes-in-r.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -384,17 +384,6 @@
 
         
 
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in file(filename, "r", encoding = encoding): cannot open the connection</code></pre>
-</div>
 <div class="overview card">
 <h2 class="card-header">Overview</h2>
 <div class="row g-0">
@@ -418,21 +407,6 @@
 </div>
 </div>
 </div>
-<div id="things-youll-need-to-complete-this-episode" class="callout prereq">
-<div class="callout-square">
-<i class="callout-icon" data-feather="check"></i>
-</div>
-<div id="things-youll-need-to-complete-this-episode" class="callout-inner">
-<h3 class="callout-title">Things You’ll Need To Complete This
-Episode<a class="anchor" aria-label="anchor" href="#things-youll-need-to-complete-this-episode"></a>
-</h3>
-<div class="callout-content">
-<p>See the <a href=".">lesson homepage</a> for detailed information
-about the software, data, and other prerequisites you will need to work
-through the examples in this episode.</p>
-</div>
-</div>
-</div>
 <p>This episode continues our discussion of vector layer attributes and
 covers how to work with vector layer attributes in R. It covers how to
 identify and query layer attributes, as well as how to subset features
@@ -445,6 +419,26 @@ feature according to a set of attribute values.</p>
 these packages loaded. We will continue to work with the three ESRI
 <code>shapefiles</code> (vector layers) that we loaded in the <a href="06-vector-open-shapefile-in-r/">Open and Plot Vector Layers in
 R</a> episode.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">terra</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">sf</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># learners will have this data loaded from previous episodes</span></span>
+<span><span class="va">point_HARV</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span><span class="op">)</span></span>
+<span><span class="va">lines_HARV</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"</span><span class="op">)</span></span>
+<span><span class="va">aoi_boundary_HARV</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"</span><span class="op">)</span></span></code></pre>
+</div>
 </section><section id="query-vector-feature-metadata"><h2 class="section-heading">Query Vector Feature Metadata<a class="anchor" aria-label="anchor" href="#query-vector-feature-metadata"></a>
 </h2>
 <hr class="half-width"><p>As we discussed in the <a href="06-vector-open-shapefile-in-r/">Open
@@ -453,8 +447,6 @@ with an R object using:</p>
 <ul><li>
 <code>st_geometry_type()</code> - The type of vector data stored in
 the object.</li>
-<li>
-<code>nrow()</code> - The number of features in the object</li>
 <li>
 <code>st_bbox()</code> - The spatial extent (geographic area covered
 by) of the object.</li>
@@ -587,7 +579,7 @@ object?</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Answers</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>To find the number of attributes, we use the <code>ncol()</code>
 function:</li>
@@ -651,8 +643,8 @@ function:</li>
 <hr class="half-width"><p>We can explore individual values stored within a particular
 attribute. Comparing attributes to a spreadsheet or a data frame, this
 is similar to exploring values in a column. We did this with the
-<code>gapminder</code> dataframe in <a href="https://datacarpentry.org/r-intro-geospatial/05-data-subsetting/index.html" class="external-link">an
-earlier lesson</a>. For spatial objects, we can use the same syntax:
+<code>gapminder</code> dataframe in an earlier lesson. For spatial
+objects, we can use the same syntax:
 <code>objectName$attributeName</code>.</p>
 <p>We can see the contents of the <code>TYPE</code> field of our lines
 feature:</p>
@@ -672,8 +664,7 @@ feature:</p>
 <p>To see only unique values within the <code>TYPE</code> field, we can
 use the <code>unique()</code> function for extracting the possible
 values of a character variable (R also is able to handle categorical
-variables called factors; we worked with factors a little bit in <a href="https://datacarpentry.org/r-intro-geospatial/03-data-structures-part1/index.html" class="external-link">an
-earlier lesson</a>.</p>
+variables called factors).</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -688,9 +679,8 @@ earlier lesson</a>.</p>
 <div class="section level3">
 <h3 id="subset-features">Subset Features<a class="anchor" aria-label="anchor" href="#subset-features"></a></h3>
 <p>We can use the <code>filter()</code> function from <code>dplyr</code>
-that we worked with in <a href="https://datacarpentry.org/r-intro-geospatial/06-dplyr" class="external-link">an earlier
-lesson</a> to select a subset of features from a spatial object in R,
-just like with data frames.</p>
+to select a subset of features from a spatial object in R, just like
+with data frames.</p>
 <p>For example, we might be interested only in features that are of
 <code>TYPE</code> “footpath”. Once we subset out this data, we can use
 it as input to other code so that code only operates on the footpath
@@ -718,7 +708,8 @@ lines:</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">footpath_HARV</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>, subtitle <span class="op">=</span> <span class="st">"Footpaths"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Footpaths"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-plot-subset-shapefile-1.png" alt="Map of the footpaths in the study area." class="figure mx-auto d-block"><figcaption>
@@ -727,20 +718,22 @@ Map of the footpaths in the study area.
 look like there is only one feature? Let’s adjust the colors used in our
 plot. If we have 2 features in our vector object, we can plot each using
 a unique color by assigning a column name to the color aesthetic
-(<code>color =</code>). We use the syntax <code>aes(color = )</code> to
-do this. We can also alter the default line thickness by using the
-<code>size =</code> parameter, as the default value of 0.5 can be hard
-to see. Note that size is placed outside of the <code>aes()</code>
-function, as we are not connecting line thickness to a data
-variable.</p>
+(<code>color =</code>). We use the syntax
+<code>mapping = aes(color = )</code> to do this. We can also alter the
+default line thickness by using the <code>size =</code> parameter, as
+the default value of 0.5 can be hard to see. Note that size is placed
+outside of the <code>aes()</code> function, as we are not connecting
+line thickness to a data variable.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">footpath_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">OBJECTID</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Footpath ID'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>, subtitle <span class="op">=</span> <span class="st">"Footpaths"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">footpath_HARV</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">OBJECTID</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Footpath ID'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Footpaths"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-plot-subset-shapefile-unique-colors-1.png" alt="Map of the footpaths in the study area where each feature is colored differently." class="figure mx-auto d-block"><figcaption>
@@ -766,7 +759,7 @@ it.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Answers</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>First we will save an object with only the boardwalk lines:</p>
 <div class="codewrapper sourceCode" id="cb27">
@@ -795,7 +788,8 @@ it.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">boardwalk_HARV</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>, subtitle <span class="op">=</span> <span class="st">"Boardwalks"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Boardwalks"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-harv-boardwalk-map-1.png" alt="Map of the boardwalks in the study area." class="figure mx-auto d-block"><figcaption>
@@ -823,7 +817,7 @@ and plot it. For each plot, color each feature using a unique color.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Answer</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>First we will save an object with only the stone wall lines and check
 the number of features:</p>
@@ -846,9 +840,11 @@ the number of features:</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">stoneWall_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">OBJECTID</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Wall ID'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>, subtitle <span class="op">=</span> <span class="st">"Stonewalls"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">stoneWall_HARV</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">OBJECTID</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Wall ID'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Stonewalls"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-harv-stone-wall-map-1.png" alt="Map of the stone walls in the study area where each feature is colored differently." class="figure mx-auto d-block"><figcaption>
@@ -865,7 +861,7 @@ differently.
 colors for each line based on a default color order. If we don’t like
 those default colors, we can create a vector of colors - one for each
 feature.</p>
-<p>First we will check how many unique levels our factor has:</p>
+<p>First we will check how many unique line types there are:</p>
 <div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -892,10 +888,11 @@ data.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">road_colors</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>, subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-harv-paths-map-1.png" alt="Roads and trails in the area." class="figure mx-auto d-block"><figcaption>
@@ -919,12 +916,13 @@ lines_HARV object, so we will set four different line widths.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span>, size <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span>, linewidth <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">road_colors</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_size_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">line_widths</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>,</span>
-<span>          subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Line width varies"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_linewidth_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">line_widths</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Line width varies"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-harv-paths-map-wide-1.png" alt="Roads and trails in the area demonstrating how to use different line thickness and colors." class="figure mx-auto d-block"><figcaption>
@@ -956,7 +954,7 @@ the following thicknesses:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Answers</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>First we need to look at the levels of our factor to see what order
 the road types are in:</p>
@@ -977,7 +975,8 @@ the levels to the desired thickness.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">line_width</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">line_width</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"woods road"</span> <span class="op">=</span> <span class="fl">6</span>, <span class="st">"footpath"</span> <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>                <span class="st">"stone wall"</span> <span class="op">=</span> <span class="fl">2</span>, <span class="st">"boardwalk"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Now we can create our plot.</p>
 <div class="codewrapper sourceCode" id="cb43">
@@ -985,10 +984,10 @@ the levels to the desired thickness.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, <span class="fu">aes</span><span class="op">(</span>size <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_size_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">line_width</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>,</span>
-<span>          subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Line width varies"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_linewidth_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">line_width</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Line width varies"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-harv-path-line-types-1.png" alt="Roads and trails in the area with different line thickness for each type of paths." class="figure mx-auto d-block"><figcaption>
@@ -1001,90 +1000,99 @@ of paths.
 </div>
 <div class="section level3">
 <h3 id="add-plot-legend">Add Plot Legend<a class="anchor" aria-label="anchor" href="#add-plot-legend"></a></h3>
-<p>We can add a legend to our plot too. When we add a legend, we use the
-following elements to specify labels and colors:</p>
-<ul><li>
-<code>bottomright</code>: We specify the location of our legend by
-using a default keyword. We could also use <code>top</code>,
+<p>When we plot a vector object and specify colors, line widths, etc.
+using the <code>mapping = aes()</code> function, R will automatically
+add a plot to our legend. By default, the plot legend will show up on
+the right side of the plot and will include the values that we supplied
+to the ggplot object. We can adjust the way our legends look in a
+variety of ways.</p>
+<ul><li>We specify the location of our legend by using a default keyword.
+For example, we could use <code>bottomright</code>, <code>top</code>,
 <code>topright</code>, etc.</li>
-<li>
-<code>levels(objectName$attributeName)</code>: Label the legend
-elements using the categories of levels in an attribute (e.g.,
-levels(lines_HARV$TYPE) means use the levels boardwalk, footpath,
-etc).</li>
-<li>
-<code>fill =</code>: apply unique colors to the boxes in our legend.
-<code>palette()</code> is the default set of colors that R applies to
-all plots.</li>
-</ul><p>Let’s add a legend to our plot. We will use the
+<li>We can change the font size</li>
+<li>We can change the little things, like the color of the legend box
+outline</li>
+<li>And so much more!</li>
+</ul><p>Pretty much anything you would want to change on a plot, you can! We
+do this using the <code>theme()</code> function in R.</p>
+<p>Let’s start with our basic plot. We will use the
 <code>road_colors</code> object that we created above to color the
-legend. We can customize the appearance of our legend by manually
-setting different parameters.</p>
+legend. We’ll also move the legend to the bottom by specifying
+<code>theme(legend.position = "bottom")</code>.</p>
 <div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">road_colors</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>,</span>
-<span>          subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Default Legend"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Default Legend"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-add-legend-to-plot-1.png" alt="Roads and trails in the study area using thicker lines than the previous figure." class="figure mx-auto d-block"><figcaption>
 Roads and trails in the study area using thicker lines than the previous
 figure.
-</figcaption></figure><p>We can change the appearance of our legend by manually setting
-different parameters.</p>
-<ul><li>
-<code>legend.text</code>: change the font size</li>
-<li>
-<code>legend.box.background</code>: add an outline box</li>
-</ul><div class="codewrapper sourceCode" id="cb45">
+</figcaption></figure><p>Now, let’s change the appearance of our legend by manually setting
+different parameters using the <code>theme()</code> function.</p>
+<p>We can start by changing the font size in the legend. The way we
+would do this is by adding the following line to our plot code:
+<code>theme(legend.text = element_text(size = 20))</code></p>
+<p>This may seem a little confusing, but there is a method to the
+madness. First, we note what we’re trying to change (the
+<code>legend.text</code> argument). Next, we have to specify what kind
+of object it needs to be. Since we’re altering the legend <em>text</em>,
+it needs to be a text element, so we use the <code>element_text()</code>
+function. Within this function, we can specify what we want to change
+from the default. In this case, it’s the size of the font
+(<code>size = 20</code>), but we could do this for things like color,
+the face (plain, italic, bold, bold.italic), the angle of rotation for
+the text, etc.</p>
+<div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">road_colors</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
-<span>        legend.box.background <span class="op">=</span> <span class="fu">element_rect</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>,</span>
-<span>          subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Modified Legend"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Default Legend"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>, </span>
+<span>        legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
-ℹ Please use the `linewidth` argument instead.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-generated.</code></pre>
-</div>
-<figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-modify-legend-plot-1.png" alt="Map of the paths in the study area with large-font and border around the legend." class="figure mx-auto d-block"><figcaption>
-Map of the paths in the study area with large-font and border around the
-legend.
-</figcaption></figure><div class="codewrapper sourceCode" id="cb47">
+<figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-modify-legend-plot-1.png" alt="Map of the paths in the study area with large-font." class="figure mx-auto d-block"><figcaption>
+Map of the paths in the study area with large-font.
+</figcaption></figure><p>We can decide to have a box around the legend, by altering the
+<code>legend.box.background</code> to have a black border. Since the
+legend is a rectangle of sorts, we will use the element:
+<code>element_rect()</code> to adjust these parameters.</p>
+<p>So our new line would be:</p>
+<p><code>theme(legend.box.background = element_rect(color = "black"))</code></p>
+<div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_colors</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"springgreen"</span>, <span class="st">"blue"</span>, <span class="st">"magenta"</span>, <span class="st">"orange"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">new_colors</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
-<span>        legend.box.background <span class="op">=</span> <span class="fu">element_rect</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>,</span>
-<span>          subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Pretty Colors"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">TYPE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">road_colors</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">'Road Type'</span>, </span>
+<span>       title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads &amp; Trails - Default Legend"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>, </span>
+<span>        legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, </span>
+<span>        legend.box.background <span class="op">=</span> <span class="fu">element_rect</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
 </div>
-<figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-plot-different-colors-1.png" alt="Map of the paths in the study area using a different color palette." class="figure mx-auto d-block"><figcaption>
-Map of the paths in the study area using a different color palette.
+<figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-modify-legend-plot_2-1.png" alt="Map of the paths in the study area with large-font and an outline around the legend." class="figure mx-auto d-block"><figcaption>
+Map of the paths in the study area with large-font and an outline around
+the legend.
 </figcaption></figure><div id="data-tip" class="callout callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -1126,11 +1134,11 @@ bright color. All other lines can be black.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Answers</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <p>First we explore the <code>BicyclesHo</code> attribute to learn the
 values that correspond to the roads we need.</p>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1146,7 +1154,7 @@ values that correspond to the roads we need.</p>
 </div>
 <p>Now, we can create a data frame with only those roads where bicycles
 and horses are allowed.</p>
-<div class="codewrapper sourceCode" id="cb50">
+<div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1156,16 +1164,18 @@ and horses are allowed.</p>
 </div>
 <p>Finally, we plot the needed roads after setting them to magenta and a
 thicker line width.</p>
-<div class="codewrapper sourceCode" id="cb51">
+<div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_HARV</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_showHarv</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">BicyclesHo</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">lines_showHarv</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">BicyclesHo</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="st">"magenta"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"NEON Harvard Forest Field Site"</span>,</span>
-<span>          subtitle <span class="op">=</span> <span class="st">"Roads Where Bikes and Horses Are Allowed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NEON Harvard Forest Field Site"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Roads Where Bikes and Horses Are Allowed"</span>, </span>
+<span>       color <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-harv-paths-bike-horses-1.png" alt="Roads and trails in the area highlighting paths where horses and bikes are allowed." class="figure mx-auto d-block"><figcaption>
@@ -1183,12 +1193,16 @@ are allowed.
 <h3 class="callout-title">Challenge: Plot Polygon by Attribute<a class="anchor" aria-label="anchor" href="#challenge-plot-polygon-by-attribute"></a>
 </h3>
 <div class="callout-content">
-<ol style="list-style-type: decimal"><li>Create a map of the state boundaries in the United States using the
+<p>Create a map of the state boundaries in the United States using the
 data located in your downloaded data folder:
 <code>NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014</code>.
-Apply a line color to each state using its <code>region</code> value.
-Add a legend.</li>
-</ol></div>
+Note that this dataset includes Z and M coordinates, which we do not
+need. Use the <code>st_zm()</code> function to drop these dimensions
+before plotting.</p>
+<p>When plotting, apply a line color to each state using its
+<code>region</code> value. Be sure to add a legend to your plot as
+well.</p>
+</div>
 </div>
 </div>
 <div id="accordionSolution6" class="accordion challenge-accordion accordion-flush">
@@ -1196,11 +1210,11 @@ Add a legend.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6">Answers</h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <p>First we read in the data and check how many levels there are in the
 <code>region</code> column:</p>
-<div class="codewrapper sourceCode" id="cb52">
+<div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1222,7 +1236,7 @@ Bounding box:  xmin: -124.7258 ymin: 24.49813 xmax: -66.9499 ymax: 49.38436
 z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb54">
+<div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1235,21 +1249,22 @@ Geodetic CRS:  WGS 84</code></pre>
 <pre class="output" tabindex="0"><code>[1] "Midwest"   "Northeast" "Southeast" "Southwest" "West"     </code></pre>
 </div>
 <p>Next we set a color vector with that many items:</p>
-<div class="codewrapper sourceCode" id="cb56">
+<div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"purple"</span>, <span class="st">"springgreen"</span>, <span class="st">"yellow"</span>, <span class="st">"brown"</span>, <span class="st">"navy"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Now we can create our plot:</p>
-<div class="codewrapper sourceCode" id="cb57">
+<div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_boundary_US</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">region</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_boundary_US</span>, </span>
+<span>          mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">region</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">colors</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Contiguous U.S. State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Contiguous U.S. State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure style="text-align: center"><img src="../fig/13-vector-shapefile-attributes-in-r-rendered-colored-state-boundaries-1.png" alt="Map of the continental United States where the state lines are colored by region." class="figure mx-auto d-block"><figcaption>
@@ -1337,8 +1352,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/13-vector-shapefile-attributes-in-r.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/13-vector-shapefile-attributes-in-r.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-02",
-  "datePublished": "2024-04-02"
+  "dateModified": "2024-04-09",
+  "datePublished": "2024-04-09"
 }
 
   </script><script>

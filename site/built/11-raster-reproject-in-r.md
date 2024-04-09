@@ -6,14 +6,6 @@ source: Rmd
 ---
 
 
-```{.warning}
-Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory
-```
-
-```{.error}
-Error in file(filename, "r", encoding = encoding): cannot open the connection
-```
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
@@ -27,40 +19,63 @@ Error in file(filename, "r", encoding = encoding): cannot open the connection
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-
-::::::::::::::::::::::::::::::::::::::::::  prereq
-
-## Things You'll Need To Complete This Episode
-
-See the [lesson homepage](.) for detailed information about the software,
-data, and other prerequisites you will need to work through the examples in 
-this episode.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 Sometimes we encounter raster datasets that do not "line up" when plotted or
 analyzed. Rasters that don't line up are most often in different Coordinate
 Reference Systems (CRS). This episode explains how to deal with rasters in 
 different, known CRSs. It will walk though reprojecting rasters in R using 
 the `project()` function in the `terra` package.
 
+Let's load the packages we'll need for this lesson: 
+
+
+```r
+library(terra)
+```
+
+```{.output}
+terra 1.7.71
+```
+
+```r
+library(ggplot2)
+library(dplyr)
+```
+
+```{.output}
+
+Attaching package: 'dplyr'
+```
+
+```{.output}
+The following objects are masked from 'package:terra':
+
+    intersect, union
+```
+
+```{.output}
+The following objects are masked from 'package:stats':
+
+    filter, lag
+```
+
+```{.output}
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+```
+
 ## Raster Projection in R
 
-In the [Plot Raster Data in R](02-raster-plot/)
-episode, we learned how to layer a raster file on top of a hillshade for a nice
-looking basemap. In that episode, all of our data were in the same CRS. What
-happens when things don't line up?
+In the previous episode, we learned how to layer a raster file on top of a 
+hillshade for a nice looking basemap. In that episode, all of our data were
+in the same CRS. What happens when things don't line up?
 
 For this episode, we will be working with the Harvard Forest Digital Terrain
 Model data. This differs from the surface model data we've been working with so
 far in that the digital surface model (DSM) includes the tops of trees, while
 the digital terrain model (DTM) shows the ground level.
 
-We'll be looking at another model (the canopy height model) in
-[a later episode](04-raster-calculations-in-r/) and will see how to calculate 
-the CHM from the DSM and DTM. Here, we will create a map of the Harvard Forest 
+Here, we will create a map of the Harvard Forest 
 Digital Terrain Model (`DTM_HARV`) draped or layered on top of the hillshade 
 (`DTM_hill_HARV`).
 The hillshade layer maps the terrain using light and shadow to create a 
@@ -89,22 +104,24 @@ DTM_HARV_df <- as.data.frame(DTM_HARV, xy = TRUE)
 DTM_hill_HARV_df <- as.data.frame(DTM_hill_HARV, xy = TRUE)
 ```
 
-Now we can create a map of the DTM layered over the hillshade.
+Now we can create a map of the DTM layered over the hillshade. Note that we use
+`scale_fill_gradientn()` here to specify our color scale. This allows for us to
+easily create a color ramp for the data we want to display.
 
 
 ```r
 ggplot() +
      geom_raster(data = DTM_HARV_df , 
-                 aes(x = x, y = y, 
+                 mapping = aes(x = x, y = y, 
                   fill = HARV_dtmCrop)) + 
      geom_raster(data = DTM_hill_HARV_df, 
-                 aes(x = x, y = y, 
+                 mapping = aes(x = x, y = y, 
                    alpha = HARV_DTMhill_WGS84)) +
      scale_fill_gradientn(name = "Elevation", colors = terrain.colors(10)) + 
      coord_quickmap()
 ```
 
-<img src="fig/11-raster-reproject-in-r-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+<img src="fig/11-raster-reproject-in-r-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 Our results are curious - neither the Digital Terrain Model (`DTM_HARV_df`)
 nor the DTM Hillshade (`DTM_hill_HARV_df`) plotted.
@@ -113,11 +130,10 @@ Let's try to plot the DTM on its own to make sure there are data there.
 
 ```r
 ggplot() +
-geom_raster(data = DTM_HARV_df,
-    aes(x = x, y = y,
-    fill = HARV_dtmCrop)) +
-scale_fill_gradientn(name = "Elevation", colors = terrain.colors(10)) + 
-coord_quickmap()
+  geom_raster(data = DTM_HARV_df,
+      mapping = aes(x = x, y = y, fill = HARV_dtmCrop)) +
+  scale_fill_gradientn(name = "Elevation", colors = terrain.colors(10)) + 
+  coord_quickmap()
 ```
 
 <img src="fig/11-raster-reproject-in-r-rendered-plot-DTM-1.png" style="display: block; margin: auto;" />
@@ -128,11 +144,11 @@ Next we plot the DTM Hillshade on its own to see whether everything is OK.
 
 
 ```r
-ggplot() +
-geom_raster(data = DTM_hill_HARV_df,
-    aes(x = x, y = y,
-    alpha = HARV_DTMhill_WGS84)) + 
-    coord_quickmap()
+ggplot() + 
+  geom_raster(data = DTM_hill_HARV_df,
+              mapping = aes(x = x, y = y,
+                            alpha = HARV_DTMhill_WGS84)) + 
+  coord_quickmap()
 ```
 
 <img src="fig/11-raster-reproject-in-r-rendered-plot-DTM-hill-1.png" style="display: block; margin: auto;" />
@@ -264,193 +280,27 @@ To use the `project()` function, we need to define two things:
 1. the object we want to reproject and
 2. the CRS that we want to reproject it to.
 
-The syntax is `project(RasterObject, crs)`
+The syntax is `project(x = RasterObject, y = crs)`
 
-We want the CRS of our hillshade to match the `DTM_HARV` raster. We can thus
-assign the CRS of our `DTM_HARV` to our hillshade within the `project()`
-function as follows: `crs(DTM_HARV)`.
+We want the CRS of our hillshade to match the `DTM_HARV` raster. One option 
+would be to just use the CRS of `DTM_HARV` in the `project()` function, but
+this will cause other issues later down the line because the resolutions of 
+`DTM_HARV` and `DTM_hill_HARV` are different. That's okay, because we can specify
+the resolution of the output file in the `project()` function using `res`. 
+
+That's a little complicated for our needs though. In our case, the most 
+effective way to reproject the dataset is to use the `DTM_HARV` layer as a
+template for the reprojection. We can specify that by using the syntax
+`project(x = RasterObject, y = TemplateRasterObject)`. 
+
 Note that we are using the `project()` function on the raster object,
 not the `data.frame()` we use for plotting with `ggplot`.
 
-First we will reproject our `DTM_hill_HARV` raster data to match the `DTM_HARV` 
-raster CRS:
 
 
 ```r
-DTM_hill_UTMZ18N_HARV <- project(DTM_hill_HARV,
-                                 crs(DTM_HARV))
-```
-
-Now we can compare the CRS of our original DTM hillshade and our new DTM 
-hillshade, to see how they are different.
-
-
-```r
-crs(DTM_hill_UTMZ18N_HARV, parse = TRUE)
-```
-
-```{.output}
- [1] "PROJCRS[\"WGS 84 / UTM zone 18N\","                                                                                                                                                                                                                                             
- [2] "    BASEGEOGCRS[\"WGS 84\","                                                                                                                                                                                                                                                    
- [3] "        DATUM[\"World Geodetic System 1984\","                                                                                                                                                                                                                                  
- [4] "            ELLIPSOID[\"WGS 84\",6378137,298.257223563,"                                                                                                                                                                                                                        
- [5] "                LENGTHUNIT[\"metre\",1]]],"                                                                                                                                                                                                                                     
- [6] "        PRIMEM[\"Greenwich\",0,"                                                                                                                                                                                                                                                
- [7] "            ANGLEUNIT[\"degree\",0.0174532925199433]],"                                                                                                                                                                                                                         
- [8] "        ID[\"EPSG\",4326]],"                                                                                                                                                                                                                                                    
- [9] "    CONVERSION[\"UTM zone 18N\","                                                                                                                                                                                                                                               
-[10] "        METHOD[\"Transverse Mercator\","                                                                                                                                                                                                                                        
-[11] "            ID[\"EPSG\",9807]],"                                                                                                                                                                                                                                                
-[12] "        PARAMETER[\"Latitude of natural origin\",0,"                                                                                                                                                                                                                            
-[13] "            ANGLEUNIT[\"degree\",0.0174532925199433],"                                                                                                                                                                                                                          
-[14] "            ID[\"EPSG\",8801]],"                                                                                                                                                                                                                                                
-[15] "        PARAMETER[\"Longitude of natural origin\",-75,"                                                                                                                                                                                                                         
-[16] "            ANGLEUNIT[\"degree\",0.0174532925199433],"                                                                                                                                                                                                                          
-[17] "            ID[\"EPSG\",8802]],"                                                                                                                                                                                                                                                
-[18] "        PARAMETER[\"Scale factor at natural origin\",0.9996,"                                                                                                                                                                                                                   
-[19] "            SCALEUNIT[\"unity\",1],"                                                                                                                                                                                                                                            
-[20] "            ID[\"EPSG\",8805]],"                                                                                                                                                                                                                                                
-[21] "        PARAMETER[\"False easting\",500000,"                                                                                                                                                                                                                                    
-[22] "            LENGTHUNIT[\"metre\",1],"                                                                                                                                                                                                                                           
-[23] "            ID[\"EPSG\",8806]],"                                                                                                                                                                                                                                                
-[24] "        PARAMETER[\"False northing\",0,"                                                                                                                                                                                                                                        
-[25] "            LENGTHUNIT[\"metre\",1],"                                                                                                                                                                                                                                           
-[26] "            ID[\"EPSG\",8807]]],"                                                                                                                                                                                                                                               
-[27] "    CS[Cartesian,2],"                                                                                                                                                                                                                                                           
-[28] "        AXIS[\"(E)\",east,"                                                                                                                                                                                                                                                     
-[29] "            ORDER[1],"                                                                                                                                                                                                                                                          
-[30] "            LENGTHUNIT[\"metre\",1]],"                                                                                                                                                                                                                                          
-[31] "        AXIS[\"(N)\",north,"                                                                                                                                                                                                                                                    
-[32] "            ORDER[2],"                                                                                                                                                                                                                                                          
-[33] "            LENGTHUNIT[\"metre\",1]],"                                                                                                                                                                                                                                          
-[34] "    USAGE["                                                                                                                                                                                                                                                                     
-[35] "        SCOPE[\"Engineering survey, topographic mapping.\"],"                                                                                                                                                                                                                   
-[36] "        AREA[\"Between 78°W and 72°W, northern hemisphere between equator and 84°N, onshore and offshore. Bahamas. Canada - Nunavut; Ontario; Quebec. Colombia. Cuba. Ecuador. Greenland. Haiti. Jamaica. Panama. Turks and Caicos Islands. United States (USA). Venezuela.\"],"
-[37] "        BBOX[0,-78,84,-72]],"                                                                                                                                                                                                                                                   
-[38] "    ID[\"EPSG\",32618]]"                                                                                                                                                                                                                                                        
-```
-
-```r
-crs(DTM_hill_HARV, parse = TRUE)
-```
-
-```{.output}
- [1] "GEOGCRS[\"WGS 84\","                                   
- [2] "    DATUM[\"World Geodetic System 1984\","             
- [3] "        ELLIPSOID[\"WGS 84\",6378137,298.257223563,"   
- [4] "            LENGTHUNIT[\"metre\",1]]],"                
- [5] "    PRIMEM[\"Greenwich\",0,"                           
- [6] "        ANGLEUNIT[\"degree\",0.0174532925199433]],"    
- [7] "    CS[ellipsoidal,2],"                                
- [8] "        AXIS[\"geodetic latitude (Lat)\",north,"       
- [9] "            ORDER[1],"                                 
-[10] "            ANGLEUNIT[\"degree\",0.0174532925199433]],"
-[11] "        AXIS[\"geodetic longitude (Lon)\",east,"       
-[12] "            ORDER[2],"                                 
-[13] "            ANGLEUNIT[\"degree\",0.0174532925199433]],"
-[14] "    USAGE["                                            
-[15] "        SCOPE[\"Horizontal component of 3D system.\"],"
-[16] "        AREA[\"World.\"],"                             
-[17] "        BBOX[-90,-180,90,180]],"                       
-[18] "    ID[\"EPSG\",4326]]"                                
-```
-
-We can also compare the extent of the two objects.
-
-
-```r
-ext(DTM_hill_UTMZ18N_HARV)
-```
-
-```{.output}
-SpatExtent : 731402.31567604, 733200.221994349, 4712407.19751409, 4713901.78222079 (xmin, xmax, ymin, ymax)
-```
-
-```r
-ext(DTM_hill_HARV)
-```
-
-```{.output}
-SpatExtent : -72.1819236223343, -72.1606102223342, 42.5294079700285, 42.5423355900285 (xmin, xmax, ymin, ymax)
-```
-
-Notice in the output above that the `crs()` of `DTM_hill_UTMZ18N_HARV` is now
-UTM. However, the extent values of `DTM_hillUTMZ18N_HARV` are different from
-`DTM_hill_HARV`.
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Challenge: Extent Change with CRS Change
-
-Why do you think the two extents differ?
-
-:::::::::::::::  solution
-
-## Answers
-
-The extent for DTM\_hill\_UTMZ18N\_HARV is in UTMs so the extent is in meters. 
-The extent for DTM\_hill\_HARV is in lat/long so the extent is expressed in 
-decimal degrees.
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Deal with Raster Resolution
-
-Let's next have a look at the resolution of our reprojected hillshade versus 
-our original data.
-
-
-```r
-res(DTM_hill_UTMZ18N_HARV)
-```
-
-```{.output}
-[1] 1.001061 1.001061
-```
-
-```r
-res(DTM_HARV)
-```
-
-```{.output}
-[1] 1 1
-```
-
-These two resolutions are different, but they're representing the same data. We 
-can tell R to force our newly reprojected raster to be 1m x 1m resolution by 
-adding a line of code `res=1` within the `project()` function. In the 
-example below, we ensure a resolution match by using `res(DTM_HARV)` as a 
-variable.
-
-
-```r
-  DTM_hill_UTMZ18N_HARV <- project(DTM_hill_HARV, 
-                                   crs(DTM_HARV), 
-                                   res = res(DTM_HARV)) 
-```
-
-Now both our resolutions and our CRSs match, so we can plot these two data sets 
-together. Let's double-check our resolution to be sure:
-
-
-```r
-res(DTM_hill_UTMZ18N_HARV)
-```
-
-```{.output}
-[1] 1 1
-```
-
-```r
-res(DTM_HARV)
-```
-
-```{.output}
-[1] 1 1
+DTM_hill_UTMZ18N_HARV <- project(x = DTM_hill_HARV,
+                                 y = DTM_HARV)
 ```
 
 For plotting with `ggplot()`, we will need to create a dataframe from our newly 
@@ -467,11 +317,11 @@ We can now create a plot of this data.
 ```r
 ggplot() +
      geom_raster(data = DTM_HARV_df , 
-                 aes(x = x, y = y, 
-                  fill = HARV_dtmCrop)) + 
+                 mapping = aes(x = x, y = y, 
+                               fill = HARV_dtmCrop)) + 
      geom_raster(data = DTM_hill_HARV_2_df, 
-                 aes(x = x, y = y, 
-                   alpha = HARV_DTMhill_WGS84)) +
+                 mapping = aes(x = x, y = y, 
+                               alpha = HARV_DTMhill_WGS84)) +
      scale_fill_gradientn(name = "Elevation", colors = terrain.colors(10)) + 
      coord_quickmap()
 ```
@@ -505,9 +355,8 @@ DSM_hill_SJER_WGS <-
     rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_DSMhill_WGS84.tif")
 
 # reproject raster
-DSM_hill_UTMZ18N_SJER <- project(DSM_hill_SJER_WGS,
-                                 crs(DSM_SJER),
-                                 res = 1)
+DSM_hill_UTMZ18N_SJER <- project(x = DSM_hill_SJER_WGS,
+                                 y = DSM_SJER)
 
 # convert to data.frames
 DSM_SJER_df <- as.data.frame(DSM_SJER, xy = TRUE)
@@ -516,14 +365,12 @@ DSM_hill_SJER_df <- as.data.frame(DSM_hill_UTMZ18N_SJER, xy = TRUE)
 
 ggplot() +
      geom_raster(data = DSM_hill_SJER_df, 
-                 aes(x = x, y = y, 
-                   alpha = SJER_DSMhill_WGS84)
-                 ) +
+                 mapping = aes(x = x, y = y, 
+                               alpha = SJER_DSMhill_WGS84)) +
      geom_raster(data = DSM_SJER_df, 
-             aes(x = x, y = y, 
-                  fill = SJER_dsmCrop,
-                  alpha=0.8)
-             ) + 
+             mapping = aes(x = x, y = y, 
+                           fill = SJER_dsmCrop,
+                           alpha=0.8)) + 
      scale_fill_gradientn(name = "Elevation", colors = terrain.colors(10)) + 
      coord_quickmap()
 ```

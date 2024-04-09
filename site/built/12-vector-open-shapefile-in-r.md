@@ -6,14 +6,6 @@ source: Rmd
 ---
 
 
-```{.warning}
-Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory
-```
-
-```{.error}
-Error in file(filename, "r", encoding = encoding): cannot open the connection
-```
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
@@ -29,37 +21,24 @@ Error in file(filename, "r", encoding = encoding): cannot open the connection
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-
-::::::::::::::::::::::::::::::::::::::::::  prereq
-
-## Things You'll Need To Complete This Episode
-
-See the [lesson homepage](.) for detailed information about the software, data,
-and other prerequisites you will need to work through the examples in this
-episode.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 Starting with this episode, we will be moving from working with raster data to
 working with vector data. In this episode, we will open and plot point, line
 and polygon vector data loaded from ESRI's `shapefile` format into R. These data refer to
 the
-[NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV),
-which we have been working with in previous episodes. In later episodes, we
-will learn how to work with raster and vector data together and combine them
-into a single plot.
+[NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV).
 
 ## Import Vector Data
 
 We will use the `sf` package to work with vector data in R. We will also use
 the `terra` package, which has been loaded in previous episodes, so we can
 explore raster and vector spatial metadata using similar commands. Make sure
-you have the `sf` library loaded.
+you have the `sf` library loaded along with the other libraries we will need.
 
 
 ```r
+library(terra)
+library(ggplot2)
+library(dplyr)
 library(sf)
 ```
 
@@ -102,17 +81,6 @@ information about the data. We are particularly interested in the geospatial
 metadata, describing the format, CRS, extent, and other components of the
 vector data, and the attributes which describe properties associated with each
 individual vector object.
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Data Tip
-
-The [Explore and Plot by Vector Layer Attributes](07-vector-shapefile-attributes-in-r/)
-episode provides more information on both metadata and attributes
-and using attributes to subset and plot data.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Spatial Metadata
 
@@ -203,10 +171,9 @@ st_bbox(aoi_boundary_HARV)
 
 The spatial extent of a vector layer or R spatial object represents the geographic
 "edge" or location that is the furthest north, south east and west. Thus it
-represents the overall geographic coverage of the spatial object. Image Source:
-National Ecological Observatory Network (NEON).
+represents the overall geographic coverage of the spatial object. 
 
-![](fig/dc-spatial-vector/spatial_extent.png){alt='Extent image'}
+![Image Source:National Ecological Observatory Network (NEON).](fig/dc-spatial-vector/spatial_extent.png){alt='Extent image'}
 
 Lastly, we can view all of the metadata and attributes for this R spatial
 object by printing it to the screen:
@@ -226,13 +193,6 @@ Projected CRS: WGS 84 / UTM zone 18N
 1  1 POLYGON ((732128 4713359, 7...
 ```
 
-## Spatial Data Attributes
-
-We introduced the idea of spatial data attributes in
-[an earlier lesson](https://datacarpentry.org/organization-geospatial/02-intro-vector-data).
-Now we will explore how to use spatial data attributes stored in our data to
-plot different features.
-
 ## Plot a vector layer
 
 Next, let's visualize the data in our `sf` object using the `ggplot` package.
@@ -247,7 +207,7 @@ for our plot. When plotting `sf` objects with `ggplot2`, you need to use the
 ```r
 ggplot() +
   geom_sf(data = aoi_boundary_HARV, size = 3, color = "black", fill = "cyan1") +
-  ggtitle("AOI Boundary Plot") +
+  labs(title = "AOI Boundary Plot") +
   coord_sf()
 ```
 
@@ -308,23 +268,28 @@ Bounding box:  xmin: 732183.2 ymin: 4713265 xmax: 732183.2 ymax: 4713265
 Projected CRS: WGS 84 / UTM zone 18N
 ```
 
-Then we check its class:
+Then we check its geometry type. 
 
 
 ```r
-class(lines_HARV)
+st_geometry_type(lines_HARV)
 ```
 
 ```{.output}
-[1] "sf"         "data.frame"
+ [1] MULTILINESTRING MULTILINESTRING MULTILINESTRING MULTILINESTRING
+ [5] MULTILINESTRING MULTILINESTRING MULTILINESTRING MULTILINESTRING
+ [9] MULTILINESTRING MULTILINESTRING MULTILINESTRING MULTILINESTRING
+[13] MULTILINESTRING
+18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE
 ```
 
 ```r
-class(point_HARV)
+st_geometry_type(point_HARV)
 ```
 
 ```{.output}
-[1] "sf"         "data.frame"
+[1] POINT
+18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE
 ```
 
 We also check the CRS and extent of each object:

@@ -25,7 +25,42 @@ for the code in this episode to work.
 
 ::::::::::::::::::::::::::::::::::::::::
 
+First, let's load in all relevant libraries and data to be used in this lesson: 
 
+```r
+library(ggplot2)
+library(dplyr)
+```
+
+```{.output}
+
+Attaching package: 'dplyr'
+```
+
+```{.output}
+The following objects are masked from 'package:stats':
+
+    filter, lag
+```
+
+```{.output}
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+```
+
+```r
+gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
+gapminder_small_2 <- filter(gapminder, continent == "Americas", year %in% c(1952, 2007))
+```
+
+We also need to create a `cleaned-data` folder within the `data` folder. 
+We can do this manually or using code: 
+
+
+```r
+dir.create("cleaned-data")
+```
 
 ## Saving plots
 
@@ -43,7 +78,7 @@ arguments to this function.
 
 
 ```r
-ggplot(data = gapminder, aes(x = gdpPercap)) +
+ggplot(data = gapminder, mapping = aes(x = gdpPercap)) +
   geom_histogram()
 ggsave("Distribution-of-gdpPercap.pdf", width=12, height=4)
 ```
@@ -66,8 +101,8 @@ previous episode.
 
 
 ```r
-ggplot(data = gapminder_small_2, aes(x = country, y = gdpPercap,
-                                     fill = as.factor(year))) +
+ggplot(data = gapminder_small_2, 
+       mapping = aes(x = country, y = gdpPercap, fill = as.factor(year))) +
   geom_col(position = "dodge") +
   coord_flip()
 # Note that ggsave saves by default the latest plot.

@@ -19,14 +19,11 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-
 Plotting our data is one of the best ways to quickly explore it and the various
 relationships between variables. There are three main plotting systems in R, the
 [base plotting system](https://www.statmethods.net/graphs/), the
 [lattice](https://www.statmethods.net/advgraphs/trellis.html) package, and the
-[ggplot2](https://www.statmethods.net/advgraphs/ggplot2.html) package. Today and
-tomorrow we'll be learning about the ggplot2 package, because it is the most
+[ggplot2](https://www.statmethods.net/advgraphs/ggplot2.html) package. In this lesson we'll be learning about the ggplot2 package, because it is the most
 effective for creating publication quality graphics. In this episode, we will
 introduce the key features of a ggplot and make a few example plots. We will
 expand on these concepts and see how they apply to geospatial data types when we
@@ -43,17 +40,47 @@ Data](https://datacarpentry.org/r-raster-vector-geospatial/) lesson.
 
 :::::::::::::::::::::::::::::::::::::::
 
-ggplot2 is built on the grammar of graphics, the idea that any plot can be
+`ggplot2` is built on the grammar of graphics, the idea that any plot can be
 expressed from the same set of components: a **data** set, a **coordinate
 system**, and a set of **geoms**\--the visual representation of data points. The
-key to understanding ggplot2 is thinking about a figure in layers. This idea may
+key to understanding `ggplot2` is thinking about a figure in layers. This idea may
 be familiar to you if you have used image editing programs like Photoshop,
 Illustrator, or Inkscape. In this episode we will focus on two geoms
 
-- histograms and bar plot. In the [R for Raster and Vector Data](https://datacarpentry.org/r-raster-vector-geospatial/) lesson we will work with a number of other geometries
-  and learn how to customize our plots.
+- histograms
+- bar plots
 
-Let's start off with an example plotting the
+Let's start by loading in the appropriate packages and data. Remember that we will have to load libraries and data at the start of each R script. 
+
+
+```r
+library(dplyr)
+```
+
+```{.output}
+
+Attaching package: 'dplyr'
+```
+
+```{.output}
+The following objects are masked from 'package:stats':
+
+    filter, lag
+```
+
+```{.output}
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+```
+
+```r
+library(ggplot2)
+
+gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
+```
+
+For our first example, we will be plotting the
 distribution of life expectancy in our dataset. The first thing we do is call the `ggplot` function. This function lets R
 know that we're creating a new plot, and any of the arguments we give the
 `ggplot()` function are the global options for the plot: they apply to all
@@ -62,7 +89,7 @@ layers on the plot.
 We will pass in two arguments to `ggplot`. First, we tell
 `ggplot` what data we
 want to show on our figure, in this example we use the gapminder data we read in
-earlier. For the second argument we pass in the `aes()` function, which
+earlier. For the second argument we pass in the `mapping = aes()` function, which
 tells `ggplot` how variables in the data map to aesthetic properties of
 the figure. Here we will tell `ggplot` we
 want to plot the "lifeExp" column of the gapminder data frame on the x-axis. We don't need to specify a y-axis
@@ -70,8 +97,7 @@ for histograms.
 
 
 ```r
-library("ggplot2")
-ggplot(data = gapminder, aes(x = lifeExp)) +   
+ggplot(data = gapminder, mapping = aes(x = lifeExp)) +   
   geom_histogram()
 ```
 
@@ -84,7 +110,7 @@ By itself, the call to `ggplot` isn't enough to draw a figure:
 
 
 ```r
-ggplot(data = gapminder, aes(x = lifeExp))
+ggplot(data = gapminder, mapping = aes(x = lifeExp))
 ```
 
 <img src="fig/07-plot-ggplot2-rendered-blank-plot-1.png" style="display: block; margin: auto;" />
@@ -96,7 +122,7 @@ distribution of one variable (in our case "lifeExp"):
 
 
 ```r
-ggplot(data = gapminder, aes(x = lifeExp)) +   
+ggplot(data = gapminder, mapping = aes(x = lifeExp)) +   
   geom_histogram()
 ```
 
@@ -123,7 +149,7 @@ expectancy:
 
 
 ```r
-ggplot(data = gapminder, aes(x = gdpPercap)) +   
+ggplot(data = gapminder, mapping = aes(x = gdpPercap)) +   
  geom_histogram()
 ```
 
@@ -156,7 +182,7 @@ by default) and gdp per capita on the y-axis.
 
 
 ```r
-ggplot(data = gapminder_small, aes(x = country, y = gdpPercap)) + 
+ggplot(data = gapminder_small, mapping = aes(x = country, y = gdpPercap)) + 
   geom_col()
 ```
 
@@ -171,7 +197,7 @@ function to the end of our plot code.
 
 
 ```r
-ggplot(data = gapminder_small, aes(x = country, y = gdpPercap)) + 
+ggplot(data = gapminder_small, mapping = aes(x = country, y = gdpPercap)) + 
   geom_col() +
   coord_flip()
 ```
@@ -224,7 +250,7 @@ is "stack".
 
 ```r
 ggplot(gapminder_small_2, 
-       aes(x = country, y = gdpPercap, 
+       mapping = aes(x = country, y = gdpPercap, 
        fill = as.factor(year))) +
    geom_col(position = "dodge") + 
    coord_flip()
@@ -238,7 +264,7 @@ ggplot(gapminder_small_2,
 
 The examples given here are just the start of
 creating complex and beautiful graphics with R.
-In [a later lesson](https://datacarpentry.org/r-raster-vector-geospatial/) we will go into much
+In a later lesson we will go into much
 more depth, including:
 
 - plotting geospatial specific data types

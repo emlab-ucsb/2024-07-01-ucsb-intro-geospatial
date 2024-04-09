@@ -463,7 +463,7 @@ So our new line would be:
 
 `theme(legend.box.background = element_rect(color = "black"))`
 
-```{r modify-legend-plot, fig.cap="Map of the paths in the study area with large-font and an outline around the legend."}
+```{r modify-legend-plot_2, fig.cap="Map of the paths in the study area with large-font and an outline around the legend."}
 ggplot() +
   geom_sf(data = lines_HARV, 
           mapping = aes(color = TYPE), size = 1.5) +
