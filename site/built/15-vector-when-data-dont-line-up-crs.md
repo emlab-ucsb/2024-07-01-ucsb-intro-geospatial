@@ -6,14 +6,6 @@ source: Rmd
 ---
 
 
-```{.warning}
-Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory
-```
-
-```{.error}
-Error in file(filename, "r", encoding = encoding): cannot open the connection
-```
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
@@ -27,20 +19,7 @@ Error in file(filename, "r", encoding = encoding): cannot open the connection
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-
-::::::::::::::::::::::::::::::::::::::::::  prereq
-
-## Things You'll Need To Complete This Episode
-
-See the [lesson homepage](.) for detailed information about the software, data,
-and other prerequisites you will need to work through the examples in this
-episode.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-In [an earlier episode](03-raster-reproject-in-r/)
+In an earlier episode
 we learned how to handle a situation where you have two different files with
 raster data in different projections. Now we will apply those same principles
 to working with vector data.
@@ -50,10 +29,21 @@ country boundary information accessed from the
 We will learn how to map vector data that are in different CRSs and thus don't
 line up on a map.
 
-We will continue to work with the three ESRI `shapefiles` that we loaded in the
-[Open and Plot Vector Layers in R](06-vector-open-shapefile-in-r/) episode.
+We will continue to work with the some of the ESRI `shapefiles` that we loaded in the
+previous episodes.
 
 
+```r
+library(terra)
+library(sf)
+library(ggplot2)
+library(dplyr)
+```
+
+
+```r
+point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+```
 
 ## Working With Spatial Data From Different Sources
 
@@ -69,7 +59,7 @@ Some reasons for data being in different CRSs include:
    instance, many states in the US prefer to use a State Plane projection
    customized for that state.
 
-![Maps of the United States using data in different projections. Source: opennews.org, from: https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg](fig/map_usa_different_projections.jpg){alt='Maps of the United States using data in different projections.}
+![Maps of the United States using data in different projections. Source: opennews.org, from: https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg](fig/map_usa_different_projections.jpg)
 
 Notice the differences in shape associated with each different projection.
 These differences are a direct result of the calculations used to "flatten" the
@@ -101,7 +91,9 @@ We will use the `st_read()` function to import the
 `/US-Boundary-Layers/US-State-Boundaries-Census-2014` layer into R. This layer
 contains the boundaries of all contiguous states in the U.S. Please note that
 these data have been modified and reprojected from the original data downloaded
-from the Census website to support the learning goals of this episode.
+from the Census website to support the learning goals of this episode. We only
+care about the x and y coordinates, not the z or m dimensions, so we will use 
+`st_zm()` to drop the coordinates that we do not need.
 
 
 ```r
@@ -127,7 +119,7 @@ Next, let's plot the U.S. states data:
 ```r
 ggplot() +
   geom_sf(data = state_boundary_US) +
-  ggtitle("Map of Contiguous US State Boundaries") +
+  labs(title = "Map of Contiguous US State Boundaries") +
   coord_sf()
 ```
 
@@ -157,7 +149,7 @@ z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84
 ```
 
-If we specify a thicker line width using `size = 2` for the border layer, it
+If we specify a thicker line width using `linewidth = 0.5` for the border layer, it
 will make our map pop! We will also manually set the colors of the state
 boundaries and country boundaries.
 
@@ -165,8 +157,8 @@ boundaries and country boundaries.
 ```r
 ggplot() +
   geom_sf(data = state_boundary_US, color = "gray60") +
-  geom_sf(data = country_boundary_US, color = "black",alpha = 0.25,size = 5) +
-  ggtitle("Map of Contiguous US State Boundaries") +
+  geom_sf(data = country_boundary_US, color = "black", alpha = 0.25, linewidth = 0.5) +
+  labs(title = "Map of Contiguous US State Boundaries") +
   coord_sf()
 ```
 
@@ -285,16 +277,13 @@ represented in meters.
 - [Official PROJ library documentation](https://proj4.org/)
 - [More information on the proj4 format.](https://proj.maptools.org/faq.html)
 - [A fairly comprehensive list of CRSs by format.](https://spatialreference.org)
-- To view a list of datum conversion factors type:
-  `sf_proj_info(type = "datum")` into the R console. However, the results would
-  depend on the underlying version of the PROJ library.
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Reproject Vector Data or No?
 
-We saw in [an earlier episode](03-raster-reproject-in-r/) that when working
+We saw in [an earlier episode](11-raster-reproject-in-r/) that when working
 with raster data in different CRSs, we needed to convert all objects to the
 same CRS. We can do the same thing with our vector data - however, we don't
 need to! When using the `ggplot2` package, `ggplot` automatically converts all
@@ -306,9 +295,9 @@ conversion:
 ```r
 ggplot() +
   geom_sf(data = state_boundary_US, color = "gray60") +
-  geom_sf(data = country_boundary_US, size = 5, alpha = 0.25, color = "black") +
+  geom_sf(data = country_boundary_US, linewidth = 0.5, alpha = 0.25, color = "black") +
   geom_sf(data = point_HARV, shape = 19, color = "purple") +
-  ggtitle("Map of Contiguous US State Boundaries") +
+  labs(title = "Map of Contiguous US State Boundaries") +
   coord_sf()
 ```
 
@@ -325,7 +314,7 @@ Create a map of the North Eastern United States as follows:
 2. Layer the Fisher Tower (in the NEON Harvard Forest site) point location
    `point_HARV` onto the plot.
 3. Add a title.
-4. Add a legend that shows both the state boundary (as a line) and the Tower
+4. Add a legend that shows both the state boundary and the Tower
    location point.
 
 :::::::::::::::  solution
@@ -352,15 +341,14 @@ Geodetic CRS:  WGS 84
 
 ```r
 ggplot() +
-    geom_sf(data = NE.States.Boundary.US, aes(color ="color"),
-            show.legend = "line") +
-    scale_color_manual(name = "", labels = "State Boundary",
-                       values = c("color" = "gray18")) +
-    geom_sf(data = point_HARV, aes(shape = "shape"), color = "purple") +
-    scale_shape_manual(name = "", labels = "Fisher Tower",
-                       values = c("shape" = 19)) +
-    ggtitle("Fisher Tower location") +
-    theme(legend.background = element_rect(color = NA)) +
+    geom_sf(data = NE.States.Boundary.US, mapping = aes(color ="State Boundary")) +
+    scale_color_manual(values = c("State Boundary" = "gray18")) +
+    geom_sf(data = point_HARV, mapping = aes(shape = "Fisher Tower"), 
+            color = "purple") +
+    scale_shape_manual(values = c("Fisher Tower" = 19)) +
+    labs(color = NULL, 
+         shape = NULL, 
+         title = "Fisher Tower location") +
     coord_sf()
 ```
 

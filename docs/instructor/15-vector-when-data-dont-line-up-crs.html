@@ -372,7 +372,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Handling Spatial Projection &amp; CRS</h1>
-        <p>Last updated on 2024-04-02 |
+        <p>Last updated on 2024-04-11 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/15-vector-when-data-dont-line-up-crs.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -386,17 +386,6 @@
 
         
 
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in file(filename, "r", encoding = encoding): cannot open the connection</code></pre>
-</div>
 <div class="overview card">
 <h2 class="card-header">Overview</h2>
 <div class="row g-0">
@@ -418,32 +407,30 @@
 </div>
 </div>
 </div>
-<div id="things-youll-need-to-complete-this-episode" class="callout prereq">
-<div class="callout-square">
-<i class="callout-icon" data-feather="check"></i>
-</div>
-<div id="things-youll-need-to-complete-this-episode" class="callout-inner">
-<h3 class="callout-title">Things You’ll Need To Complete This
-Episode<a class="anchor" aria-label="anchor" href="#things-youll-need-to-complete-this-episode"></a>
-</h3>
-<div class="callout-content">
-<p>See the <a href=".">lesson homepage</a> for detailed information
-about the software, data, and other prerequisites you will need to work
-through the examples in this episode.</p>
-</div>
-</div>
-</div>
-<p>In <a href="03-raster-reproject-in-r/">an earlier episode</a> we
-learned how to handle a situation where you have two different files
-with raster data in different projections. Now we will apply those same
-principles to working with vector data. We will create a base map of our
-study site using United States state and country boundary information
-accessed from the <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" class="external-link">United
+<p>In an earlier episode we learned how to handle a situation where you
+have two different files with raster data in different projections. Now
+we will apply those same principles to working with vector data. We will
+create a base map of our study site using United States state and
+country boundary information accessed from the <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" class="external-link">United
 States Census Bureau</a>. We will learn how to map vector data that are
 in different CRSs and thus don’t line up on a map.</p>
-<p>We will continue to work with the three ESRI <code>shapefiles</code>
-that we loaded in the <a href="06-vector-open-shapefile-in-r/">Open and
-Plot Vector Layers in R</a> episode.</p>
+<p>We will continue to work with the some of the ESRI
+<code>shapefiles</code> that we loaded in the previous episodes.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">terra</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">sf</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">point_HARV</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span><span class="op">)</span></span></code></pre>
+</div>
 <section id="working-with-spatial-data-from-different-sources"><h2 class="section-heading">Working With Spatial Data From Different Sources<a class="anchor" aria-label="anchor" href="#working-with-spatial-data-from-different-sources"></a>
 </h2>
 <hr class="half-width"><p>We often need to gather spatial datasets from different sources
@@ -455,9 +442,10 @@ provider (for example, a government agency).</li>
 <li>The data are stored in a particular CRS that is customized to a
 region. For instance, many states in the US prefer to use a State Plane
 projection customized for that state.</li>
-</ol><p><img src="../fig/map_usa_different_projections.jpg" alt="Maps of the United States using data in different projections. Source: opennews.org, from: https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" class="figure">{alt=’Maps
-of the United States using data in different projections.}</p>
-<p>Notice the differences in shape associated with each different
+</ol><figure><img src="../fig/map_usa_different_projections.jpg" alt="Maps of the United States using data in different projections. Source: opennews.org, from: https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" class="figure mx-auto d-block"><div class="figcaption">Maps of the United States using data in
+different projections. Source: opennews.org, from: <a href="https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" class="external-link uri">https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg</a>
+</div>
+</figure><p>Notice the differences in shape associated with each different
 projection. These differences are a direct result of the calculations
 used to “flatten” the data onto a 2-dimensional map. Often data are
 stored purposefully in a particular projection that optimizes the
@@ -487,7 +475,9 @@ attributes to them if need be - for project specific mapping.</p>
 into R. This layer contains the boundaries of all contiguous states in
 the U.S. Please note that these data have been modified and reprojected
 from the original data downloaded from the Census website to support the
-learning goals of this episode.</p>
+learning goals of this episode. We only care about the x and y
+coordinates, not the z or m dimensions, so we will use
+<code>st_zm()</code> to drop the coordinates that we do not need.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -515,7 +505,7 @@ Geodetic CRS:  WGS 84</code></pre>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_boundary_US</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Map of Contiguous US State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of Contiguous US State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/15-vector-when-data-dont-line-up-crs-rendered-find-coordinates-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="u.s.-boundary-layer"><h2 class="section-heading">U.S. Boundary Layer<a class="anchor" aria-label="anchor" href="#u.s.-boundary-layer"></a>
@@ -543,17 +533,17 @@ Bounding box:  xmin: -124.7258 ymin: 24.49813 xmax: -66.9499 ymax: 49.38436
 z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84</code></pre>
 </div>
-<p>If we specify a thicker line width using <code>size = 2</code> for
-the border layer, it will make our map pop! We will also manually set
-the colors of the state boundaries and country boundaries.</p>
+<p>If we specify a thicker line width using <code>linewidth = 0.5</code>
+for the border layer, it will make our map pop! We will also manually
+set the colors of the state boundaries and country boundaries.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_boundary_US</span>, color <span class="op">=</span> <span class="st">"gray60"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">country_boundary_US</span>, color <span class="op">=</span> <span class="st">"black"</span>,alpha <span class="op">=</span> <span class="fl">0.25</span>,size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Map of Contiguous US State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">country_boundary_US</span>, color <span class="op">=</span> <span class="st">"black"</span>, alpha <span class="op">=</span> <span class="fl">0.25</span>, linewidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of Contiguous US State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/15-vector-when-data-dont-line-up-crs-rendered-us-boundaries-thickness-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Next, let’s add the location of a flux tower where our study area is.
@@ -689,16 +679,12 @@ documentation</a></li>
 proj4 format.</a></li>
 <li><a href="https://spatialreference.org" class="external-link">A fairly comprehensive list
 of CRSs by format.</a></li>
-<li>To view a list of datum conversion factors type:
-<code>sf_proj_info(type = "datum")</code> into the R console. However,
-the results would depend on the underlying version of the PROJ
-library.</li>
 </ul></div>
 </div>
 </div>
 </section><section id="reproject-vector-data-or-no"><h2 class="section-heading">Reproject Vector Data or No?<a class="anchor" aria-label="anchor" href="#reproject-vector-data-or-no"></a>
 </h2>
-<hr class="half-width"><p>We saw in <a href="03-raster-reproject-in-r/">an earlier episode</a>
+<hr class="half-width"><p>We saw in <a href="11-raster-reproject-in-r/">an earlier episode</a>
 that when working with raster data in different CRSs, we needed to
 convert all objects to the same CRS. We can do the same thing with our
 vector data - however, we don’t need to! When using the
@@ -711,9 +697,9 @@ three data sets together without doing any conversion:</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_boundary_US</span>, color <span class="op">=</span> <span class="st">"gray60"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">country_boundary_US</span>, size <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">0.25</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">country_boundary_US</span>, linewidth <span class="op">=</span> <span class="fl">0.5</span>, alpha <span class="op">=</span> <span class="fl">0.25</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">point_HARV</span>, shape <span class="op">=</span> <span class="fl">19</span>, color <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Map of Contiguous US State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of Contiguous US State Boundaries"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/15-vector-when-data-dont-line-up-crs-rendered-layer-point-on-states-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="challenge---plot-multiple-layers-of-spatial-data" class="callout challenge">
@@ -731,8 +717,8 @@ line width as necessary.</li>
 <li>Layer the Fisher Tower (in the NEON Harvard Forest site) point
 location <code>point_HARV</code> onto the plot.</li>
 <li>Add a title.</li>
-<li>Add a legend that shows both the state boundary (as a line) and the
-Tower location point.</li>
+<li>Add a legend that shows both the state boundary and the Tower
+location point.</li>
 </ol></div>
 </div>
 </div>
@@ -768,15 +754,14 @@ Geodetic CRS:  WGS 84</code></pre>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NE.States.Boundary.US</span>, <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span><span class="st">"color"</span><span class="op">)</span>,</span>
-<span>            show.legend <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">scale_color_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span>, labels <span class="op">=</span> <span class="st">"State Boundary"</span>,</span>
-<span>                       values <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"color"</span> <span class="op">=</span> <span class="st">"gray18"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">point_HARV</span>, <span class="fu">aes</span><span class="op">(</span>shape <span class="op">=</span> <span class="st">"shape"</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">scale_shape_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span>, labels <span class="op">=</span> <span class="st">"Fisher Tower"</span>,</span>
-<span>                       values <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"shape"</span> <span class="op">=</span> <span class="fl">19</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Fisher Tower location"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">theme</span><span class="op">(</span>legend.background <span class="op">=</span> <span class="fu">element_rect</span><span class="op">(</span>color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NE.States.Boundary.US</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span><span class="st">"State Boundary"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"State Boundary"</span> <span class="op">=</span> <span class="st">"gray18"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">point_HARV</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>shape <span class="op">=</span> <span class="st">"Fisher Tower"</span><span class="op">)</span>, </span>
+<span>            color <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">scale_shape_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Fisher Tower"</span> <span class="op">=</span> <span class="fl">19</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>         shape <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>         title <span class="op">=</span> <span class="st">"Fisher Tower location"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/15-vector-when-data-dont-line-up-crs-rendered-ne-states-harv-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
@@ -860,8 +845,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/15-vector-when-data-dont-line-up-crs.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/15-vector-when-data-dont-line-up-crs.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-02",
-  "datePublished": "2024-04-09"
+  "dateModified": "2024-04-11",
+  "datePublished": "2024-04-11"
 }
 
   </script><script>

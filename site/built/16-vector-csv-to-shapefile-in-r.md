@@ -6,14 +6,6 @@ source: Rmd
 ---
 
 
-```{.warning}
-Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory
-```
-
-```{.error}
-Error in file(filename, "r", encoding = encoding): cannot open the connection
-```
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
@@ -29,30 +21,33 @@ Error in file(filename, "r", encoding = encoding): cannot open the connection
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-
-
-
-::::::::::::::::::::::::::::::::::::::::::  prereq
-
-## Things You'll Need To Complete This Episode
-
-See the [lesson homepage](.) for detailed information about the software, data,
-and other prerequisites you will need to work through the examples in this
-episode.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 This episode will review how to import spatial points stored in `.csv` (Comma
 Separated Value) format into R as an `sf` spatial object. We will also
 reproject data imported from an ESRI `shapefile` format, export the reprojected data as an ESRI `shapefile`, and plot raster and vector data as layers in the same plot.
+
+Let's load our packages and data for this episode: 
+
+
+
+```r
+library(terra)
+library(ggplot2)
+library(dplyr)
+library(sf)
+```
+
+
+```r
+aoi_boundary_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+country_boundary_US <- st_read("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp")
+point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+```
 
 ## Spatial Data in Text Format
 
 The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for study
 plot where NEON collects data on
-[vegetation and other ecological metics](https://www.neonscience.org/data-collection/terrestrial-organismal-sampling).
+[vegetation and other ecological metrics](https://www.neonscience.org/data-collection/terrestrial-organismal-sampling).
 We would like to:
 
 - Create a map of these plot locations.
@@ -191,7 +186,7 @@ contain the information that helps us determine the CRS:
 - `utmZone`: 18
 
 In
-[When Vector Data Don't Line Up - Handling Spatial Projection \& CRS in R](09-vector-when-data-dont-line-up-crs.html)
+[the previous episode](15-vector-when-data-dont-line-up-crs.html)
 we learned about the components of a `proj4` string. We have everything we need
 to assign a CRS to our data frame.
 
@@ -385,7 +380,7 @@ We now have a spatial R object, we can plot our newly created spatial object.
 ```r
 ggplot() +
   geom_sf(data = plot_locations_sp_HARV) +
-  ggtitle("Map of Plot Locations")
+  labs(title = "Map of Plot Locations")
 ```
 
 <img src="fig/16-vector-csv-to-shapefile-in-r-rendered-plot-data-points-1.png" style="display: block; margin: auto;" />
@@ -393,7 +388,7 @@ ggplot() +
 ## Plot Extent
 
 In
-[Open and Plot Vector Layers in R](06-vector-open-shapefile-in-r.html)
+[Open and Plot Vector Layers in R](12-vector-open-shapefile-in-r.html)
 we learned about spatial object extent. When we plot several spatial layers in
 R using `ggplot`, all of the layers of the plot are considered in setting the
 boundaries of the plot. To show this, let's plot our `aoi_boundary_HARV` object
@@ -404,7 +399,7 @@ with our vegetation plots.
 ggplot() +
   geom_sf(data = aoi_boundary_HARV) +
   geom_sf(data = plot_locations_sp_HARV) +
-  ggtitle("AOI Boundary Plot")
+  labs(title = "AOI Boundary Plot")
 ```
 
 <img src="fig/16-vector-csv-to-shapefile-in-r-rendered-plot-data-1.png" style="display: block; margin: auto;" />
@@ -541,7 +536,7 @@ the data for us.
 ggplot() +
   geom_sf(data = plot_locations_sp_HARV, color = "orange") +
   geom_sf(data = newPlot.Sp.HARV, color = "lightblue") +
-  ggtitle("Map of All Plot Locations")
+  labs(title = "Map of All Plot Locations")
 ```
 
 <img src="fig/16-vector-csv-to-shapefile-in-r-rendered-plot-locations-harv-orange-1.png" style="display: block; margin: auto;" />
@@ -565,8 +560,9 @@ We can now export the spatial object as an ESRI `shapefile`.
 
 
 ```r
-st_write(plot_locations_sp_HARV,
-         "data/PlotLocations_HARV.shp", driver = "ESRI Shapefile")
+st_write(obj = plot_locations_sp_HARV,
+         dsn = "data/PlotLocations_HARV.shp", 
+         driver = "ESRI Shapefile")
 ```
 
 
