@@ -23,6 +23,25 @@ source: Rmd
 
 
 
+Let's start by creating a new R script and saving it to the `scripts` folder
+in our project directory. We will create new scripts for each episode in this
+workshop. 
+
+We can create a new R script by clicking the button at the top left of our RStudio, 
+the one that looks like a piece of paper with a green plus sign next to it. On
+the drop down, click "R Script". We can also create an R script using File > 
+New file > R script. 
+
+We can add a comment to our script to remind us what we're working on: 
+
+
+```r
+# R script for data structures
+```
+
+Comments are useful notes to us that are ignored by the computer. 
+
+Now that we've got the basics covered, we can move on to the lesson. 
 One of R's most powerful features is its ability to deal with tabular data -
 like you may already have in a spreadsheet or a CSV file. Let's start by
 downloading and reading in a file `nordic-data.csv`. We will
@@ -32,6 +51,27 @@ save this data as an object named `nordic`:
 ```r
 nordic <- read.csv("data/nordic-data.csv")
 ```
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Tip: Running segments of your code
+
+RStudio offers you great flexibility in running code from within the editor
+window. There are buttons, menu choices, and keyboard shortcuts. To run the
+current line, you can
+
+1. click on the `Run` button above the editor panel, or
+2. select "Run Lines" from the "Code" menu, or
+3. hit <kbd>Ctrl</kbd>\+<kbd>Enter</kbd> in Windows,
+  <kbd>Ctrl</kbd>\+<kbd>Return</kbd> in Linux,
+  or <kbd>⌘</kbd>\+<kbd>Return</kbd> on OS X.
+  (This shortcut can also be seen by hovering
+  the mouse over the button). To run a block of code, select it and then `Run`.
+  
+  
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 
 The `read.table` function is used for reading in tabular data stored in a text
 file where the columns of data are separated by punctuation characters such as
@@ -112,56 +152,14 @@ class(nordic$lifeExp)
 [1] "numeric"
 ```
 
-There are 6 main types: `numeric`, `integer`, `complex`, `logical`, `character`, and `factor`.
+There are 6 main types:
 
-
-```r
-class(3.14)
-```
-
-```{.output}
-[1] "numeric"
-```
-
-```r
-class(1L) # The L suffix forces the number to be an integer, since by default R uses float numbers
-```
-
-```{.output}
-[1] "integer"
-```
-
-```r
-class(1+1i)
-```
-
-```{.output}
-[1] "complex"
-```
-
-```r
-class(TRUE)
-```
-
-```{.output}
-[1] "logical"
-```
-
-```r
-class('banana')
-```
-
-```{.output}
-[1] "character"
-```
-
-```r
-class(factor('banana'))
-```
-
-```{.output}
-[1] "factor"
-```
+- `numeric`: values like 1.254, 0.8, -7.2
+- `integer`: values like 1, 10, 150
+- `complex`: values like 1+1i
+- `logical`: TRUE or FALSE
+- `character`: values like "cats", "dogs", and "animals"
+- `factor`: categories with all possible values, like the months of the year
 
 No matter how
 complicated our analyses become, all data in R is interpreted a specific
@@ -202,16 +200,10 @@ dataframe, and it is our first example of something called a *data
 structure* - that is, a structure which R knows how to build out of the basic
 data types.
 
-We can see that it is a dataframe by calling the `class()` function on it:
-
-
-```r
-class(nordic)
-```
-
-```{.output}
-[1] "data.frame"
-```
+We can look at the data within R by clicking the object in our environment or 
+using `View(nordic)`. We see that the `lifeExp` column now has the value 
+"79.0 or 83" in the third row. R needed all values in that column to be the same
+type, so it forced everything to be a character instead of a number.
 
 In order to successfully use our data in R, we need to understand what the basic
 data structures are, and how they behave.
@@ -340,15 +332,6 @@ coercion_vector
 [1] "a"    "TRUE"
 ```
 
-```r
-another_coercion_vector <- c(0, TRUE)
-another_coercion_vector
-```
-
-```{.output}
-[1] 0 1
-```
-
 The coercion rules go: `logical` -> `integer` -> `numeric` -> `complex` ->
 `character`, where -> can be read as *are transformed into*. You can try to
 force coercion against this flow using the `as.` functions:
@@ -370,15 +353,6 @@ character_coerced_to_numeric
 
 ```{.output}
 [1] 0 2 4
-```
-
-```r
-numeric_coerced_to_logical <- as.logical(character_coerced_to_numeric)
-numeric_coerced_to_logical
-```
-
-```{.output}
-[1] FALSE  TRUE  TRUE
 ```
 
 As you can see, some surprising things can happen when R forces one basic data
@@ -458,15 +432,7 @@ my_series
 ```
 
 ```r
-seq(10)
-```
-
-```{.output}
- [1]  1  2  3  4  5  6  7  8  9 10
-```
-
-```r
-seq(1,10, by = 0.1)
+seq(from = 1, to = 10, by = 0.1)
 ```
 
 ```{.output}
@@ -483,20 +449,20 @@ We can ask a few questions about vectors:
 
 
 ```r
-sequence_example <- seq(10)
-head(sequence_example,n = 2)
+sequence_example <- 1:10
+head(sequence_example)
 ```
 
 ```{.output}
-[1] 1 2
+[1] 1 2 3 4 5 6
 ```
 
 ```r
-tail(sequence_example, n = 4)
+tail(sequence_example)
 ```
 
 ```{.output}
-[1]  7  8  9 10
+[1]  5  6  7  8  9 10
 ```
 
 ```r
@@ -600,20 +566,12 @@ the countries in our study:
 
 
 ```r
-nordic_countries <- c('Norway', 'Finland', 'Denmark', 'Iceland', 'Sweden')
-nordic_countries
-```
-
-```{.output}
-[1] "Norway"  "Finland" "Denmark" "Iceland" "Sweden" 
-```
-
-```r
+nordic_countries <- nordic$country
 str(nordic_countries)
 ```
 
 ```{.output}
- chr [1:5] "Norway" "Finland" "Denmark" "Iceland" "Sweden"
+ chr [1:3] "Denmark" "Sweden" "Norway"
 ```
 
 We can turn a vector into a factor like so:
@@ -621,43 +579,18 @@ We can turn a vector into a factor like so:
 
 ```r
 categories <- factor(nordic_countries)
-class(categories)
-```
-
-```{.output}
-[1] "factor"
-```
-
-```r
 str(categories)
 ```
 
 ```{.output}
- Factor w/ 5 levels "Denmark","Finland",..: 4 2 1 3 5
+ Factor w/ 3 levels "Denmark","Norway",..: 1 3 2
 ```
 
-Now R has noticed that there are 5 possible categories in our data - but it
+Now R has noticed that there are 3 possible categories in our data - but it
 also did something surprising; instead of printing out the strings we gave it,
 we got a bunch of numbers instead. R has replaced our human-readable categories
 with numbered indices under the hood, this is necessary as many statistical
-calculations utilise such numerical representations for categorical data:
-
-
-```r
-class(nordic_countries)
-```
-
-```{.output}
-[1] "character"
-```
-
-```r
-class(categories)
-```
-
-```{.output}
-[1] "factor"
-```
+calculations utilise such numerical representations for categorical data.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -674,6 +607,7 @@ They are sorted in alphabetical order
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
+
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -854,7 +788,7 @@ List of 3
 We see that the output for these two objects look very similar. It is because
 data frames are lists 'under the hood'. Data frames are a special case of lists where each element (the columns of the data frame) have the same lengths.
 
-In our `nordic` example, we have an integer, a double and a logical variable. As
+In our `nordic` example, we have a character, an integer, and a numerical variable. As
 we have seen already, each column of data frame is a vector.
 
 
@@ -866,35 +800,19 @@ nordic$country
 [1] "Denmark" "Sweden"  "Norway" 
 ```
 
-So far, we've specified columns as object$column, but we can also use indexing to identify different columns and rows. We do this by object[row, column]. If we keep the row value empty (e.g., object[,column]), R will return all rows. Likewise, if we keep the column value empty (e.g., object[row,]), R will return all columns. Note that R starts indexing at 1 - the first value will have the index 1. 
-
-
-```r
-nordic[, 1]
-```
-
-```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
-```
-
-Each row is an *observation* of different variables, itself a data frame, and
-thus can be composed of elements of different types.
-
-
-```r
-nordic[1, ]
-```
-
-```{.output}
-  country year lifeExp
-1 Denmark 2002    77.2
-```
-
-We can also call to the contents within the items in a list via indexing. For example, if we wanted to just return the contents from the first object in `another_list` (the title), we can do that by using double brackets. 
+We can also call to the contents within the items in a list via indexing. For example, if we wanted to just return the contents from the first object in `another_list` (the title), we can do that by using double brackets and specifying either the index value of the item, or it's name. 
 
 
 ```r
 another_list[[1]]
+```
+
+```{.output}
+[1] "Numbers"
+```
+
+```r
+another_list[["title"]]
 ```
 
 ```{.output}

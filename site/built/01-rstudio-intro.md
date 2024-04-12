@@ -148,11 +148,7 @@ current line, you can
   or <kbd>⌘</kbd>\+<kbd>Return</kbd> on OS X.
   (This shortcut can also be seen by hovering
   the mouse over the button). To run a block of code, select it and then `Run`.
-  If you have modified a line of code within a block of code you have just run,
-  there is no need to reselect the section and `Run`, you can use the next
-  button
-  along, `Re-run the previous region`. This will run the previous code block
-  including the modifications you have made.
+  
   
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -628,7 +624,7 @@ These packages will be installed into "~/Documents/2024-07-01-ucsb-intro-geospat
 
 # Installing packages --------------------------------------------------------
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 1 package in 4.9 milliseconds.
+Successfully installed 1 package in 5.7 milliseconds.
 ```
 
 It's important to note that we only need to install the R package on our computer once. Well, if we install a new version of R on the same computer, then we will likely need to also re-install the R packages too.
