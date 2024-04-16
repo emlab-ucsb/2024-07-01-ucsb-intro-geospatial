@@ -55,26 +55,6 @@ Let's start by loading in the appropriate packages and data. Remember that we wi
 
 ```r
 library(dplyr)
-```
-
-```{.output}
-
-Attaching package: 'dplyr'
-```
-
-```{.output}
-The following objects are masked from 'package:stats':
-
-    filter, lag
-```
-
-```{.output}
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-```
-
-```r
 library(ggplot2)
 
 gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
@@ -173,7 +153,8 @@ from countries in the Americas.
 
 
 ```r
-gapminder_small <- filter(gapminder, year == 2007, continent == "Americas")
+gapminder_small <- gapminder %>% 
+  filter(year == 2007 & continent == "Americas")
 ```
 
 This time, we will use the `geom_col()` function as our geometry.

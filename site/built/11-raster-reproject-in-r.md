@@ -30,38 +30,8 @@ Let's load the packages we'll need for this lesson:
 
 ```r
 library(terra)
-```
-
-```{.output}
-terra 1.7.71
-```
-
-```r
 library(ggplot2)
 library(dplyr)
-```
-
-```{.output}
-
-Attaching package: 'dplyr'
-```
-
-```{.output}
-The following objects are masked from 'package:terra':
-
-    intersect, union
-```
-
-```{.output}
-The following objects are masked from 'package:stats':
-
-    filter, lag
-```
-
-```{.output}
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
 ```
 
 ## Raster Projection in R
@@ -121,7 +91,7 @@ ggplot() +
      coord_quickmap()
 ```
 
-<img src="fig/11-raster-reproject-in-r-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="fig/11-raster-reproject-in-r-rendered-plot-empty-1.png" style="display: block; margin: auto;" />
 
 Our results are curious - neither the Digital Terrain Model (`DTM_HARV_df`)
 nor the DTM Hillshade (`DTM_hill_HARV_df`) plotted.
@@ -160,99 +130,26 @@ error message to tell you something has gone wrong. We can look at Coordinate
 Reference Systems (CRSs) of the DTM and the hillshade data to see how they 
 differ.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Exercise
-
-View the CRS for each of these two datasets. What projection
-does each use?
-
-:::::::::::::::  solution
-
-## Solution
-
 
 ```r
-# view crs for DTM
-crs(DTM_HARV, parse = TRUE)
+crs(DTM_HARV, proj = TRUE)
 ```
 
 ```{.output}
- [1] "PROJCRS[\"WGS 84 / UTM zone 18N\","                                                                                                                                                                                                                                             
- [2] "    BASEGEOGCRS[\"WGS 84\","                                                                                                                                                                                                                                                    
- [3] "        DATUM[\"World Geodetic System 1984\","                                                                                                                                                                                                                                  
- [4] "            ELLIPSOID[\"WGS 84\",6378137,298.257223563,"                                                                                                                                                                                                                        
- [5] "                LENGTHUNIT[\"metre\",1]]],"                                                                                                                                                                                                                                     
- [6] "        PRIMEM[\"Greenwich\",0,"                                                                                                                                                                                                                                                
- [7] "            ANGLEUNIT[\"degree\",0.0174532925199433]],"                                                                                                                                                                                                                         
- [8] "        ID[\"EPSG\",4326]],"                                                                                                                                                                                                                                                    
- [9] "    CONVERSION[\"UTM zone 18N\","                                                                                                                                                                                                                                               
-[10] "        METHOD[\"Transverse Mercator\","                                                                                                                                                                                                                                        
-[11] "            ID[\"EPSG\",9807]],"                                                                                                                                                                                                                                                
-[12] "        PARAMETER[\"Latitude of natural origin\",0,"                                                                                                                                                                                                                            
-[13] "            ANGLEUNIT[\"degree\",0.0174532925199433],"                                                                                                                                                                                                                          
-[14] "            ID[\"EPSG\",8801]],"                                                                                                                                                                                                                                                
-[15] "        PARAMETER[\"Longitude of natural origin\",-75,"                                                                                                                                                                                                                         
-[16] "            ANGLEUNIT[\"degree\",0.0174532925199433],"                                                                                                                                                                                                                          
-[17] "            ID[\"EPSG\",8802]],"                                                                                                                                                                                                                                                
-[18] "        PARAMETER[\"Scale factor at natural origin\",0.9996,"                                                                                                                                                                                                                   
-[19] "            SCALEUNIT[\"unity\",1],"                                                                                                                                                                                                                                            
-[20] "            ID[\"EPSG\",8805]],"                                                                                                                                                                                                                                                
-[21] "        PARAMETER[\"False easting\",500000,"                                                                                                                                                                                                                                    
-[22] "            LENGTHUNIT[\"metre\",1],"                                                                                                                                                                                                                                           
-[23] "            ID[\"EPSG\",8806]],"                                                                                                                                                                                                                                                
-[24] "        PARAMETER[\"False northing\",0,"                                                                                                                                                                                                                                        
-[25] "            LENGTHUNIT[\"metre\",1],"                                                                                                                                                                                                                                           
-[26] "            ID[\"EPSG\",8807]]],"                                                                                                                                                                                                                                               
-[27] "    CS[Cartesian,2],"                                                                                                                                                                                                                                                           
-[28] "        AXIS[\"(E)\",east,"                                                                                                                                                                                                                                                     
-[29] "            ORDER[1],"                                                                                                                                                                                                                                                          
-[30] "            LENGTHUNIT[\"metre\",1]],"                                                                                                                                                                                                                                          
-[31] "        AXIS[\"(N)\",north,"                                                                                                                                                                                                                                                    
-[32] "            ORDER[2],"                                                                                                                                                                                                                                                          
-[33] "            LENGTHUNIT[\"metre\",1]],"                                                                                                                                                                                                                                          
-[34] "    USAGE["                                                                                                                                                                                                                                                                     
-[35] "        SCOPE[\"Engineering survey, topographic mapping.\"],"                                                                                                                                                                                                                   
-[36] "        AREA[\"Between 78°W and 72°W, northern hemisphere between equator and 84°N, onshore and offshore. Bahamas. Canada - Nunavut; Ontario; Quebec. Colombia. Cuba. Ecuador. Greenland. Haiti. Jamaica. Panama. Turks and Caicos Islands. United States (USA). Venezuela.\"],"
-[37] "        BBOX[0,-78,84,-72]],"                                                                                                                                                                                                                                                   
-[38] "    ID[\"EPSG\",32618]]"                                                                                                                                                                                                                                                        
+[1] "+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs"
 ```
 
 ```r
-# view crs for hillshade
-crs(DTM_hill_HARV, parse = TRUE)
+crs(DTM_hill_proj, parse = TRUE)
 ```
 
-```{.output}
- [1] "GEOGCRS[\"WGS 84\","                                   
- [2] "    DATUM[\"World Geodetic System 1984\","             
- [3] "        ELLIPSOID[\"WGS 84\",6378137,298.257223563,"   
- [4] "            LENGTHUNIT[\"metre\",1]]],"                
- [5] "    PRIMEM[\"Greenwich\",0,"                           
- [6] "        ANGLEUNIT[\"degree\",0.0174532925199433]],"    
- [7] "    CS[ellipsoidal,2],"                                
- [8] "        AXIS[\"geodetic latitude (Lat)\",north,"       
- [9] "            ORDER[1],"                                 
-[10] "            ANGLEUNIT[\"degree\",0.0174532925199433]],"
-[11] "        AXIS[\"geodetic longitude (Lon)\",east,"       
-[12] "            ORDER[2],"                                 
-[13] "            ANGLEUNIT[\"degree\",0.0174532925199433]],"
-[14] "    USAGE["                                            
-[15] "        SCOPE[\"Horizontal component of 3D system.\"],"
-[16] "        AREA[\"World.\"],"                             
-[17] "        BBOX[-90,-180,90,180]],"                       
-[18] "    ID[\"EPSG\",4326]]"                                
+```{.error}
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'crs': object 'DTM_hill_proj' not found
 ```
 
 `DTM_HARV` is in the UTM projection, with units of meters.
 `DTM_hill_HARV` is in
 `Geographic WGS84` - which is represented by latitude and longitude values.
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Because the two rasters are in different CRSs, they don't line up when plotted
 in R. We need to reproject (or change the projection of) `DTM_hill_HARV` into 

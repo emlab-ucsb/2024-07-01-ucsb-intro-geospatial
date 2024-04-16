@@ -370,7 +370,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Exploring Data Frames</h1>
-        <p>Last updated on 2024-04-12 |
+        <p>Last updated on 2024-04-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/04-data-structures-part2.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -399,8 +399,7 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Remove rows with <code>NA</code> values.</li>
-<li>Append two data frames.</li>
+<ul><li>Append two data frames.</li>
 <li>Understand what a <code>factor</code> is.</li>
 <li>Convert a <code>factor</code> to a <code>character</code> vector and
 vice versa.</li>
@@ -464,24 +463,11 @@ with <code>str</code>:</p>
  $ lifeExp  : num  28.8 30.3 32 34 36.1 ...
  $ gdpPercap: num  779 821 853 836 740 ...</code></pre>
 </div>
-<p>We can also examine individual columns of the data frame with our
-<code>class</code> function:</p>
-<div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">class</span><span class="op">(</span><span class="va">gapminder</span><span class="op">$</span><span class="va">year</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[1] "integer"</code></pre>
-</div>
 <p>We can also interrogate the data frame for information about its
 dimensions; remembering that <code>str(gapminder)</code> said there were
 1704 observations of 6 variables in gapminder, what do you think the
 following will produce, and why?</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -491,7 +477,7 @@ following will produce, and why?</p>
 would be the number of rows it has (1704), but this is not the case; it
 gives us the number of columns.</p>
 <p>To get the number of rows and columns in our dataset, try:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -502,7 +488,7 @@ gives us the number of columns.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] 1704</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -514,7 +500,7 @@ gives us the number of columns.</p>
 <pre class="output" tabindex="0"><code>[1] 6</code></pre>
 </div>
 <p>Or, both at once:</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -527,7 +513,7 @@ gives us the number of columns.</p>
 </div>
 <p>We’ll also likely want to know what the titles of all the columns
 are, so we can ask for them later:</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -547,7 +533,7 @@ of <em>strict consistency</em> in how we record our data.</p>
 <p>Once we’re happy that the data types and structures seem reasonable,
 it’s time to start digging into our data proper. Check out the first few
 lines:</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -588,7 +574,7 @@ could simply ask for a few lines at random. How would you code this?</p>
 <div class="accordion-body">
 <p>To check the last few lines it’s relatively simple as R already has a
 function for this:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -607,7 +593,7 @@ your data frame with the number of rows and columns you asked for
 example). How would you get the last row if you don’t know how many rows
 your data frame has? R has a function for this. What about getting a
 (pseudorandom) sample? R also has a function for this.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -659,7 +645,7 @@ are numeric vectors.</li>
 <hr class="half-width"><p>We would like to create a new column to hold information on whether
 the life expectancy is below the world average life expectancy (70.5) or
 above:</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -672,7 +658,7 @@ above:</p>
 <pre class="output" tabindex="0"><code>[1] TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
 </div>
 <p>We can then add this as a column via:</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -681,7 +667,7 @@ above:</p>
 <p>Note that if we tried to add a vector of <code>below_average</code>
 with a different number of entries than the number of rows in the
 dataframe, it would fail:</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -695,7 +681,7 @@ dataframe, it would fail:</p>
 </div>
 <p>Why didn’t this work? R wants to see one element in our new column
 for every row in the table:</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -706,7 +692,7 @@ for every row in the table:</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] 1704</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -720,7 +706,7 @@ for every row in the table:</p>
 <p>So for it to work we need either to have <code>nrow(gapminder)</code>
 = <code>length(below_average)</code> or <code>nrow(gapminder)</code> to
 be a multiple of <code>length(below_average)</code>:</p>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -744,7 +730,7 @@ gapminder rows.</p>
 can do this in two ways: using <code>cbind</code> and overwriting the
 <code>gapminder</code> object, or by identifying and adding a new
 column.</p>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -759,7 +745,7 @@ column.</p>
 <p>Now how about adding rows? The rows of a data frame are lists, so we
 can add a new row by either specifying a new list, or a new data
 frame.</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -800,7 +786,7 @@ frame.</p>
 <hr class="half-width"><p>Here is another thing to look out for: in a <code>factor</code>, each
 different value represents what is called a <code>level</code>. Let’s
 alter our gapminder data so that the “continent” column is a factor.</p>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -817,7 +803,7 @@ Levels: Africa Americas Asia Europe Oceania</code></pre>
 “Americas”, “Asia”, “Europe” and “Oceania”. R will only accept values
 that match one of the levels. If you add a new value, it will become
 <code>NA</code>.</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -828,7 +814,7 @@ that match one of the levels. If you add a new value, it will become
 </h3>
 <pre class="output" tabindex="0"><code>[1] "Africa"   "Americas" "Asia"     "Europe"   "Oceania" </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -850,7 +836,7 @@ that match one of the levels. If you add a new value, it will become
 <p>Alternatively, we can change a factor into a character vector; we
 lose the handy categories of the factor, but we can subsequently add any
 word we want to the column without babysitting the factor levels:</p>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -868,7 +854,7 @@ word we want to the column without babysitting the factor levels:</p>
  $ gdpPercap    : num  779 821 853 836 740 ...
  $ below_average: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -892,7 +878,7 @@ word we want to the column without babysitting the factor levels:</p>
 <hr class="half-width"><p>The key to remember when adding data to a data frame is that
 <em>columns are vectors and rows are lists.</em> We can also glue two
 data frames together with <code>rbind</code>:</p>
-<div class="codewrapper sourceCode" id="cb43">
+<div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -917,7 +903,7 @@ data frames together with <code>rbind</code>:</p>
 <div class="callout-content">
 <p>You can create a new data frame right from within R with the
 following syntax:</p>
-<div class="codewrapper sourceCode" id="cb45">
+<div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -943,7 +929,7 @@ person’s answer to the question, “Is it time for coffee break?”</p>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb46">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -967,15 +953,12 @@ person’s answer to the question, “Is it time for coffee break?”</p>
 <div class="callout-content">
 <ul><li>Use <code>cbind()</code> to add a new column to a data frame.</li>
 <li>Use <code>rbind()</code> to add a new row to a data frame.</li>
-<li>Remove rows from a data frame.</li>
-<li>Use <code>na.omit()</code> to remove rows from a data frame with
-<code>NA</code> values.</li>
 <li>Use <code>levels()</code> and <code>as.character()</code> to explore
 and manipulate factors.</li>
 <li>Use <code>str()</code>, <code>nrow()</code>, <code>ncol()</code>,
 <code>dim()</code>, <code>colnames()</code>, <code>rownames()</code>,
-<code>head()</code>, and <code>typeof()</code> to understand the
-structure of a data frame.</li>
+<code>head()</code>, and <code>tail()</code> to understand the structure
+of a data frame.</li>
 <li>Read in a csv file using <code>read.csv()</code>.</li>
 <li>Understand what <code>length()</code> of a data frame
 represents.</li>
@@ -1044,8 +1027,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/04-data-structures-part2.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/04-data-structures-part2.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-12",
-  "datePublished": "2024-04-12"
+  "dateModified": "2024-04-16",
+  "datePublished": "2024-04-16"
 }
 
   </script><script>

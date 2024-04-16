@@ -33,10 +33,9 @@ discuss some of the core metadata elements that we need to understand to work wi
 rasters in R, including CRS and resolution. We will also explore missing and bad
 data values as stored in a raster and how R handles these elements.
 
-We will continue to work with the `dplyr` and `ggplot2` packages that were introduced
-in the [Introduction to R for Geospatial Data](https://datacarpentry.org/r-intro-geospatial/) 
-lesson. We will use two additional packages in this episode to work with raster 
-data - the `terra` and `sf` packages. Make sure that you have these packages 
+We will continue to work with the `dplyr` and `ggplot2` packages. 
+We will use one additional package in this episode to work with raster 
+data - the `terra` package. Make sure that you have all packages 
 loaded.
 
 
@@ -46,15 +45,12 @@ library(ggplot2)
 library(dplyr)
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
-## Introduce the Data
-
-If not already discussed, introduce the datasets that will be used in this
-lesson. A brief introduction to the datasets can be found on the
-[Geospatial workshop homepage](https://datacarpentry.org/geospatial-workshop/#data).
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+In this episode, we'll be working with raster data collected from the 
+Harvard Forest site. These data were collected using remote sensing (LiDAR) and include
+estimates of a canopy height model, digital elevation model, and
+digital surface model of the field site. Today we will be focusing 
+on the digital surface model. 
 
 ## View Raster File Attributes
 
@@ -242,6 +238,17 @@ summary(values(DSM_HARV))
  Max.   :416.1  
 ```
 
+We can visualise this data in R either using the `terra` `plot()` function, or 
+by using `ggplot2`. To visualise the data using `terra`, we run this line of 
+code: 
+
+
+```r
+plot(DSM_HARV)
+```
+
+<img src="fig/09-raster-structure-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
 To visualise this data in R using `ggplot2`, we need to convert it to a
 dataframe. We learned about dataframes in the Exploring Data Frames lesson.
 The `terra` package has an built-in function for conversion to a plotable dataframe.
@@ -297,32 +304,6 @@ More information about the Viridis palette used above at
 [R Viridis package documentation](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html).
 
 ::::::::::::::::::
-
-
-:::::::::::::::::::::::::::::::::::::::::  challenge
-
-## Plotting Tip
-
-For faster, simpler plots of raster objects, you can use the `plot` function from the `terra` package.
-
-
-:::::::::::::::  solution
-
-## Show plot
-
-See `?plot` for more arguments to customize the plot
-
-
-```r
-plot(DSM_HARV)
-```
-
-<img src="fig/09-raster-structure-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
-
-:::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::
-
 
 This map shows the elevation of our study site in Harvard Forest. From the
 legend, we can see that the maximum elevation is ~400, but we can't tell whether
@@ -470,7 +451,7 @@ nlyr(DSM_HARV)
 
 However, raster data can also be multi-band, meaning that one raster file
 contains data for more than one variable or time period for each cell. By
-default the `ras()` function only imports the first band in a raster
+default the `rast()` function only imports the first band in a raster
 regardless of whether it has one or more bands. 
 
 ## Dealing with Missing Data
@@ -656,7 +637,7 @@ useful in identifying outliers and bad data values in our raster data.
 
 ```r
 ggplot() +
-    geom_histogram(data = DSM_HARV_df, mapping = aes(HARV_dsmCrop))
+    geom_histogram(data = DSM_HARV_df, mapping = aes(x = HARV_dsmCrop))
 ```
 
 ```{.output}
@@ -677,7 +658,7 @@ by using the `bins` value in the `geom_histogram()` function.
 ```r
 ggplot() +
     geom_histogram(data = DSM_HARV_df, 
-                   mapping = aes(HARV_dsmCrop), 
+                   mapping = aes(x = HARV_dsmCrop), 
                    bins = 40)
 ```
 

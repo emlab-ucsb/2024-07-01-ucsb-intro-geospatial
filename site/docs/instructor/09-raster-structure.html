@@ -374,7 +374,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Intro to Raster Data</h1>
-        <p>Last updated on 2024-04-12 |
+        <p>Last updated on 2024-04-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/09-raster-structure.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -422,11 +422,9 @@ that we need to understand to work with rasters in R, including CRS and
 resolution. We will also explore missing and bad data values as stored
 in a raster and how R handles these elements.</p>
 <p>We will continue to work with the <code>dplyr</code> and
-<code>ggplot2</code> packages that were introduced in the <a href="https://datacarpentry.org/r-intro-geospatial/" class="external-link">Introduction to R
-for Geospatial Data</a> lesson. We will use two additional packages in
-this episode to work with raster data - the <code>terra</code> and
-<code>sf</code> packages. Make sure that you have these packages
-loaded.</p>
+<code>ggplot2</code> packages. We will use one additional package in
+this episode to work with raster data - the <code>terra</code> package.
+Make sure that you have all packages loaded.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -435,20 +433,11 @@ loaded.</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="introduce-the-data" class="callout callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<div id="introduce-the-data" class="callout-inner">
-<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
-</h3>
-<div class="callout-content">
-<p>If not already discussed, introduce the datasets that will be used in
-this lesson. A brief introduction to the datasets can be found on the <a href="https://datacarpentry.org/geospatial-workshop/#data" class="external-link">Geospatial
-workshop homepage</a>.</p>
-</div>
-</div>
-</div>
+<p>In this episode, we’ll be working with raster data collected from the
+Harvard Forest site. These data were collected using remote sensing
+(LiDAR) and include estimates of a canopy height model, digital
+elevation model, and digital surface model of the field site. Today we
+will be focusing on the digital surface model.</p>
 <section id="view-raster-file-attributes"><h2 class="section-heading">View Raster File Attributes<a class="anchor" aria-label="anchor" href="#view-raster-file-attributes"></a>
 </h2>
 <hr class="half-width"><p>We will be working with a series of GeoTIFF files in this lesson. The
@@ -655,13 +644,23 @@ all the values, you can use the function <code>values</code>:</p>
  3rd Qu.:374.3  
  Max.   :416.1  </code></pre>
 </div>
-<p>To visualise this data in R using <code>ggplot2</code>, we need to
+<p>We can visualise this data in R either using the <code>terra</code>
+<code>plot()</code> function, or by using <code>ggplot2</code>. To
+visualise the data using <code>terra</code>, we run this line of
+code:</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">plot</span><span class="op">(</span><span class="va">DSM_HARV</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/09-raster-structure-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To visualise this data in R using <code>ggplot2</code>, we need to
 convert it to a dataframe. We learned about dataframes in the Exploring
 Data Frames lesson. The <code>terra</code> package has an built-in
 function for conversion to a plotable dataframe. Setting
 <code>xy = TRUE</code> maintains the spatial locations of the data, so
 that we can plot the data as a map.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -669,7 +668,7 @@ that we can plot the data as a map.</p>
 </div>
 <p>Now when we view the structure of our data, we will see a standard
 dataframe format.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -691,7 +690,7 @@ projection for our plots. This approximation is suitable for small areas
 that are not too close to the poles. Other coordinate systems are
 available in ggplot2 if needed, you can learn about them at their help
 page <code>?coord_map</code>.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -713,37 +712,6 @@ Raster plot with ggplot2 using the viridis color scale
 <div class="callout-content">
 <p>More information about the Viridis palette used above at <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html" class="external-link">R
 Viridis package documentation</a>.</p>
-</div>
-</div>
-</div>
-<div id="plotting-tip-1" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="plotting-tip-1" class="callout-inner">
-<h3 class="callout-title">Plotting Tip<a class="anchor" aria-label="anchor" href="#plotting-tip-1"></a>
-</h3>
-<div class="callout-content">
-<p>For faster, simpler plots of raster objects, you can use the
-<code>plot</code> function from the <code>terra</code> package.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show plot</h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
-<div class="accordion-body">
-<p>See <code>?plot</code> for more arguments to customize the plot</p>
-<div class="codewrapper sourceCode" id="cb16">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plot</span><span class="op">(</span><span class="va">DSM_HARV</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="../fig/09-raster-structure-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 </div>
 </div>
 </div>
@@ -782,12 +750,12 @@ the<code>crs()</code> function.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Answers</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Answers</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p><code>+units=m</code> tells us that our data is in meters.</p>
 </div>
@@ -918,7 +886,7 @@ multi-band raster. We can view the number of bands in a raster using the
 </div>
 <p>However, raster data can also be multi-band, meaning that one raster
 file contains data for more than one variable or time period for each
-cell. By default the <code>ras()</code> function only imports the first
+cell. By default the <code>rast()</code> function only imports the first
 band in a raster regardless of whether it has one or more bands.</p>
 </section><section id="dealing-with-missing-data"><h2 class="section-heading">Dealing with Missing Data<a class="anchor" aria-label="anchor" href="#dealing-with-missing-data"></a>
 </h2>
@@ -986,12 +954,12 @@ file paths.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Answers</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">Answers</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1109,7 +1077,7 @@ data values in our raster data.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">geom_histogram</span><span class="op">(</span>data <span class="op">=</span> <span class="va">DSM_HARV_df</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span><span class="va">HARV_dsmCrop</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>    <span class="fu">geom_histogram</span><span class="op">(</span>data <span class="op">=</span> <span class="va">DSM_HARV_df</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">HARV_dsmCrop</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1131,7 +1099,7 @@ function.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">geom_histogram</span><span class="op">(</span>data <span class="op">=</span> <span class="va">DSM_HARV_df</span>, </span>
-<span>                   mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span><span class="va">HARV_dsmCrop</span><span class="op">)</span>, </span>
+<span>                   mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">HARV_dsmCrop</span><span class="op">)</span>, </span>
 <span>                   bins <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/09-raster-structure-rendered-view-raster-histogram2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that the shape of this histogram looks similar to the previous
@@ -1161,12 +1129,12 @@ in R</a> episode.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">Answers</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3">Answers</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1352,8 +1320,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/09-raster-structure.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/09-raster-structure.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-12",
-  "datePublished": "2024-04-12"
+  "dateModified": "2024-04-16",
+  "datePublished": "2024-04-16"
 }
 
   </script><script>

@@ -52,7 +52,7 @@ Illustrator, or Inkscape. In this episode we will focus on two geoms
 
 Let's start by loading in the appropriate packages and data. Remember that we will have to load libraries and data at the start of each R script. 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
 
@@ -125,7 +125,8 @@ recent year and only
 from countries in the Americas.
 
 ```{r}
-gapminder_small <- filter(gapminder, year == 2007, continent == "Americas")
+gapminder_small <- gapminder %>% 
+  filter(year == 2007 & continent == "Americas")
 ```
 
 This time, we will use the `geom_col()` function as our geometry.

@@ -7,7 +7,6 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
-- Remove rows with `NA` values.
 - Append two data frames.
 - Understand what a `factor` is.
 - Convert a `factor` to a `character` vector and vice versa.
@@ -62,17 +61,6 @@ str(gapminder)
  $ continent: chr  "Asia" "Asia" "Asia" "Asia" ...
  $ lifeExp  : num  28.8 30.3 32 34 36.1 ...
  $ gdpPercap: num  779 821 853 836 740 ...
-```
-
-We can also examine individual columns of the data frame with our `class` function:
-
-
-```r
-class(gapminder$year)
-```
-
-```{.output}
-[1] "integer"
 ```
 
 We can also interrogate the data frame for information about its dimensions;
@@ -493,10 +481,8 @@ df <- cbind(df, coffeetime = c(TRUE, TRUE))
 
 - Use `cbind()` to add a new column to a data frame.
 - Use `rbind()` to add a new row to a data frame.
-- Remove rows from a data frame.
-- Use `na.omit()` to remove rows from a data frame with `NA` values.
 - Use `levels()` and `as.character()` to explore and manipulate factors.
-- Use `str()`, `nrow()`, `ncol()`, `dim()`, `colnames()`, `rownames()`, `head()`, and `typeof()` to understand the structure of a data frame.
+- Use `str()`, `nrow()`, `ncol()`, `dim()`, `colnames()`, `rownames()`, `head()`, and `tail()` to understand the structure of a data frame.
 - Read in a csv file using `read.csv()`.
 - Understand what `length()` of a data frame represents.
 

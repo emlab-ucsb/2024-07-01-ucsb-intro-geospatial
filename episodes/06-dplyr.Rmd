@@ -290,8 +290,7 @@ gapminder %>%
     summarize(
       mean_le = mean(lifeExp),
       min_le = min(lifeExp),
-      max_le = max(lifeExp),
-      se_le = sd(lifeExp)/sqrt(n())) %>% 
+      max_le = max(lifeExp)) %>% 
   ungroup()
 ```
 
@@ -300,16 +299,10 @@ gapminder %>%
 We can also create new variables prior to (or even after) summarizing information using `mutate()`.
 
 ```{r message=FALSE}
-gdp_pop_bycontinents_byyear <- gapminder %>%
-  mutate(gdp_billion = gdpPercap*pop/10^9) %>%
-  group_by(continent, year) %>%
-  summarize(mean_gdpPercap = mean(gdpPercap),
-            sd_gdpPercap = sd(gdpPercap),
-            mean_pop = mean(pop),
-            sd_pop = sd(pop),
-            mean_gdp_billion = mean(gdp_billion),
-            sd_gdp_billion = sd(gdp_billion)) %>% 
-  ungroup()
+gdp_pop_billion <- gapminder %>%
+  mutate(gdp_billion = gdpPercap*pop/10^9)
+
+head(gdp_pop_billion)
 ```
 
 ## Other great resources

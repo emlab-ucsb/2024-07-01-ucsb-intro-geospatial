@@ -374,7 +374,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data frame Manipulation with dplyr</h1>
-        <p>Last updated on 2024-04-12 |
+        <p>Last updated on 2024-04-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/06-dplyr.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -464,7 +464,7 @@ time, both now and later, and potentially introduce some nasty bugs.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <ul><li>Introduce the <code>dplyr</code> package as a simpler, more
 intuitive way of doing subsetting.</li>
@@ -572,7 +572,7 @@ why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to Challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -708,7 +708,7 @@ expectancy?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to Challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -869,21 +869,20 @@ just one line:</p>
 <span>    <span class="fu">summarize</span><span class="op">(</span></span>
 <span>      mean_le <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>,</span>
 <span>      min_le <span class="op">=</span> <span class="fu">min</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>,</span>
-<span>      max_le <span class="op">=</span> <span class="fu">max</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span>,</span>
-<span>      se_le <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">/</span><span class="fu">sqrt</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>      max_le <span class="op">=</span> <span class="fu">max</span><span class="op">(</span><span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># A tibble: 5 × 5
-  continent mean_le min_le max_le se_le
-  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 Africa       48.9   23.6   76.4 0.366
-2 Americas     64.7   37.6   80.7 0.540
-3 Asia         60.1   28.8   82.6 0.596
-4 Europe       71.9   43.6   81.8 0.286
-5 Oceania      74.3   69.1   81.2 0.775</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 5 × 4
+  continent mean_le min_le max_le
+  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 Africa       48.9   23.6   76.4
+2 Americas     64.7   37.6   80.7
+3 Asia         60.1   28.8   82.6
+4 Europe       71.9   43.6   81.8
+5 Oceania      74.3   69.1   81.2</code></pre>
 </div>
 </section><section id="using-mutate"><h2 class="section-heading">Using <code>mutate()</code><a class="anchor" aria-label="anchor" href="#using-mutate"></a>
 </h2>
@@ -893,16 +892,21 @@ information using <code>mutate()</code>.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gdp_pop_bycontinents_byyear</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>gdp_billion <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">*</span><span class="va">pop</span><span class="op">/</span><span class="fl">10</span><span class="op">^</span><span class="fl">9</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">continent</span>, <span class="va">year</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>mean_gdpPercap <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span>,</span>
-<span>            sd_gdpPercap <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">gdpPercap</span><span class="op">)</span>,</span>
-<span>            mean_pop <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span>,</span>
-<span>            sd_pop <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">pop</span><span class="op">)</span>,</span>
-<span>            mean_gdp_billion <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gdp_billion</span><span class="op">)</span>,</span>
-<span>            sd_gdp_billion <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">gdp_billion</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">gdp_pop_billion</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>gdp_billion <span class="op">=</span> <span class="va">gdpPercap</span><span class="op">*</span><span class="va">pop</span><span class="op">/</span><span class="fl">10</span><span class="op">^</span><span class="fl">9</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">head</span><span class="op">(</span><span class="va">gdp_pop_billion</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>      country year      pop continent lifeExp gdpPercap gdp_billion
+1 Afghanistan 1952  8425333      Asia  28.801  779.4453    6.567086
+2 Afghanistan 1957  9240934      Asia  30.332  820.8530    7.585449
+3 Afghanistan 1962 10267083      Asia  31.997  853.1007    8.758856
+4 Afghanistan 1967 11537966      Asia  34.020  836.1971    9.648014
+5 Afghanistan 1972 13079460      Asia  36.088  739.9811    9.678553
+6 Afghanistan 1977 14880372      Asia  38.438  786.1134   11.697659</code></pre>
 </div>
 </section><section id="other-great-resources"><h2 class="section-heading">Other great resources<a class="anchor" aria-label="anchor" href="#other-great-resources"></a>
 </h2>
@@ -994,8 +998,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/06-dplyr.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/06-dplyr.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-12",
-  "datePublished": "2024-04-12"
+  "dateModified": "2024-04-16",
+  "datePublished": "2024-04-16"
 }
 
   </script><script>

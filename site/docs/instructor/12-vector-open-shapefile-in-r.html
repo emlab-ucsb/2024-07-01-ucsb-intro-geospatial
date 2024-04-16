@@ -370,7 +370,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Open and Plot Vector Layers</h1>
-        <p>Last updated on 2024-04-12 |
+        <p>Last updated on 2024-04-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/12-vector-open-shapefile-in-r.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -417,16 +417,18 @@ Harvard Forest field site</a>.</p>
 <section id="import-vector-data"><h2 class="section-heading">Import Vector Data<a class="anchor" aria-label="anchor" href="#import-vector-data"></a>
 </h2>
 <hr class="half-width"><p>We will use the <code>sf</code> package to work with vector data in
-R. We will also use the <code>terra</code> package, which has been
-loaded in previous episodes, so we can explore raster and vector spatial
-metadata using similar commands. Make sure you have the <code>sf</code>
-library loaded along with the other libraries we will need.</p>
+R. Fun fact: <code>sf</code> stands for “simple features”.</p>
+<p>If you haven’t downloaded the <code>sf</code> package yet, you can do
+so by going to the Packages tab in your R console and installing a new
+package, or you can type the following code into your R console:</p>
+<p><code>install.packages("sf")</code></p>
+<p>Make sure you have the <code>sf</code> library loaded along with the
+other libraries we will need.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">terra</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">sf</span><span class="op">)</span></span></code></pre>
 </div>
@@ -599,8 +601,8 @@ Projected CRS: WGS 84 / UTM zone 18N
 the <code>ggplot</code> package. Unlike with raster data, we do not need
 to convert vector data to a dataframe before plotting with
 <code>ggplot</code>.</p>
-<p>We’re going to customize our boundary plot by setting the size,
-color, and fill for our plot. When plotting <code>sf</code> objects with
+<p>We’re going to customize our boundary plot by setting the color and
+fill for our plot. When plotting <code>sf</code> objects with
 <code>ggplot2</code>, you need to use the <code>coord_sf()</code>
 coordinate system.</p>
 <div class="codewrapper sourceCode" id="cb12">
@@ -608,7 +610,7 @@ coordinate system.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">aoi_boundary_HARV</span>, size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="st">"black"</span>, fill <span class="op">=</span> <span class="st">"cyan1"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">aoi_boundary_HARV</span>, color <span class="op">=</span> <span class="st">"black"</span>, fill <span class="op">=</span> <span class="st">"cyan1"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"AOI Boundary Plot"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
@@ -912,8 +914,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/12-vector-open-shapefile-in-r.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/12-vector-open-shapefile-in-r.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-12",
-  "datePublished": "2024-04-12"
+  "dateModified": "2024-04-16",
+  "datePublished": "2024-04-16"
 }
 
   </script><script>

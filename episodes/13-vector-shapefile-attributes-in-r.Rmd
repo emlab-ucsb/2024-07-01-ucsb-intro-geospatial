@@ -33,8 +33,8 @@ attribute values.
 
 We will continue using the `sf`, `terra` and `ggplot2` packages in this
 episode. Make sure that you have these packages loaded. We will continue to
-work with the three ESRI `shapefiles` (vector layers) that we loaded in the
-[Open and Plot Vector Layers in R](06-vector-open-shapefile-in-r/) episode.
+work with the three ESRI `shapefiles` (vector layers) that we loaded in a
+previous episode.
 
 ```{r load-libraries, message=FALSE, results="hide"}
 library(terra)
@@ -44,7 +44,6 @@ library(sf)
 ```
 
 ```{r load-data, results="hide"}
-# learners will have this data loaded from previous episodes
 point_HARV <-
     st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
 lines_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")

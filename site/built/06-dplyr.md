@@ -412,20 +412,19 @@ gapminder %>%
     summarize(
       mean_le = mean(lifeExp),
       min_le = min(lifeExp),
-      max_le = max(lifeExp),
-      se_le = sd(lifeExp)/sqrt(n())) %>% 
+      max_le = max(lifeExp)) %>% 
   ungroup()
 ```
 
 ```{.output}
-# A tibble: 5 × 5
-  continent mean_le min_le max_le se_le
-  <chr>       <dbl>  <dbl>  <dbl> <dbl>
-1 Africa       48.9   23.6   76.4 0.366
-2 Americas     64.7   37.6   80.7 0.540
-3 Asia         60.1   28.8   82.6 0.596
-4 Europe       71.9   43.6   81.8 0.286
-5 Oceania      74.3   69.1   81.2 0.775
+# A tibble: 5 × 4
+  continent mean_le min_le max_le
+  <chr>       <dbl>  <dbl>  <dbl>
+1 Africa       48.9   23.6   76.4
+2 Americas     64.7   37.6   80.7
+3 Asia         60.1   28.8   82.6
+4 Europe       71.9   43.6   81.8
+5 Oceania      74.3   69.1   81.2
 ```
 
 ## Using `mutate()`
@@ -434,16 +433,20 @@ We can also create new variables prior to (or even after) summarizing informatio
 
 
 ```r
-gdp_pop_bycontinents_byyear <- gapminder %>%
-  mutate(gdp_billion = gdpPercap*pop/10^9) %>%
-  group_by(continent, year) %>%
-  summarize(mean_gdpPercap = mean(gdpPercap),
-            sd_gdpPercap = sd(gdpPercap),
-            mean_pop = mean(pop),
-            sd_pop = sd(pop),
-            mean_gdp_billion = mean(gdp_billion),
-            sd_gdp_billion = sd(gdp_billion)) %>% 
-  ungroup()
+gdp_pop_billion <- gapminder %>%
+  mutate(gdp_billion = gdpPercap*pop/10^9)
+
+head(gdp_pop_billion)
+```
+
+```{.output}
+      country year      pop continent lifeExp gdpPercap gdp_billion
+1 Afghanistan 1952  8425333      Asia  28.801  779.4453    6.567086
+2 Afghanistan 1957  9240934      Asia  30.332  820.8530    7.585449
+3 Afghanistan 1962 10267083      Asia  31.997  853.1007    8.758856
+4 Afghanistan 1967 11537966      Asia  34.020  836.1971    9.648014
+5 Afghanistan 1972 13079460      Asia  36.088  739.9811    9.678553
+6 Afghanistan 1977 14880372      Asia  38.438  786.1134   11.697659
 ```
 
 ## Other great resources

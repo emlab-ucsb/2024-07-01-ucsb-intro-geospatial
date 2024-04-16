@@ -30,36 +30,18 @@ First, let's load in all relevant libraries and data to be used in this lesson:
 ```r
 library(ggplot2)
 library(dplyr)
-```
 
-```{.output}
-
-Attaching package: 'dplyr'
-```
-
-```{.output}
-The following objects are masked from 'package:stats':
-
-    filter, lag
-```
-
-```{.output}
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-```
-
-```r
 gapminder <- read.csv("data/gapminder_data.csv", header = TRUE)
-gapminder_small_2 <- filter(gapminder, continent == "Americas", year %in% c(1952, 2007))
 ```
 
-We also need to create a `cleaned-data` folder within the `data` folder. 
+We also need to create a `cleaned-data` folder within the `data` folder
+and a `figures` folder within the main project folder.
 We can do this manually or using code: 
 
 
 ```r
-dir.create("cleaned-data")
+dir.create("data/cleaned-data")
+dir.create("figures")
 ```
 
 ## Saving plots
@@ -80,7 +62,7 @@ arguments to this function.
 ```r
 ggplot(data = gapminder, mapping = aes(x = gdpPercap)) +
   geom_histogram()
-ggsave("Distribution-of-gdpPercap.pdf", width=12, height=4)
+ggsave("figures/Distribution-of-gdpPercap.pdf", width=12, height=4)
 ```
 
 Open up this document and have a look.
@@ -90,8 +72,7 @@ Open up this document and have a look.
 ## Challenge 1
 
 Create and save a new plot showing the side-by-side bar plot of gdp per capita
-in countries in the Americas in the years 1952 and 2007 that you created in the
-previous episode.
+in countries in the Americas in the years 1952 and 2007.
 
 
 
@@ -101,12 +82,16 @@ previous episode.
 
 
 ```r
-ggplot(data = gapminder_small_2, 
+gapminder_small <- gapminder %>% 
+  filter(continent == "Americas" & year %in% c(1952, 2007))
+
+ggplot(data = gapminder_small, 
        mapping = aes(x = country, y = gdpPercap, fill = as.factor(year))) +
   geom_col(position = "dodge") +
   coord_flip()
+
 # Note that ggsave saves by default the latest plot.
-ggsave("Distribution-of-gdpPercap.pdf", width = 12, height = 4)
+ggsave("figures/Distribution-of-gdpPercap.pdf", width = 12, height = 4)
 ```
 
 :::::::::::::::::::::::::
@@ -130,10 +115,11 @@ only want to focus on the gapminder data for Australia:
 
 
 ```r
-aust_subset <- filter(gapminder, country == "Australia")
+aust_subset <- gapminder %>% 
+  filter(country == "Australia")
 
 write.csv(aust_subset,
-  file="cleaned-data/gapminder-aus.csv"
+  file="data/cleaned-data/gapminder-aus.csv"
 )
 ```
 
@@ -162,7 +148,7 @@ To over write this behavior, we can do the following:
 ```r
 write.csv(
   aust_subset,
-  file="cleaned-data/gapminder-aus.csv",
+  file="data/cleaned-data/gapminder-aus.csv",
   row.names=FALSE
 )
 ```
@@ -181,7 +167,8 @@ in the `cleaned-data/` directory.
 
 
 ```r
-gapminder_after_1990 <- filter(gapminder, year > 1990)
+gapminder_after_1990 <- gapminder %>% 
+  filter(year > 1990)
 
 write.csv(gapminder_after_1990,
   file = "cleaned-data/gapminder-after-1990.csv",
