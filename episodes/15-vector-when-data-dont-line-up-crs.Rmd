@@ -35,7 +35,6 @@ We will continue to work with the some of the ESRI `shapefiles` that we loaded i
 previous episodes.
 
 ```{r load-libraries, message=FALSE, warning=FALSE, results="hide"}
-library(terra)
 library(sf)
 library(ggplot2)
 library(dplyr)
@@ -73,7 +72,7 @@ in the same projection to support plotting / mapping. Note that these skills
 are also required for any geoprocessing / spatial analysis. Data need to be in
 the same CRS to ensure accurate results.
 
-We will continue to use the `sf` and `terra` packages in this episode.
+We will continue to use the `sf` package in this episode.
 
 ## Import US Boundaries - Census Data
 

@@ -25,13 +25,13 @@ source("setup.R")
 
 This episode will review how to import spatial points stored in `.csv` (Comma
 Separated Value) format into R as an `sf` spatial object. We will also
-reproject data imported from an ESRI `shapefile` format, export the reprojected data as an ESRI `shapefile`, and plot raster and vector data as layers in the same plot.
+reproject data imported from an ESRI `shapefile` format and export the
+reprojected data as an ESRI `shapefile`.
 
 Let's load our packages and data for this episode: 
 
 
 ```{r load-libraries, message=FALSE, warning=FALSE, results="hide"}
-library(terra)
 library(ggplot2)
 library(dplyr)
 library(sf)
@@ -62,7 +62,7 @@ the `x,y` values that represent the coordinate location of each point and the
 associated attribute data - or columns describing each feature in the spatial
 object.
 
-We will continue using the `sf` and `terra` packages in this episode.
+We will continue using the `sf` package in this episode.
 
 ## Import .csv
 
