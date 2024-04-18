@@ -125,7 +125,7 @@ expectancy:
 
 :::::::::::::::  solution
 
-## Solution to challenge 1
+## Solution
 
 
 ```r
@@ -207,7 +207,7 @@ color coded by year.
 
 :::::::::::::::  solution
 
-## Solution to challenge 2
+## Solution
 
 First we create a new object with
 our filtered data:

@@ -78,7 +78,7 @@ in countries in the Americas in the years 1952 and 2007.
 
 :::::::::::::::  solution
 
-## Solution to challenge 1
+## Solution
 
 
 ```r
@@ -163,7 +163,7 @@ in the `cleaned-data/` directory.
 
 :::::::::::::::  solution
 
-## Solution to challenge 2
+## Solution
 
 
 ```r

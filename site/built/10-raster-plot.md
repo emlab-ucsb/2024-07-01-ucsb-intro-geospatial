@@ -244,7 +244,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Using Custom Breaks
+## Challenge 1: Plot Using Custom Breaks
 
 Create a plot of the Harvard Forest Digital Surface Model (DSM) that has:
 
@@ -255,7 +255,7 @@ Create a plot of the Harvard Forest Digital Surface Model (DSM) that has:
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r
@@ -373,7 +373,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Create DTM \& DSM for SJER
+## Challenge 2: Create DTM \& DSM for SJER
 
 Use the files in the `data/NEON-DS-Airborne-Remote-Sensing/SJER/` directory to 
 create a Digital Terrain Model map and Digital Surface Model map of the San 
@@ -389,7 +389,7 @@ Make sure to:
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r

@@ -256,7 +256,7 @@
 <div class="accordion accordion-flush" id="accordionFlush15">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading15">
-        <a href="14-vector-plot-shapefiles-custom-legend.html">14. Plot Multiple Vector Layers</a>
+        <a href="14-vector-plot-shapefiles-custom-legend.html">14. Plot Multiple Vector and Raster Layers</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -373,7 +373,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Convert from .csv to a Vector Layer</h1>
-        <p>Last updated on 2024-04-12 |
+        <p>Last updated on 2024-04-18 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/16-vector-csv-to-shapefile-in-r.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -414,16 +414,14 @@ data frame.</li>
 <p>This episode will review how to import spatial points stored in
 <code>.csv</code> (Comma Separated Value) format into R as an
 <code>sf</code> spatial object. We will also reproject data imported
-from an ESRI <code>shapefile</code> format, export the reprojected data
-as an ESRI <code>shapefile</code>, and plot raster and vector data as
-layers in the same plot.</p>
+from an ESRI <code>shapefile</code> format and export the reprojected
+data as an ESRI <code>shapefile</code>.</p>
 <p>Let’s load our packages and data for this episode:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">terra</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">sf</span><span class="op">)</span></span></code></pre>
 </div>
@@ -455,8 +453,8 @@ can convert it into an <code>sf</code> spatial object. The
 values that represent the coordinate location of each point and the
 associated attribute data - or columns describing each feature in the
 spatial object.</p>
-<p>We will continue using the <code>sf</code> and <code>terra</code>
-packages in this episode.</p>
+<p>We will continue using the <code>sf</code> package in this
+episode.</p>
 </section><section id="import-.csv"><h2 class="section-heading">Import .csv<a class="anchor" aria-label="anchor" href="#import-.csv"></a>
 </h2>
 <hr class="half-width"><p>To begin let’s import a <code>.csv</code> file that contains plot
@@ -731,53 +729,18 @@ conversion.</p>
 <span>                                   coords <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"easting"</span>, <span class="st">"northing"</span><span class="op">)</span>,</span>
 <span>                                   crs <span class="op">=</span> <span class="va">utm18nCRS</span><span class="op">)</span></span></code></pre>
 </div>
-<p>We should double check the CRS to make sure it is correct.</p>
+<p>We should double check the CRS to make sure it is correct and matches
+the CRS of <code>point_HARV</code>.</p>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">st_crs</span><span class="op">(</span><span class="va">plot_locations_sp_HARV</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">st_crs</span><span class="op">(</span><span class="va">plot_locations_sp_HARV</span><span class="op">)</span> <span class="op">==</span> <span class="fu">st_crs</span><span class="op">(</span><span class="va">point_HARV</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>Coordinate Reference System:
-  User input: WGS 84 / UTM zone 18N 
-  wkt:
-PROJCRS["WGS 84 / UTM zone 18N",
-    BASEGEOGCRS["WGS 84",
-        DATUM["World Geodetic System 1984",
-            ELLIPSOID["WGS 84",6378137,298.257223563,
-                LENGTHUNIT["metre",1]]],
-        PRIMEM["Greenwich",0,
-            ANGLEUNIT["degree",0.0174532925199433]],
-        ID["EPSG",4326]],
-    CONVERSION["UTM zone 18N",
-        METHOD["Transverse Mercator",
-            ID["EPSG",9807]],
-        PARAMETER["Latitude of natural origin",0,
-            ANGLEUNIT["Degree",0.0174532925199433],
-            ID["EPSG",8801]],
-        PARAMETER["Longitude of natural origin",-75,
-            ANGLEUNIT["Degree",0.0174532925199433],
-            ID["EPSG",8802]],
-        PARAMETER["Scale factor at natural origin",0.9996,
-            SCALEUNIT["unity",1],
-            ID["EPSG",8805]],
-        PARAMETER["False easting",500000,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8806]],
-        PARAMETER["False northing",0,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8807]]],
-    CS[Cartesian,2],
-        AXIS["(E)",east,
-            ORDER[1],
-            LENGTHUNIT["metre",1]],
-        AXIS["(N)",north,
-            ORDER[2],
-            LENGTHUNIT["metre",1]],
-    ID["EPSG",32618]]</code></pre>
+<pre class="output" tabindex="0"><code>[1] TRUE</code></pre>
 </div>
 </section><section id="plot-spatial-object"><h2 class="section-heading">Plot Spatial Object<a class="anchor" aria-label="anchor" href="#plot-spatial-object"></a>
 </h2>
@@ -789,7 +752,8 @@ object.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">plot_locations_sp_HARV</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of Plot Locations"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of Plot Locations"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/16-vector-csv-to-shapefile-in-r-rendered-plot-data-points-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="plot-extent"><h2 class="section-heading">Plot Extent<a class="anchor" aria-label="anchor" href="#plot-extent"></a>
 </h2>
@@ -797,27 +761,27 @@ object.</p>
 Layers in R</a> we learned about spatial object extent. When we plot
 several spatial layers in R using <code>ggplot</code>, all of the layers
 of the plot are considered in setting the boundaries of the plot. To
-show this, let’s plot our <code>aoi_boundary_HARV</code> object with our
-vegetation plots.</p>
+show this, let’s plot our <code>country_boundary_US</code> object.</p>
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">aoi_boundary_HARV</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">plot_locations_sp_HARV</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"AOI Boundary Plot"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">country_boundary_US</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">plot_locations_sp_HARV</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Country Boundary Plot"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/16-vector-csv-to-shapefile-in-r-rendered-plot-data-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>When we plot the two layers together, <code>ggplot</code> sets the
 plot boundaries so that they are large enough to include all of the data
 included in all of the layers. That’s really handy!</p>
-<div id="challenge---import-plot-additional-points" class="callout challenge">
+<div id="challenge-1-import-plot-additional-points" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge---import-plot-additional-points" class="callout-inner">
-<h3 class="callout-title">Challenge - Import &amp; Plot Additional
-Points<a class="anchor" aria-label="anchor" href="#challenge---import-plot-additional-points"></a>
+<div id="challenge-1-import-plot-additional-points" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Import &amp; Plot Additional
+Points<a class="anchor" aria-label="anchor" href="#challenge-1-import-plot-additional-points"></a>
 </h3>
 <div class="callout-content">
 <p>We want to add two phenology plots to our existing map of vegetation
@@ -838,7 +802,7 @@ your map!</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Answers</h4>
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
@@ -951,7 +915,8 @@ before. The data for the earlier plot was in UTM. Since we’re using
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">plot_locations_sp_HARV</span>, color <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>data <span class="op">=</span> <span class="va">newPlot.Sp.HARV</span>, color <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of All Plot Locations"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map of All Plot Locations"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">coord_sf</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/16-vector-csv-to-shapefile-in-r-rendered-plot-locations-harv-orange-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 </div>
@@ -977,7 +942,7 @@ path)</li>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">st_write</span><span class="op">(</span>obj <span class="op">=</span> <span class="va">plot_locations_sp_HARV</span>,</span>
-<span>         dsn <span class="op">=</span> <span class="st">"data/PlotLocations_HARV.shp"</span>, </span>
+<span>         dsn <span class="op">=</span> <span class="st">"data/cleaned-data/PlotLocations_HARV.shp"</span>, </span>
 <span>         driver <span class="op">=</span> <span class="st">"ESRI Shapefile"</span><span class="op">)</span></span></code></pre>
 </div>
 <div id="keypoints1" class="callout keypoints">
@@ -1059,8 +1024,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/16-vector-csv-to-shapefile-in-r.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/16-vector-csv-to-shapefile-in-r.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-12",
-  "datePublished": "2024-04-16"
+  "dateModified": "2024-04-18",
+  "datePublished": "2024-04-18"
 }
 
   </script><script>

@@ -175,7 +175,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Polygon by Attribute
+## Challenge 1: Plot Polygon by Attribute
 
 1. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` ESRI `shapefile`,
   create a map of study plot locations, with each point colored by the soil
@@ -189,7 +189,7 @@ ggplot() +
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we need to read in the data and see how many unique soils are represented
 in the `soilTypeOr` attribute.

@@ -140,11 +140,11 @@ crs(DTM_HARV, proj = TRUE)
 ```
 
 ```r
-crs(DTM_hill_proj, parse = TRUE)
+crs(DTM_hill_HARV, proj = TRUE)
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'crs': object 'DTM_hill_proj' not found
+```{.output}
+[1] "+proj=longlat +datum=WGS84 +no_defs"
 ```
 
 `DTM_HARV` is in the UTM projection, with units of meters.
@@ -230,7 +230,7 @@ hillshade to produce a nice looking, textured map!
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Reproject, then Plot a Digital Terrain Model
+## Challenge 1: Reproject, then Plot a Digital Terrain Model
 
 Create a map of the
 [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER)
@@ -240,7 +240,7 @@ Reproject the data as necessary to make things line up!
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r
@@ -273,21 +273,6 @@ ggplot() +
 ```
 
 <img src="fig/11-raster-reproject-in-r-rendered-challenge-code-reprojection-1.png" style="display: block; margin: auto;" />
-
-:::::::::::::::::::::::::
-
-If you completed the San Joaquin plotting challenge in the
-[Plot Raster Data in R](02-raster-plot/)
-episode, how does the map you just created compare to that map?
-
-:::::::::::::::  solution
-
-## Answers
-
-The maps look identical. Which is what they should be as the only difference
-is this one was reprojected from WGS84 to UTM prior to plotting.
-
-
 
 :::::::::::::::::::::::::
 

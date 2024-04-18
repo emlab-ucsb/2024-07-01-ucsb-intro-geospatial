@@ -1,5 +1,5 @@
 ---
-title: Plot Multiple Vector Layers
+title: Plot Multiple Vector and Raster Layers
 teaching: 40
 exercises: 20
 source: Rmd
@@ -29,14 +29,13 @@ same plot.
 
 ## Load the Data
 
-To work with vector data in R, we can use the `sf` library. The `terra`
-package also allows us to explore metadata using similar commands for both
-raster and vector files. We will also look into the `tmap` package for 
-the easy plotting of vector and raster objects together. 
+To work with vector data in R, we can use the `sf` package. To work with
+raster data in R, we can use the `terra` package. 
 Make sure that you have these packages loaded.
 
 We will continue to work with the three ESRI `shapefile` that we loaded in the
-[Open and Plot Vector Layers in R](06-vector-open-shapefile-in-r/) episode.
+[Open and Plot Vector Layers in R](12-vector-open-shapefile-in-r/) episode and
+the raster file we used in previous episodes.
 
 
 ```r
@@ -44,16 +43,15 @@ library(terra)
 library(ggplot2)
 library(dplyr)
 library(sf)
-library(tmap)
 ```
 
 
 ```r
+# Load the data
 aoi_boundary_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
 lines_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
 point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
 CHM_HARV <- rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
-CHM_HARV_df <- as.data.frame(CHM_HARV, xy = TRUE)
 
 # Load the color palette from earlier lessons
 road_colors <- c("blue", "green", "navy", "purple")
@@ -123,6 +121,7 @@ This tells the plot that anything filled with the "Tower location" tag will
 actually be colored black. 
 
 
+
 ```r
 ggplot() +
   geom_sf(data = aoi_boundary_HARV, fill = "grey", color = "grey") +
@@ -135,10 +134,13 @@ ggplot() +
 ```
 
 <img src="fig/14-vector-plot-shapefiles-custom-legend-rendered-plot-custom-shape-legend-1.png" style="display: block; margin: auto;" />
+
+
 Now lets adjust the legend titles by passing a `name` to the respective `color`
 and `fill` palettes. We can do this within the `color_scale_manual()` and 
 `color_fill_manual()` functions, or within the `labs()` function. If we don't
 want a title for either of those values, we can assign the name to NULL. 
+
 
 
 ```r
@@ -188,7 +190,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Polygon by Attribute
+## Challenge 1: Plot Polygon by Attribute
 
 1. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` ESRI `shapefile`,
   create a map of study plot locations, with each point colored by the soil
@@ -202,7 +204,7 @@ ggplot() +
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we need to read in the data and see how many unique soils are represented
 in the `soilTypeOr` attribute.
@@ -304,14 +306,62 @@ ggplot() +
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+## Plotting Raster \& Vector Data Together
 
-## Challenge: Plot Raster \& Vector Data Together
+You can plot vector data layered on top of raster data using the 
+`ggplot2` package or the [`tmap`](https://r-tmap.github.io/tmap/) 
+package. 
 
-You can plot vector data layered on top of raster data using the [`tmap`](https://r-tmap.github.io/tmap/) 
-package. The syntax for `tmap` is to first specify a layer to plot 
+We'll first go into how to do this using `ggplot`, and then we'll create
+a similar plot using `tmap`. 
+
+Together, let's create a plot that uses the NEON AOI Canopy Height Model
+`data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif` as a base
+layer. On top of the CHM, we will add the study site AOI, roads, and the tower
+location. 
+
+Remember for `ggplot` to be able to plot raster data, we first need
+to convert it to a data frame. 
+
+
+```r
+CHM_HARV_df <- as.data.frame(CHM_HARV, xy = TRUE)
+```
+
+Now we can add it to the plot as a `geom_raster()` object: 
+
+
+```r
+ggplot() + 
+  geom_raster(data = CHM_HARV_df, 
+              mapping = aes(x = x, y = y, fill = HARV_chmCrop)) + 
+  geom_sf(data = aoi_boundary_HARV, fill = "grey", color = "grey") +
+  geom_sf(data = lines_HARV) +
+  geom_sf(data = point_HARV) +
+  labs(title = "NEON Harvard Forest Field Site w/ Canopy Height Model", 
+       fill = "Canopy Height") +
+  coord_sf()
+```
+
+<img src="fig/14-vector-plot-shapefiles-custom-legend-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
+Now we can make a similar plot using `tmap`. 
+
+If you haven't downloaded the `tmap` package yet, you can do so by going to the
+Packages tab in your R console and installing a new package, or you can type
+the following code into your R console: 
+
+`install.packages("tmap")` 
+
+Once downloaded, remember to load `tmap` into your environment using: 
+
+
+```r
+library(tmap)
+```
+
+The syntax for `tmap` is to first specify a layer to plot 
 and then to specify the kind of layer it is.
-
 For example, if you wanted to plot a raster first, and then a vector 
 layer on top of it, you would write something like this: 
 
@@ -326,31 +376,20 @@ tm_shape(raster_object) + # first we specify the object to plot first
 You can specify things like color and shape within the `tm_sf()` function as
 `col = "black"` or `shape = 8` for example. 
 
-Create a plot that uses the NEON AOI Canopy Height Model
-`data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif` as a base
-layer. On top of the CHM, please add:
-
-- The study site AOI.
-- Roads.
-- The tower location.
-
-Be sure to give your plot a meaningful title by using `tm_title("Title here")`
+Once we make our plot, we can add a title by adding `tm_title("Title here")`
 at the end.
-
-:::::::::::::::  solution
-
-## Answers
 
 
 ```r
+# Create the plot
 tm_shape(CHM_HARV) + 
   tm_raster() + 
   tm_shape(lines_HARV) + 
-  tm_sf(col = "black") + 
+  tm_sf() + 
   tm_shape(aoi_boundary_HARV) + 
   tm_sf(col = "grey20") + 
   tm_shape(point_HARV) + 
-  tm_sf(shape = 8) + 
+  tm_sf(col = "black") + 
   tm_title("NEON Harvard Forest Field Site w/ Canopy Height Model")
 ```
 
@@ -359,11 +398,6 @@ SpatRaster object downsampled to 898 by 1115 cells.
 ```
 
 <img src="fig/14-vector-plot-shapefiles-custom-legend-rendered-challenge-vector-raster-overlay-1.png" style="display: block; margin: auto;" />
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 
 
 :::::::::::::::::::::::::::::::::::::::: keypoints

@@ -183,10 +183,11 @@ plot_locations_sp_HARV <- st_as_sf(plot_locations_HARV,
                                    crs = utm18nCRS)
 ```
 
-We should double check the CRS to make sure it is correct.
+We should double check the CRS to make sure it is correct and matches the
+CRS of `point_HARV`.
 
 ```{r}
-st_crs(plot_locations_sp_HARV)
+st_crs(plot_locations_sp_HARV) == st_crs(point_HARV)
 ```
 
 ## Plot Spatial Object
@@ -196,7 +197,8 @@ We now have a spatial R object, we can plot our newly created spatial object.
 ```{r plot-data-points}
 ggplot() +
   geom_sf(data = plot_locations_sp_HARV) +
-  labs(title = "Map of Plot Locations")
+  labs(title = "Map of Plot Locations") + 
+  coord_sf()
 ```
 
 ## Plot Extent
@@ -205,14 +207,14 @@ In
 [Open and Plot Vector Layers in R](12-vector-open-shapefile-in-r.html)
 we learned about spatial object extent. When we plot several spatial layers in
 R using `ggplot`, all of the layers of the plot are considered in setting the
-boundaries of the plot. To show this, let's plot our `aoi_boundary_HARV` object
-with our vegetation plots.
+boundaries of the plot. To show this, let's plot our `country_boundary_US` object.
 
 ```{r plot-data}
-ggplot() +
-  geom_sf(data = aoi_boundary_HARV) +
-  geom_sf(data = plot_locations_sp_HARV) +
-  labs(title = "AOI Boundary Plot")
+ggplot() + 
+  geom_sf(data = country_boundary_US) + 
+  geom_sf(data = plot_locations_sp_HARV) + 
+  labs(title = "Country Boundary Plot") + 
+  coord_sf()
 ```
 
 When we plot the two layers together, `ggplot` sets the plot boundaries so that
@@ -221,7 +223,7 @@ That's really handy!
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge - Import \& Plot Additional Points
+## Challenge 1: Import \& Plot Additional Points
 
 We want to add two phenology plots to our existing map of vegetation plot
 locations.
@@ -239,7 +241,7 @@ If you have extra time, feel free to add roads and other layers to your map!
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 1)
 First we will read in the new csv file and look at the data structure.
@@ -285,7 +287,8 @@ the data for us.
 ggplot() +
   geom_sf(data = plot_locations_sp_HARV, color = "orange") +
   geom_sf(data = newPlot.Sp.HARV, color = "lightblue") +
-  labs(title = "Map of All Plot Locations")
+  labs(title = "Map of All Plot Locations") + 
+  coord_sf()
 ```
 
 :::::::::::::::::::::::::
@@ -307,7 +310,7 @@ We can now export the spatial object as an ESRI `shapefile`.
 
 ```{r write-shapefile, warnings="hide", eval=FALSE}
 st_write(obj = plot_locations_sp_HARV,
-         dsn = "data/PlotLocations_HARV.shp", 
+         dsn = "data/cleaned-data/PlotLocations_HARV.shp", 
          driver = "ESRI Shapefile")
 ```
 

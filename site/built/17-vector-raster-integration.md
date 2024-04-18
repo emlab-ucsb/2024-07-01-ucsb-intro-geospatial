@@ -48,15 +48,15 @@ CHM_HARV <-
   rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 CHM_HARV_df <- as.data.frame(CHM_HARV, xy = TRUE)
-
-# Plot locations and the corresponding crs/spatial information
-plot_locations_HARV <-
-  read.csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv")
-utm18nCRS <- st_crs(point_HARV)
-plot_locations_sp_HARV <- st_as_sf(plot_locations_HARV,
-                                   coords = c("easting", "northing"),
-                                   crs = utm18nCRS)
 ```
+
+
+```r
+plot_locations_sp_HARV <- st_read("data/cleaned-data/PlotLocations_HARV.shp")
+```
+
+
+
 
 ## Crop a Raster to Vector Extent
 
@@ -164,59 +164,17 @@ ggplot() +
 
 <img src="fig/17-vector-raster-integration-rendered-view-crop-extent-1.png" style="display: block; margin: auto;" />
 
-We can look at the extent of all of our other objects for this field site.
-
-
-```r
-st_bbox(CHM_HARV)
-```
-
-```{.output}
-   xmin    ymin    xmax    ymax 
- 731453 4712471  733150 4713838 
-```
-
-```r
-st_bbox(CHM_HARV_Cropped)
-```
-
-```{.output}
-   xmin    ymin    xmax    ymax 
- 732128 4713209  732251 4713359 
-```
-
-```r
-st_bbox(aoi_boundary_HARV)
-```
-
-```{.output}
-     xmin      ymin      xmax      ymax 
- 732128.0 4713208.7  732251.1 4713359.2 
-```
-
-```r
-st_bbox(plot_locations_sp_HARV)
-```
-
-```{.output}
-     xmin      ymin      xmax      ymax 
- 731405.3 4712845.0  732275.3 4713846.3 
-```
-
-Our plot location extent is not the largest but is larger than the AOI
-Boundary. It would be nice to see our vegetation plot locations plotted on top
-of the Canopy Height Model information.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Crop to Vector Points Extent
+## Challenge 1: Crop to Vector Points Extent
 
 1. Crop the Canopy Height Model to the extent of the study plot locations.
 2. Plot the vegetation plot location points on top of the Canopy Height Model.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r
@@ -446,7 +404,7 @@ mean_tree_height_tower
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Extract Raster Height Values For Plot Locations
+## Challenge 2: Extract Raster Height Values For Plot Locations
 
 1) Use the plot locations object (`plot_locations_sp_HARV`) to extract an
   average tree height for the area within 20m of each vegetation plot location
@@ -457,7 +415,7 @@ mean_tree_height_tower
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r

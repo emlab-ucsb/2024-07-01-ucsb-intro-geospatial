@@ -513,7 +513,7 @@ names A through Z (hint: there is a built in vector called `LETTERS`)
 
 :::::::::::::::  solution
 
-## Solution to Challenge 2
+## Solution
 
 
 ```r
@@ -594,7 +594,7 @@ calculations utilise such numerical representations for categorical data.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge
+## Challenge 3
 
 Can you guess why these numbers are used to represent these countries?
 
@@ -611,7 +611,7 @@ They are sorted in alphabetical order
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge 3
+## Challenge 4
 
 Convert the `country` column of our `nordic` data frame to a factor. Then try
 converting it back to a character vector. 
@@ -624,7 +624,7 @@ Remember that you can reload the `nordic` data frame using
 
 :::::::::::::::  solution
 
-## Solution to Challenge 3
+## Solution
 
 Converting character vectors to factors can be done using the `factor()` 
 function:
@@ -821,7 +821,7 @@ another_list[["title"]]
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge 4
+## Challenge 5
 
 There are several subtly different ways to call variables, observations and
 elements from data frames:
@@ -840,7 +840,7 @@ Try out these examples and explain what is returned by each one.
 
 :::::::::::::::  solution
 
-## Solution to Challenge 4
+## Solution
 
 
 ```r

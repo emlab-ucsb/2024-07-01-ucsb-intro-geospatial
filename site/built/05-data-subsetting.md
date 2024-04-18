@@ -272,7 +272,7 @@ After you find 3 different commands, compare notes with your neighbour. Did you 
 
 :::::::::::::::  solution
 
-## Solution to challenge 1
+## Solution
 
 
 ```r
@@ -464,7 +464,7 @@ Write a subsetting command to return the values in x that are greater than 4 and
 
 :::::::::::::::  solution
 
-## Solution to challenge 2
+## Solution
 
 
 ```r
@@ -632,7 +632,7 @@ Fix each of the following common data frame subsetting errors:
 
 :::::::::::::::  solution
 
-## Solution to challenge 3
+## Solution
 
 Fix each of the following common data frame subsetting errors:
 
@@ -695,7 +695,7 @@ Fix each of the following common data frame subsetting errors:
 
 :::::::::::::::  solution
 
-## Solution to challenge 4
+## Solution
 
 1. `gapminder` is a data.frame so it needs to be subsetted on two dimensions. `gapminder[1:20, ]` subsets the data to give the first 20 rows and all columns.
 

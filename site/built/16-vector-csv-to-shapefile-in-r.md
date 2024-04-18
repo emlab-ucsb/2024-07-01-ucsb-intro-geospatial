@@ -23,14 +23,14 @@ source: Rmd
 
 This episode will review how to import spatial points stored in `.csv` (Comma
 Separated Value) format into R as an `sf` spatial object. We will also
-reproject data imported from an ESRI `shapefile` format, export the reprojected data as an ESRI `shapefile`, and plot raster and vector data as layers in the same plot.
+reproject data imported from an ESRI `shapefile` format and export the
+reprojected data as an ESRI `shapefile`.
 
 Let's load our packages and data for this episode: 
 
 
 
 ```r
-library(terra)
 library(ggplot2)
 library(dplyr)
 library(sf)
@@ -62,7 +62,7 @@ the `x,y` values that represent the coordinate location of each point and the
 associated attribute data - or columns describing each feature in the spatial
 object.
 
-We will continue using the `sf` and `terra` packages in this episode.
+We will continue using the `sf` package in this episode.
 
 ## Import .csv
 
@@ -325,51 +325,16 @@ plot_locations_sp_HARV <- st_as_sf(plot_locations_HARV,
                                    crs = utm18nCRS)
 ```
 
-We should double check the CRS to make sure it is correct.
+We should double check the CRS to make sure it is correct and matches the
+CRS of `point_HARV`.
 
 
 ```r
-st_crs(plot_locations_sp_HARV)
+st_crs(plot_locations_sp_HARV) == st_crs(point_HARV)
 ```
 
 ```{.output}
-Coordinate Reference System:
-  User input: WGS 84 / UTM zone 18N 
-  wkt:
-PROJCRS["WGS 84 / UTM zone 18N",
-    BASEGEOGCRS["WGS 84",
-        DATUM["World Geodetic System 1984",
-            ELLIPSOID["WGS 84",6378137,298.257223563,
-                LENGTHUNIT["metre",1]]],
-        PRIMEM["Greenwich",0,
-            ANGLEUNIT["degree",0.0174532925199433]],
-        ID["EPSG",4326]],
-    CONVERSION["UTM zone 18N",
-        METHOD["Transverse Mercator",
-            ID["EPSG",9807]],
-        PARAMETER["Latitude of natural origin",0,
-            ANGLEUNIT["Degree",0.0174532925199433],
-            ID["EPSG",8801]],
-        PARAMETER["Longitude of natural origin",-75,
-            ANGLEUNIT["Degree",0.0174532925199433],
-            ID["EPSG",8802]],
-        PARAMETER["Scale factor at natural origin",0.9996,
-            SCALEUNIT["unity",1],
-            ID["EPSG",8805]],
-        PARAMETER["False easting",500000,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8806]],
-        PARAMETER["False northing",0,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8807]]],
-    CS[Cartesian,2],
-        AXIS["(E)",east,
-            ORDER[1],
-            LENGTHUNIT["metre",1]],
-        AXIS["(N)",north,
-            ORDER[2],
-            LENGTHUNIT["metre",1]],
-    ID["EPSG",32618]]
+[1] TRUE
 ```
 
 ## Plot Spatial Object
@@ -380,7 +345,8 @@ We now have a spatial R object, we can plot our newly created spatial object.
 ```r
 ggplot() +
   geom_sf(data = plot_locations_sp_HARV) +
-  labs(title = "Map of Plot Locations")
+  labs(title = "Map of Plot Locations") + 
+  coord_sf()
 ```
 
 <img src="fig/16-vector-csv-to-shapefile-in-r-rendered-plot-data-points-1.png" style="display: block; margin: auto;" />
@@ -391,15 +357,15 @@ In
 [Open and Plot Vector Layers in R](12-vector-open-shapefile-in-r.html)
 we learned about spatial object extent. When we plot several spatial layers in
 R using `ggplot`, all of the layers of the plot are considered in setting the
-boundaries of the plot. To show this, let's plot our `aoi_boundary_HARV` object
-with our vegetation plots.
+boundaries of the plot. To show this, let's plot our `country_boundary_US` object.
 
 
 ```r
-ggplot() +
-  geom_sf(data = aoi_boundary_HARV) +
-  geom_sf(data = plot_locations_sp_HARV) +
-  labs(title = "AOI Boundary Plot")
+ggplot() + 
+  geom_sf(data = country_boundary_US) + 
+  geom_sf(data = plot_locations_sp_HARV) + 
+  labs(title = "Country Boundary Plot") + 
+  coord_sf()
 ```
 
 <img src="fig/16-vector-csv-to-shapefile-in-r-rendered-plot-data-1.png" style="display: block; margin: auto;" />
@@ -410,7 +376,7 @@ That's really handy!
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge - Import \& Plot Additional Points
+## Challenge 1: Import \& Plot Additional Points
 
 We want to add two phenology plots to our existing map of vegetation plot
 locations.
@@ -428,7 +394,7 @@ If you have extra time, feel free to add roads and other layers to your map!
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 1)
 First we will read in the new csv file and look at the data structure.
@@ -536,7 +502,8 @@ the data for us.
 ggplot() +
   geom_sf(data = plot_locations_sp_HARV, color = "orange") +
   geom_sf(data = newPlot.Sp.HARV, color = "lightblue") +
-  labs(title = "Map of All Plot Locations")
+  labs(title = "Map of All Plot Locations") + 
+  coord_sf()
 ```
 
 <img src="fig/16-vector-csv-to-shapefile-in-r-rendered-plot-locations-harv-orange-1.png" style="display: block; margin: auto;" />
@@ -561,7 +528,7 @@ We can now export the spatial object as an ESRI `shapefile`.
 
 ```r
 st_write(obj = plot_locations_sp_HARV,
-         dsn = "data/PlotLocations_HARV.shp", 
+         dsn = "data/cleaned-data/PlotLocations_HARV.shp", 
          driver = "ESRI Shapefile")
 ```
 

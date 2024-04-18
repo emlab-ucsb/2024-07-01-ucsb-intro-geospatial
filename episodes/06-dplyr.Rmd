@@ -127,7 +127,7 @@ have and why?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 1
+## Solution
 
 ```{r}
 year_country_lifeExp_Africa <- gapminder %>%
@@ -201,7 +201,7 @@ expectancy and which has the shortest average life expectancy?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 2
+## Solution
 
 ```{r}
 lifeExp_bycountry <- gapminder %>%

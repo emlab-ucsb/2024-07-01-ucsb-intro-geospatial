@@ -151,7 +151,7 @@ have and why?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 1
+## Solution
 
 
 ```r
@@ -271,7 +271,7 @@ expectancy and which has the shortest average life expectancy?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 2
+## Solution
 
 
 ```r

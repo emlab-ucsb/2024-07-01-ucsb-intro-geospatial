@@ -94,7 +94,7 @@ head(lines_HARV)
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Attributes for Different Spatial Classes
+## Challenge 1: Attributes for Different Spatial Classes
 
 Explore the attributes associated with the `point_HARV` and `aoi_boundary_HARV`
 spatial objects.
@@ -109,7 +109,7 @@ spatial objects.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 1) To find the number of attributes, we use the `ncol()` function:
 
@@ -212,13 +212,13 @@ Now, we see that there are in fact two features in our plot!
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Subset Spatial Line Objects Part 1
+## Challenge 2: Subset Spatial Line Objects Part 1
 
 Subset out all `boardwalk` from the lines layer and plot it.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we will save an object with only the boardwalk lines:
 
@@ -249,14 +249,14 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Subset Spatial Line Objects Part 2
+## Challenge 3: Subset Spatial Line Objects Part 2
 
 Subset out all `stone wall` features from the lines layer and plot it. For each
 plot, color each feature using a unique color.
 
 :::::::::::::::  solution
 
-## Answer
+## Solution
 
 First we will save an object with only the stone wall lines and check the
 number of features:
@@ -362,7 +362,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Line Width by Attribute
+## Challenge 4: Plot Line Width by Attribute
 
 In the example above, we set the line widths to be 1, 2, 3, and 4. Because R
 orders alphabetically by default, this gave us a plot where woods roads (the
@@ -378,7 +378,7 @@ following thicknesses:
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we need to look at the levels of our factor to see
 what order the road types are in:
@@ -485,7 +485,7 @@ So our new line would be:
 
 ggplot() +
   geom_sf(data = lines_HARV, 
-          mapping = aes(color = TYPE), width = 1.5) +
+          mapping = aes(color = TYPE), linewidth = 1.5) +
   scale_color_manual(values = road_colors) +
   labs(color = "Road Type", 
        title = "NEON Harvard Forest Field Site",
@@ -512,7 +512,7 @@ You can also use colorblind-friendly palettes such as those in the
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Lines by Attribute
+## Challenge 5: Plot Lines by Attribute
 
 Create a plot that emphasizes only roads where bicycles and horses are allowed.
 To emphasize this, make the lines where bicycles are not allowed THINNER than
@@ -526,7 +526,7 @@ other lines can be black.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we explore the `BicyclesHo` attribute to learn the values that correspond
 to the roads we need.
@@ -567,7 +567,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Polygon by Attribute
+## Challenge 6: Plot Polygon by Attribute
 
 Create a map of the state boundaries in the United States using the data
   located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`.
@@ -579,7 +579,7 @@ Be sure to add a legend to your plot as well.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we read in the data and check how many levels there are in the `region`
 column:

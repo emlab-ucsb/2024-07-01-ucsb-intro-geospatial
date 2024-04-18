@@ -240,7 +240,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge - Plot Multiple Layers of Spatial Data
+## Challenge 1: Plot Multiple Layers of Spatial Data
 
 Create a map of the North Eastern United States as follows:
 
@@ -254,7 +254,7 @@ Create a map of the North Eastern United States as follows:
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 ```{r ne-states-harv}
 NE.States.Boundary.US <- st_read("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/Boundary-US-State-NEast.shp") %>%

@@ -29,14 +29,13 @@ attribute values.
 
 ## Load the Data
 
-We will continue using the `sf`, `terra` and `ggplot2` packages in this
+We will continue using the `sf` and `ggplot2` packages in this
 episode. Make sure that you have these packages loaded. We will continue to
 work with the three ESRI `shapefiles` (vector layers) that we loaded in a
 previous episode.
 
 
 ```r
-library(terra)
 library(ggplot2)
 library(dplyr)
 library(sf)
@@ -54,7 +53,7 @@ aoi_boundary_HARV <-
 ## Query Vector Feature Metadata
 
 As we discussed in the
-[Open and Plot Vector Layers in R](06-vector-open-shapefile-in-r/)
+[Open and Plot Vector Layers in R](12-vector-open-shapefile-in-r/)
 episode, we can view metadata associated with an R object using:
 
 - `st_geometry_type()` - The type of vector data stored in the object.
@@ -63,27 +62,66 @@ episode, we can view metadata associated with an R object using:
 - `st_crs()` - The CRS (spatial projection) of the data.
 
 We started to explore our `point_HARV` object in the previous episode. To see a
-summary of all of the metadata associated with our `point_HARV` object, we can
+summary of all of the metadata associated with our object, we can
 view the object with `View(point_HARV)` or print a summary of the object itself
-to the console.
+to the console. We're going to do this, but with `lines_HARV` today:
 
 
 ```r
-point_HARV
+lines_HARV
 ```
 
 ```{.output}
-Simple feature collection with 1 feature and 14 fields
-Geometry type: POINT
+Simple feature collection with 13 features and 15 fields
+Geometry type: MULTILINESTRING
 Dimension:     XY
-Bounding box:  xmin: 732183.2 ymin: 4713265 xmax: 732183.2 ymax: 4713265
+Bounding box:  xmin: 730741.2 ymin: 4711942 xmax: 733295.5 ymax: 4714260
 Projected CRS: WGS 84 / UTM zone 18N
-  Un_ID Domain DomainName       SiteName Type       Sub_Type     Lat      Long
-1     A      1  Northeast Harvard Forest Core Advanced Tower 42.5369 -72.17266
-  Zone  Easting Northing                Ownership    County annotation
-1   18 732183.2  4713265 Harvard University, LTER Worcester         C1
-                  geometry
-1 POINT (732183.2 4713265)
+First 10 features:
+   OBJECTID_1 OBJECTID       TYPE             NOTES MISCNOTES RULEID
+1          14       48 woods road Locust Opening Rd      <NA>      5
+2          40       91   footpath              <NA>      <NA>      6
+3          41      106   footpath              <NA>      <NA>      6
+4         211      279 stone wall              <NA>      <NA>      1
+5         212      280 stone wall              <NA>      <NA>      1
+6         213      281 stone wall              <NA>      <NA>      1
+7         214      282 stone wall              <NA>      <NA>      1
+8         215      283 stone wall              <NA>      <NA>      1
+9         216      284 stone wall              <NA>      <NA>      1
+10        553      674  boardwalk              <NA>      <NA>      2
+            MAPLABEL SHAPE_LENG             LABEL BIKEHORSE RESVEHICLE RECMAP
+1  Locust Opening Rd 1297.35706 Locust Opening Rd         Y         R1      Y
+2               <NA>  146.29984              <NA>         Y         R1      Y
+3               <NA>  676.71804              <NA>         Y         R2      Y
+4               <NA>  231.78957              <NA>      <NA>       <NA>   <NA>
+5               <NA>   45.50864              <NA>      <NA>       <NA>   <NA>
+6               <NA>  198.39043              <NA>      <NA>       <NA>   <NA>
+7               <NA>  143.19240              <NA>      <NA>       <NA>   <NA>
+8               <NA>   90.33118              <NA>      <NA>       <NA>   <NA>
+9               <NA>   35.88146              <NA>      <NA>       <NA>   <NA>
+10              <NA>   67.43464              <NA>         N         R3      N
+   Shape_Le_1                            ResVehic_1                  BicyclesHo
+1  1297.10617    R1 - All Research Vehicles Allowed Bicycles and Horses Allowed
+2   146.29983    R1 - All Research Vehicles Allowed Bicycles and Horses Allowed
+3   676.71807 R2 - 4WD/High Clearance Vehicles Only Bicycles and Horses Allowed
+4   231.78962                                  <NA>                        <NA>
+5    45.50859                                  <NA>                        <NA>
+6   198.39041                                  <NA>                        <NA>
+7   143.19241                                  <NA>                        <NA>
+8    90.33114                                  <NA>                        <NA>
+9    35.88152                                  <NA>                        <NA>
+10   67.43466              R3 - No Vehicles Allowed      DO NOT SHOW ON REC MAP
+                         geometry
+1  MULTILINESTRING ((730819.2 ...
+2  MULTILINESTRING ((732040.2 ...
+3  MULTILINESTRING ((732057 47...
+4  MULTILINESTRING ((731903.6 ...
+5  MULTILINESTRING ((732039.1 ...
+6  MULTILINESTRING ((732056.2 ...
+7  MULTILINESTRING ((731964 47...
+8  MULTILINESTRING ((732105.2 ...
+9  MULTILINESTRING ((732222.9 ...
+10 MULTILINESTRING ((732153.8 ...
 ```
 
 We can use the `ncol` function to count the number of attributes associated
@@ -160,7 +198,7 @@ Projected CRS: WGS 84 / UTM zone 18N
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Attributes for Different Spatial Classes
+## Challenge 1: Attributes for Different Spatial Classes
 
 Explore the attributes associated with the `point_HARV` and `aoi_boundary_HARV`
 spatial objects.
@@ -175,7 +213,7 @@ spatial objects.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 1) To find the number of attributes, we use the `ncol()` function:
 
@@ -250,8 +288,7 @@ lines_HARV$TYPE
 ```
 
 To see only unique values within the `TYPE` field, we can use the `unique()`
-function for extracting the possible values of a character variable (R also is
-able to handle categorical variables called factors).
+function for extracting the possible values of a character variable.
 
 
 ```r
@@ -304,17 +341,20 @@ There are two features in our footpaths subset. Why does the plot look like
 there is only one feature? Let's adjust the colors used in our plot. If we have
 2 features in our vector object, we can plot each using a unique color by
 assigning a column name to the color aesthetic (`color =`). We use the syntax
-`mapping = aes(color = )` to do this. We can also alter the default line thickness by
-using the `size =` parameter, as the default value of 0.5 can be hard to see.
-Note that size is placed outside of the `aes()` function, as we are not
+`mapping = aes(color = )` to do this. We'll use the `OBJECTID` column for the 
+color aesthetic in this example, but because it is a number, we will have to
+convert it to a categorical value (a factor) first. 
+We can also alter the default line thickness by
+using the `linewidth =` parameter, as the default value can be hard to see.
+Note that `linewidth` is placed outside of the `aes()` function, as we are not
 connecting line thickness to a data variable.
 
 
 ```r
 ggplot() +
   geom_sf(data = footpath_HARV, 
-          mapping = aes(color = factor(OBJECTID)), size = 1.5) +
-  labs(color = 'Footpath ID', 
+          mapping = aes(color = factor(OBJECTID)), linewidth = 1.5) +
+  labs(color = "Footpath ID", 
        title = "NEON Harvard Forest Field Site", 
        subtitle = "Footpaths") +
   coord_sf()
@@ -329,13 +369,13 @@ Now, we see that there are in fact two features in our plot!
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Subset Spatial Line Objects Part 1
+## Challenge 2: Subset Spatial Line Objects Part 1
 
 Subset out all `boardwalk` from the lines layer and plot it.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we will save an object with only the boardwalk lines:
 
@@ -361,7 +401,7 @@ Now let's plot that data:
 
 ```r
 ggplot() +
-  geom_sf(data = boardwalk_HARV, size = 1.5) +
+  geom_sf(data = boardwalk_HARV, linewidth = 1.5) +
   labs(title = "NEON Harvard Forest Field Site", 
        subtitle = "Boardwalks") +
   coord_sf()
@@ -378,14 +418,14 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Subset Spatial Line Objects Part 2
+## Challenge 3: Subset Spatial Line Objects Part 2
 
 Subset out all `stone wall` features from the lines layer and plot it. For each
 plot, color each feature using a unique color.
 
 :::::::::::::::  solution
 
-## Answer
+## Solution
 
 First we will save an object with only the stone wall lines and check the
 number of features:
@@ -407,8 +447,8 @@ Now we can plot the data:
 ```r
 ggplot() +
   geom_sf(data = stoneWall_HARV, 
-          mapping = aes(color = factor(OBJECTID)), size = 1.5) +
-  labs(color = 'Wall ID', 
+          mapping = aes(color = factor(OBJECTID)), linewidth = 1.5) +
+  labs(color = "Wall ID", 
        title = "NEON Harvard Forest Field Site",
        subtitle = "Stonewalls") +
   coord_sf()
@@ -455,7 +495,7 @@ We can tell `ggplot` to use these colors when we plot the data.
 ggplot() +
   geom_sf(data = lines_HARV, mapping = aes(color = TYPE)) +
   scale_color_manual(values = road_colors) +
-  labs(color = 'Road Type', 
+  labs(color = "Road Type", 
        title = "NEON Harvard Forest Field Site", 
        subtitle = "Roads & Trails") +
   coord_sf()
@@ -465,6 +505,24 @@ ggplot() +
 <img src="fig/13-vector-shapefile-attributes-in-r-rendered-harv-paths-map-1.png" alt="Roads and trails in the area."  />
 <p class="caption">Roads and trails in the area.</p>
 </div>
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Data Tip
+
+Note that `ggplot` automatically decides which colors belong with which variables, based
+on the order of the colors in the color vector, and the alphabetical order of the 
+road types. You can specify which colors to use for which road type by creating
+a named vector: 
+
+
+```r
+road_colors <- c("stone wall" = "blue", "board walk" = "green",
+                 "footpath" = "navy", "woods road" = "purple")
+```
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ### Adjust Line Width
@@ -490,7 +548,8 @@ ggplot() +
           mapping = aes(color = TYPE, linewidth = TYPE)) +
   scale_color_manual(values = road_colors) +
   scale_linewidth_manual(values = line_widths) +
-  labs(color = 'Road Type', 
+  labs(color = "Road Type",
+       linewidth = "Road Type",
        title = "NEON Harvard Forest Field Site",
        subtitle = "Roads & Trails - Line width varies") +
   coord_sf()
@@ -501,10 +560,9 @@ ggplot() +
 <p class="caption">Roads and trails in the area demonstrating how to use different line thickness and colors.</p>
 </div>
 
-
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Line Width by Attribute
+## Challenge 4: Plot Line Width by Attribute
 
 In the example above, we set the line widths to be 1, 2, 3, and 4. Because R
 orders alphabetically by default, this gave us a plot where woods roads (the
@@ -513,14 +571,14 @@ last type) were the thickest and boardwalks were the thinnest.
 Let's create another plot where we show the different line types with the
 following thicknesses:
 
-1. woods road size = 6
-2. boardwalks size = 1
-3. footpath size = 3
-4. stone wall size = 2
+1. woods road width = 6
+2. boardwalks width = 1
+3. footpath width = 3
+4. stone wall width = 2
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we need to look at the levels of our factor to see
 what order the road types are in:
@@ -589,9 +647,9 @@ to the bottom by specifying `theme(legend.position = "bottom")`.
 ```r
 ggplot() +
   geom_sf(data = lines_HARV, 
-          mapping = aes(color = TYPE), size = 1.5) +
+          mapping = aes(color = TYPE), linewidth = 1.5) +
   scale_color_manual(values = road_colors) +
-  labs(color = 'Road Type', 
+  labs(color = "Road Type", 
        title = "NEON Harvard Forest Field Site",
        subtitle = "Roads & Trails - Default Legend") +
   coord_sf() + 
@@ -624,9 +682,9 @@ for the text, etc.
 ```r
 ggplot() +
   geom_sf(data = lines_HARV, 
-          mapping = aes(color = TYPE), size = 1.5) +
+          mapping = aes(color = TYPE), linewidth = 1.5) +
   scale_color_manual(values = road_colors) +
-  labs(color = 'Road Type', 
+  labs(color = "Road Type", 
        title = "NEON Harvard Forest Field Site",
        subtitle = "Roads & Trails - Default Legend") +
   coord_sf() + 
@@ -647,12 +705,13 @@ So our new line would be:
 `theme(legend.box.background = element_rect(color = "black"))`
 
 
+
 ```r
 ggplot() +
   geom_sf(data = lines_HARV, 
-          mapping = aes(color = TYPE), size = 1.5) +
+          mapping = aes(color = TYPE), linewidth = 1.5) +
   scale_color_manual(values = road_colors) +
-  labs(color = 'Road Type', 
+  labs(color = "Road Type", 
        title = "NEON Harvard Forest Field Site",
        subtitle = "Roads & Trails - Default Legend") +
   coord_sf() + 
@@ -662,7 +721,7 @@ ggplot() +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/13-vector-shapefile-attributes-in-r-rendered-modify-legend-plot_2-1.png" alt="Map of the paths in the study area with large-font and an outline around the legend."  />
+<img src="fig/13-vector-shapefile-attributes-in-r-rendered-modify-legend-plot-box-1.png" alt="Map of the paths in the study area with large-font and an outline around the legend."  />
 <p class="caption">Map of the paths in the study area with large-font and an outline around the legend.</p>
 </div>
 
@@ -682,7 +741,7 @@ You can also use colorblind-friendly palettes such as those in the
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Lines by Attribute
+## Challenge 5: Plot Lines by Attribute
 
 Create a plot that emphasizes only roads where bicycles and horses are allowed.
 To emphasize this, make the lines where bicycles are not allowed THINNER than
@@ -696,7 +755,7 @@ other lines can be black.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we explore the `BicyclesHo` attribute to learn the values that correspond
 to the roads we need.
@@ -750,7 +809,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Plot Polygon by Attribute
+## Challenge 6: Plot Polygon by Attribute
 
 Create a map of the state boundaries in the United States using the data
   located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`.
@@ -762,7 +821,7 @@ Be sure to add a legend to your plot as well.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we read in the data and check how many levels there are in the `region`
 column:

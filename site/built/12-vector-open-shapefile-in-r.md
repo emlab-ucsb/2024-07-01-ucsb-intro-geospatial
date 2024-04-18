@@ -221,7 +221,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Import Line and Point Vector Layers
+## Challenge 1: Import Line and Point Vector Layers
 
 Using the steps above, import the HARV\_roads and HARVtower\_UTM18N vector layers into
 R. Call the HARV\_roads object `lines_HARV` and the HARVtower\_UTM18N
@@ -239,7 +239,7 @@ Answer the following questions:
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 First we import the data:
 

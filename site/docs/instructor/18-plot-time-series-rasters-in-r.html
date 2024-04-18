@@ -256,7 +256,7 @@
 <div class="accordion accordion-flush" id="accordionFlush15">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading15">
-        <a href="14-vector-plot-shapefiles-custom-legend.html">14. Plot Multiple Vector Layers</a>
+        <a href="14-vector-plot-shapefiles-custom-legend.html">14. Plot Multiple Vector and Raster Layers</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -371,7 +371,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Create Publication-quality Graphics</h1>
-        <p>Last updated on 2024-04-12 |
+        <p>Last updated on 2024-04-18 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/18-plot-time-series-rasters-in-r.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -392,7 +392,8 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How can I create a publication-quality graphic and customize plot
+<ul><li>How can I deal with multiple raster layers?</li>
+<li>How can I create a publication-quality graphic and customize plot
 parameters?</li>
 </ul></div>
 </div>
@@ -401,7 +402,8 @@ parameters?</li>
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Assign custom names to bands in a RasterStack.</li>
+<ul><li>Create a raster stack</li>
+<li>Assign custom names to bands in a RasterStack.</li>
 <li>Customize raster plots using the <code>ggplot2</code> package.</li>
 </ul></div>
 </div>
@@ -412,7 +414,13 @@ parameters?</li>
 <code>ggplot2</code> package in R to create publication-quality
 plots.</p>
 <p>First, let’s load the libraries that we will need for this
-episode:</p>
+episode.</p>
+<p>We will be using the <code>tidyr</code> package in this episode,
+which you might not have used yet!</p>
+<p>If you haven’t downloaded <code>tidyr</code> to your R yet, do so now
+using:</p>
+<p><code>install.packages("tidyr")</code></p>
+<p>Once it’s downloaded, load in all the packages for this episode:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -585,7 +593,8 @@ use this theme.</p>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">variable</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
-<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
+<span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-adjust-theme-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Next we will center our plot title and subtitle. We need to do this
@@ -599,7 +608,9 @@ and subtitle by using the <code>theme()</code> function and setting the
 <code>hjust</code> parameter to 0.5. The <code>hjust</code> parameter
 stands for “horizontal justification” and takes any value between 0 and
 1. A setting of 0 indicates left justification and a setting of 1
-indicates right justification.</p>
+indicates right justification. We can also update the “face” of the
+font, to be bold or italics, or bold and italics. To do this, we would
+adjust the <code>face</code> parameter.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -609,17 +620,18 @@ indicates right justification.</p>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">variable</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
-<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
+<span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
 <span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-adjust-theme-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="challenge" class="callout challenge">
+<figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-adjust-theme-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="challenge-1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge" class="callout-inner">
-<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge"></a>
+<div id="challenge-1" class="callout-inner">
+<h3 class="callout-title">Challenge 1<a class="anchor" aria-label="anchor" href="#challenge-1"></a>
 </h3>
 <div class="callout-content">
 <p>Change the plot title (but not the subtitle) to bold font. You can
@@ -634,9 +646,9 @@ the <code>theme()</code> function.</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Answers</h4>
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Learners can find this information in the help files for the
 <code>theme()</code> function. The parameter to set is called
@@ -650,7 +662,8 @@ the <code>theme()</code> function.</p>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">variable</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
-<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
+<span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
 <span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
@@ -666,13 +679,21 @@ we can change the blue color ramp to a green one that is more visually
 suited to our NDVI (greenness) data using the
 <code>colorRampPalette()</code> function in combination with
 <code>colorBrewer</code> which requires loading the
-<code>RColorBrewer</code> library. Then we use
-<code>scale_fill_gradientn</code> to pass the list of colours (here 20
-different colours) to ggplot.</p>
-<p>First we need to create a set of colors to use. We will select a set
-of nine colors from the “YlGn” (yellow-green) color palette. This
-returns a set of hex color codes:</p>
+<code>RColorBrewer</code> library.</p>
+<p>If you don’t have the <code>RColorBrewer</code> library yet, install
+it using:</p>
+<p><code>install.packages("RColorBrewer")</code></p>
+<p>Now we need to create a set of colors to use.</p>
+<p>We can view the palettes available in <code>RColorBrewer</code>:</p>
 <div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">display.brewer.all</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-display-color-brewer-options-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We will select a set of nine colors from the “YlGn” (yellow-green)
+color palette. This returns a set of hex color codes:</p>
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -688,7 +709,7 @@ returns a set of hex color codes:</p>
 <p>Then we will pass those color codes to the
 <code>colorRampPalette</code> function, which will interpolate from
 those colors a more nuanced color range.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -697,8 +718,9 @@ those colors a more nuanced color range.</p>
 </div>
 <p>We can tell the <code>colorRampPalette()</code> function how many
 discrete colors within this color range to create. In our case, we will
-use 20 colors when we plot our graphic.</p>
-<div class="codewrapper sourceCode" id="cb16">
+use 20 colors when we plot our graphic. We can specify this in the
+<code>scale_fill_gradientn()</code> function.</p>
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -748,17 +770,17 @@ Cartography</a></p>
 </h2>
 <hr class="half-width"><p>Next, let’s label each panel in our plot with the Julian day that the
 raster data for that panel was collected. The current names come from
-the band “layer names”” stored in the <code>RasterStack</code> and the
+the band “layer names” stored in the <code>RasterStack</code> and the
 first part of each name is the Julian day.</p>
-<p>To create a more meaningful label we can remove the “x” and replace
-it with “day” using the <code>gsub()</code> function in R. The syntax is
-as follows:
+<p>To create a more meaningful label we can remove the pieces of the
+label we don’t want and replace it with something we do by using the
+<code>gsub()</code> function in R. The syntax is as follows:
 <code>gsub("StringToReplace", "TextToReplaceIt", object)</code>.</p>
 <p>First let’s remove “_HARV_NDVI_crop” from each label to make the
 labels shorter and remove repetition. To illustrate how this works, we
 will first look at the names for our <code>NDVI_HARV_stack_df</code>
 object in the <code>variable</code> column:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -778,7 +800,7 @@ character string “_HARV_ndvi_crop” and replace it with a blank string
 (““). We will assign this output to a new column
 (<code>panel_name</code>) using the <code>mutate()</code> function and
 look at that column to sure our code is doing what we want it to.</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -795,7 +817,7 @@ look at that column to sure our code is doing what we want it to.</p>
 </div>
 <p>So far so good. Now let’s use the <code>paste()</code> function to
 add the word “Day” in front of each of those numbers:</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -812,7 +834,7 @@ add the word “Day” in front of each of those numbers:</p>
 </div>
 <p>Our labels look good now. Let’s render our plot again. This time,
 we’ll facet by the <code>panel_name</code> column.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -825,7 +847,7 @@ we’ll facet by the <code>panel_name</code> column.</p>
 <span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
-<span>    plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="change-layout-of-panels"><h2 class="section-heading">Change Layout of Panels<a class="anchor" aria-label="anchor" href="#change-layout-of-panels"></a>
 </h2>
@@ -833,7 +855,7 @@ we’ll facet by the <code>panel_name</code> column.</p>
 columns <code>ncol</code> and the number of rows <code>nrow</code> in
 <code>facet_wrap</code>. Let’s make our plot so that it has a width of
 five panels.</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -846,7 +868,7 @@ five panels.</p>
 <span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
-<span>    plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-adjust-layout-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Now we have a beautiful, publication quality plot!</p>
 <p>We can save this plot using the <code>ggsave()</code> function.
@@ -854,19 +876,19 @@ Remember that by default R will save the last rendered plot. We can
 specify the height, width, and dpi for the figure when we save it. This
 makes it super easy to meet your target journal’s figure formatting
 requirements.</p>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggsave</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"figures/time_series_NDVI.png"</span>, </span>
 <span>       height <span class="op">=</span> <span class="fl">5</span>, width <span class="op">=</span> <span class="fl">5</span>, dpi <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="challenge-divergent-color-ramps" class="callout challenge">
+<div id="challenge-2-divergent-color-ramps" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-divergent-color-ramps" class="callout-inner">
-<h3 class="callout-title">Challenge: Divergent Color Ramps<a class="anchor" aria-label="anchor" href="#challenge-divergent-color-ramps"></a>
+<div id="challenge-2-divergent-color-ramps" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Divergent Color Ramps<a class="anchor" aria-label="anchor" href="#challenge-2-divergent-color-ramps"></a>
 </h3>
 <div class="callout-content">
 <p>When we used the <code>paste()</code> function to modify the tile
@@ -886,11 +908,11 @@ best?</p>
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Answers</h4>
+  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -909,7 +931,7 @@ best?</p>
 <span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
-<span>  plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/18-plot-time-series-rasters-in-r-rendered-final-figure-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>For NDVI data, the sequential color ramp is better than the divergent
 as it is more akin to the process of greening up, which starts off at
@@ -933,7 +955,8 @@ font, and position.</li>
 <li>Use the <code>brewer.pal()</code> function to create a custom color
 palette.</li>
 <li>Use the <code>gsub()</code> function to do pattern matching and
-replacement in text.</li>
+replacement in text and the <code>paste()</code> function to add to your
+current text.</li>
 </ul></div>
 </div>
 </div>
@@ -999,8 +1022,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/18-plot-time-series-rasters-in-r.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/18-plot-time-series-rasters-in-r.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-12",
-  "datePublished": "2024-04-16"
+  "dateModified": "2024-04-18",
+  "datePublished": "2024-04-18"
 }
 
   </script><script>

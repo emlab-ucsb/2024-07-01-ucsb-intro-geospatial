@@ -154,7 +154,7 @@ simply ask for a few lines at random. How would you code this?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 1
+## Solution
 
 To check the last few lines it's relatively simple as R already has a
 function for this:
@@ -202,7 +202,7 @@ neighbors!
 
 :::::::::::::::  solution
 
-## Solution to Challenge 2
+## Solution
 
 The object `gapminder` is a data frame with columns
 
@@ -462,7 +462,7 @@ time for coffee break?"
 
 :::::::::::::::  solution
 
-## Solution to Challenge 3
+## Solution
 
 
 ```r

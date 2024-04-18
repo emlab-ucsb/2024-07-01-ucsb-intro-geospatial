@@ -330,13 +330,13 @@ crs(DSM_HARV, proj = TRUE)
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge
+## Challenge 1
 
 What units are our data in?
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 `+units=m` tells us that our data is in meters.
 
@@ -510,7 +510,7 @@ of `NA` will be ignored by R as demonstrated above.
 
 :::::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge
+## Challenge 2
 
 Use the output from the `describe()` and `sources()` functions to find out what 
 `NoDataValue` is used for our `DSM_HARV` dataset. We need to use `sources()` 
@@ -519,7 +519,7 @@ file paths.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r
@@ -671,7 +671,7 @@ no bad data values in this particular raster.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Explore Raster Metadata
+## Challenge 3: Explore Raster Metadata
 
 Use `describe()` to determine the following about the `NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif` file:
 
@@ -685,7 +685,7 @@ Notice: this file is a hillshade. We will learn about hillshades in the [Working
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r

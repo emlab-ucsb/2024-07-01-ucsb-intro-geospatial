@@ -34,7 +34,6 @@ previous episodes.
 
 
 ```r
-library(terra)
 library(sf)
 library(ggplot2)
 library(dplyr)
@@ -73,7 +72,7 @@ in the same projection to support plotting / mapping. Note that these skills
 are also required for any geoprocessing / spatial analysis. Data need to be in
 the same CRS to ensure accurate results.
 
-We will continue to use the `sf` and `terra` packages in this episode.
+We will continue to use the `sf` package in this episode.
 
 ## Import US Boundaries - Census Data
 
@@ -305,7 +304,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge - Plot Multiple Layers of Spatial Data
+## Challenge 1: Plot Multiple Layers of Spatial Data
 
 Create a map of the North Eastern United States as follows:
 
@@ -319,7 +318,7 @@ Create a map of the North Eastern United States as follows:
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r

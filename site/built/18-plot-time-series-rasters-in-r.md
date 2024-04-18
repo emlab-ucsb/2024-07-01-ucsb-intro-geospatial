@@ -9,6 +9,7 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
+- Create a raster stack
 - Assign custom names to bands in a RasterStack.
 - Customize raster plots using the `ggplot2` package.
 
@@ -16,6 +17,7 @@ source: Rmd
 
 :::::::::::::::::::::::::::::::::::::::: questions
 
+- How can I deal with multiple raster layers?
 - How can I create a publication-quality graphic and customize plot parameters?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -24,7 +26,16 @@ source: Rmd
 This episode covers how to customize your raster plots using the `ggplot2` 
 package in R to create publication-quality plots.
 
-First, let's load the libraries that we will need for this episode: 
+First, let's load the libraries that we will need for this episode. 
+
+We will be using the `tidyr` package in this episode, which you might 
+not have used yet! 
+
+If you haven't downloaded `tidyr` to your R yet, do so now using: 
+
+`install.packages("tidyr")`
+
+Once it's downloaded, load in all the packages for this episode: 
 
 
 ```r
@@ -156,6 +167,7 @@ for each time point in our time series, so we will use the `facet_wrap()`
 function to create a multi-paneled plot by the `variable` column:
 
 
+
 ```r
 ggplot() +
   geom_raster(data = NDVI_HARV_stack_df, 
@@ -164,6 +176,7 @@ ggplot() +
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-ndvi-wrap-1.png" style="display: block; margin: auto;" />
+
 
 Although this plot is informative, it isn't something we would expect to see in 
 a journal publication. The x and y-axis labels aren't informative. There is a 
@@ -189,7 +202,8 @@ ggplot() +
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~variable) +
   labs(title = "Landsat NDVI", 
-       subtitle = "NEON Harvard Forest") + 
+       subtitle = "NEON Harvard Forest", 
+       fill = "NDVI") + 
   theme_void()
 ```
 
@@ -204,7 +218,8 @@ the title. We center both the title and subtitle by using the `theme()`
 function and setting the `hjust` parameter to 0.5. The `hjust` parameter stands 
 for "horizontal justification" and takes any value between 0 and 1. A setting 
 of 0 indicates left justification and a setting of 1 indicates right 
-justification.
+justification. We can also update the "face" of the font, to be bold or italics, 
+or bold and italics. To do this, we would adjust the `face` parameter. 
 
 
 ```r
@@ -213,9 +228,10 @@ ggplot() +
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~variable) +
   labs(title = "Landsat NDVI", 
-       subtitle = "NEON Harvard Forest") + 
+       subtitle = "NEON Harvard Forest", 
+       fill = "NDVI") + 
   theme_void() + 
-  theme(plot.title = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5))
 ```
 
@@ -223,7 +239,7 @@ ggplot() +
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge
+## Challenge 1
 
 Change the plot title (but not the subtitle) to bold font. You can (and 
 should!) use the help menu in RStudio or any internet resources to figure out 
@@ -234,7 +250,7 @@ able to change the appearance of text in the `theme()` function.
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 Learners can find this information in the help files for the `theme()`
 function. The parameter to set is called `face`.
@@ -246,7 +262,8 @@ ggplot() +
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~variable) +
   labs(title = "Landsat NDVI", 
-       subtitle = "NEON Harvard Forest") + 
+       subtitle = "NEON Harvard Forest", 
+       fill = "NDVI") + 
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5))
@@ -263,11 +280,24 @@ ggplot() +
 Next, let's adjust the color ramp used to render the rasters. First, we can
 change the blue color ramp to a green one that is more visually suited to our
 NDVI (greenness) data using the `colorRampPalette()` function in combination
-with `colorBrewer` which requires loading the `RColorBrewer` library. Then we 
-use `scale_fill_gradientn` to pass the list of colours (here 20 different 
-colours) to ggplot.
+with `colorBrewer` which requires loading the `RColorBrewer` library. 
 
-First we need to create a set of colors to use. We will select a set of nine 
+If you don't have the `RColorBrewer` library yet, install it using: 
+
+`install.packages("RColorBrewer")`
+
+Now we need to create a set of colors to use. 
+
+We can view the palettes available in `RColorBrewer`: 
+
+
+```r
+display.brewer.all()
+```
+
+<img src="fig/18-plot-time-series-rasters-in-r-rendered-display-color-brewer-options-1.png" style="display: block; margin: auto;" />
+
+We will select a set of nine 
 colors from the "YlGn" (yellow-green) color palette. This returns a set of hex 
 color codes:
 
@@ -293,7 +323,8 @@ green_colors <- brewer.pal(9, "YlGn") %>%
 
 We can tell the `colorRampPalette()` function how many discrete colors within 
 this color range to create. In our case, we will use 20 colors when we plot our 
-graphic.
+graphic. We can specify this in the `scale_fill_gradientn()` function.
+
 
 
 ```r
@@ -341,11 +372,12 @@ choose suitable color ramps, or to create your own.
 
 Next, let's label each panel in our plot with the Julian day that the raster 
 data for that panel was collected. The current names come from the band "layer 
-names"" stored in the `RasterStack` and the first part of each name is the 
+names" stored in the `RasterStack` and the first part of each name is the 
 Julian day.
 
-To create a more meaningful label we can remove the "x" and replace it with
-"day" using the `gsub()` function in R. The syntax is as follows:
+To create a more meaningful label we can remove the pieces of the label we
+don't want and replace it with something we do by 
+using the `gsub()` function in R. The syntax is as follows:
 `gsub("StringToReplace", "TextToReplaceIt", object)`.
 
 First let's remove "\_HARV\_NDVI\_crop" from each label to make the labels
@@ -415,7 +447,7 @@ ggplot() +
        subtitle = "NEON Harvard Forest") + 
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
-    plot.subtitle = element_text(hjust = 0.5)) 
+        plot.subtitle = element_text(hjust = 0.5)) 
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-1.png" style="display: block; margin: auto;" />
@@ -437,7 +469,7 @@ ggplot() +
        subtitle = "NEON Harvard Forest") + 
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
-    plot.subtitle = element_text(hjust = 0.5))
+        plot.subtitle = element_text(hjust = 0.5))
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-adjust-layout-1.png" style="display: block; margin: auto;" />
@@ -458,7 +490,7 @@ ggsave(filename = "figures/time_series_NDVI.png",
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge: Divergent Color Ramps
+## Challenge 2: Divergent Color Ramps
 
 When we used the `paste()` function to modify the tile labels we replaced the 
 beginning of each tile title with "Day". A more descriptive name could be 
@@ -474,7 +506,7 @@ color ramp may be best?
 
 :::::::::::::::  solution
 
-## Answers
+## Solution
 
 
 ```r
@@ -493,7 +525,7 @@ ggplot() +
        fill = "NDVI") +
   theme_void() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
-  plot.subtitle = element_text(hjust = 0.5)) 
+        plot.subtitle = element_text(hjust = 0.5)) 
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-final-figure-1.png" style="display: block; margin: auto;" />
@@ -515,7 +547,8 @@ keeps increasing.
 - Use the `theme_void()` function for a clean background to your plot.
 - Use the `element_text()` function to adjust text size, font, and position.
 - Use the `brewer.pal()` function to create a custom color palette.
-- Use the `gsub()` function to do pattern matching and replacement in text.
+- Use the `gsub()` function to do pattern matching and replacement in text 
+and the `paste()` function to add to your current text.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
