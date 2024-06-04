@@ -34,7 +34,7 @@ Date | Class Type | Topics Covered
 2024-08-01 | Office hours | Bring any-R-thing you need help troubleshooting
 2024-08-08 | SharkyR Lecture | Presentation by Dr. Danielle Haulsee
 2024-08-15 | Office hours | Bring any-R-thing you need help troubleshooting
-2024-08-22 | SharkyR Lecture | Presentation TBD
+2024-08-22 | SharkyR Lecture | Presentation by A-bel Gong
 
 ## Instructors and Helpers
 
