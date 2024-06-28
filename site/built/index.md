@@ -48,6 +48,7 @@ We also have a great group of instructors and helpers for this workshop:
 - [Dr. Racine Rangel](https://racinerangel.wixsite.com/racinerangel) (she/her), Postdoctoral Researcher at University of California, Santa Cruz
 - [Tracey Mangin](https://emlab.ucsb.edu/about/our-team/tracey-mangin) (she/her), Senior Project Scientist at Environmental Markets Lab at University of California, Santa Barbara
 - [Jose Niño Muriel](https://www.library.ucsb.edu/staff/jose-nino-muriel) (he/him), Data Science Community Lead at DREAM Lab at University of California, Santa Barbara
+- [Kristi Liu](https://www.library.ucsb.edu/staff/kristi-liu) (she/her), DREAM Lab Services Analyst at University of California, Santa Barbara Library
 
 [workbench]: https://carpentries.github.io/sandpaper-docs
 
