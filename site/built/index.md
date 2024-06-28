@@ -6,11 +6,11 @@ Welcome to the Intro to Geospatial Raster and Vector data workshop for the Minor
 
 We have a fun workshop planned for you all. 
 
-In addition to class time on **Mondays from 3-5p PST**, we will offer an optional "Office Hours" time on **Thursdays from 4-5p PST**. These Office Hours will alternate between troubleshooting sessions where you can bring anything in R that you've been working on and would like some guidance with, and "SharkyR" talks, where shark scientists will come and give a presentation about how they have used R in their work. 
+In addition to class time on **Mondays from 3-5p PT**, we will offer an optional "Office Hours" time on **Thursdays from 4-5p PT**. These Office Hours will alternate between troubleshooting sessions where you can bring anything in R that you've been working on and would like some guidance with, and "SharkyR" talks, where shark scientists will come and give a presentation about how they have used R in their work. 
 
 We have the schedule for both below.
 
-## Class Schedule (Mon, 3-5p PST):
+## Class Schedule (Mon, 3-5p PT):
 
 Week | Date | Topics Covered
 ---|---|---|---
@@ -23,7 +23,7 @@ Week 6 | 2024-08-05 | [Explore and Plot by Vector Layer Attributes Part 2](13-ve
 Week 7 | 2024-08-12 | [Handling Spatial Projection & CRS Part 2](15-vector-when-data-dont-line-up-crs.html), [Convert from .csv to a Vector Layer](16-vector-csv-to-shapefile-in-r.html), [Manipulate Raster Data Part 1](17-vector-raster-integration.html)
 Week 8 | 2024-08-19 | [Manipulate Raster Data Part 2](17-vector-raster-integration.html), [Create Publication-quality Graphics](18-plot-time-series-rasters-in-r.html)
 
-## Office Hours & SharkyR Talks (Thur, 4-5p PST)
+## Office Hours & SharkyR Talks (Thur, 4-5p PT)
 
 Date | Class Type | Topics Covered
 ---|---|---
