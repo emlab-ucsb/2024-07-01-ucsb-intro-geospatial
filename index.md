@@ -28,7 +28,7 @@ Week 8 | 2024-08-19 | [Manipulate Raster Data Part 2](17-vector-raster-integrati
 Date | Class Type | Topics Covered
 ---|---|---
 2024-06-27 | Office hours | Downloading R, RStudio, data required for workshop 
-2024-07-11 | SharkyR Lecture | Presentation by Allie Caughman & Leo Manir Fietosa
+2024-07-11 | SharkyR Lecture | Presentation by Allie Caughman & Leo Manir Feitosa
 2024-07-18 | Office hours | Bring any-R-thing you need help troubleshooting
 2024-07-25 | SharkyR Lecture | Presentation by Dr. Emily Meese
 2024-08-01 | Office hours | Bring any-R-thing you need help troubleshooting

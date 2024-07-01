@@ -12,7 +12,7 @@ home:
 template:
   package: varnish
   params:
-    time: 2024-06-28 23:14:27 +0000
+    time: 2024-07-01 21:16:03 +0000
     source: https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial
     branch: main
     contact: team@carpentries.org
