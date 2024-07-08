@@ -412,19 +412,20 @@ gapminder %>%
     summarize(
       mean_le = mean(lifeExp),
       min_le = min(lifeExp),
-      max_le = max(lifeExp)) %>% 
+      max_le = max(lifeExp), 
+      se_le = sd(lifeExp)/sqrt(n())) %>% 
   ungroup()
 ```
 
 ```{.output}
-# A tibble: 5 × 4
-  continent mean_le min_le max_le
-  <chr>       <dbl>  <dbl>  <dbl>
-1 Africa       48.9   23.6   76.4
-2 Americas     64.7   37.6   80.7
-3 Asia         60.1   28.8   82.6
-4 Europe       71.9   43.6   81.8
-5 Oceania      74.3   69.1   81.2
+# A tibble: 5 × 5
+  continent mean_le min_le max_le se_le
+  <chr>       <dbl>  <dbl>  <dbl> <dbl>
+1 Africa       48.9   23.6   76.4 0.366
+2 Americas     64.7   37.6   80.7 0.540
+3 Asia         60.1   28.8   82.6 0.596
+4 Europe       71.9   43.6   81.8 0.286
+5 Oceania      74.3   69.1   81.2 0.775
 ```
 
 ## Using `mutate()`

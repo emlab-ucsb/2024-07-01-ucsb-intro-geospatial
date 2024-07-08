@@ -290,7 +290,8 @@ gapminder %>%
     summarize(
       mean_le = mean(lifeExp),
       min_le = min(lifeExp),
-      max_le = max(lifeExp)) %>% 
+      max_le = max(lifeExp), 
+      se_le = sd(lifeExp)/sqrt(n())) %>% 
   ungroup()
 ```
 
