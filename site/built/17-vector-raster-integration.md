@@ -40,12 +40,25 @@ library(dplyr)
 ```r
 point_HARV <-
   st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
+
 aoi_boundary_HARV <-
   st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"
 
 # CHM data, and convert it to a dataframe
 CHM_HARV <-
   rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"
 
 CHM_HARV_df <- as.data.frame(CHM_HARV, xy = TRUE)
 ```

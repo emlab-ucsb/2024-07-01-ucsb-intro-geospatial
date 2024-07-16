@@ -369,7 +369,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Plot Multiple Vector and Raster Layers</h1>
-        <p>Last updated on 2024-04-23 |
+        <p>Last updated on 2024-07-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/14-vector-plot-shapefiles-custom-legend.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -436,9 +436,28 @@ previous episodes.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the data</span></span>
 <span><span class="va">aoi_boundary_HARV</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"</span></span>
+<span></span>
 <span><span class="va">lines_HARV</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"</span></span>
+<span></span>
 <span><span class="va">point_HARV</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span></span>
+<span></span>
 <span><span class="va">CHM_HARV</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"</span></span>
 <span></span>
 <span><span class="co"># Load the color palette from earlier lessons</span></span>
 <span><span class="va">road_colors</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"navy"</span>, <span class="st">"purple"</span><span class="op">)</span></span></code></pre>
@@ -617,7 +636,11 @@ Projected CRS: WGS 84 / UTM zone 18N</code></pre>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">unique</span><span class="op">(</span><span class="va">plot_locations</span><span class="op">$</span><span class="va">soilTypeOr</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp"</span></span>
+<span></span>
+<span><span class="fu">unique</span><span class="op">(</span><span class="va">plot_locations</span><span class="op">$</span><span class="va">soilTypeOr</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -702,8 +725,10 @@ then we’ll create a similar plot using <code>tmap</code>.</p>
 <p>Together, let’s create a plot that uses the NEON AOI Canopy Height
 Model
 <code>data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif</code>
-as a base layer. On top of the CHM, we will add the study site AOI,
-roads, and the tower location.</p>
+(or
+<code>data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif</code>
+depending on your set up) as a base layer. On top of the CHM, we will
+add the study site AOI, roads, and the tower location.</p>
 <p>Remember for <code>ggplot</code> to be able to plot raster data, we
 first need to convert it to a data frame.</p>
 <div class="codewrapper sourceCode" id="cb15">
@@ -860,8 +885,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/14-vector-plot-shapefiles-custom-legend.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/14-vector-plot-shapefiles-custom-legend.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-23",
-  "datePublished": "2024-07-08"
+  "dateModified": "2024-07-16",
+  "datePublished": "2024-07-16"
 }
 
   </script><script>

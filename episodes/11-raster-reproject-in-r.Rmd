@@ -60,8 +60,16 @@ First, we need to import the DTM and DTM hillshade data.
 DTM_HARV <- 
     rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop.tif")
 
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop.tif"
+
 DTM_hill_HARV <- 
     rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_DTMhill_WGS84.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_DTMhill_WGS84.tif"
 ```
 
 Next, we will convert each of these datasets to a dataframe for
@@ -220,9 +228,18 @@ Reproject the data as necessary to make things line up!
 # import DSM
 DSM_SJER <- 
     rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif"
+
 # import DSM hillshade
 DSM_hill_SJER_WGS <-
     rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_DSMhill_WGS84.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_DSMhill_WGS84.tif"
 
 # reproject raster
 DSM_hill_UTMZ18N_SJER <- project(x = DSM_hill_SJER_WGS,

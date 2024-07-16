@@ -42,6 +42,10 @@ library(dplyr)
 DSM_HARV <- 
   rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
+
 DSM_HARV_df <- as.data.frame(DSM_HARV, xy = TRUE)
 ```
 
@@ -296,6 +300,10 @@ First we need to read in our DSM hillshade data and view the structure:
 DSM_hill_HARV <-
   rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif")
 
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif"
+
 DSM_hill_HARV
 ```
 
@@ -375,7 +383,8 @@ ggplot() +
 
 ## Challenge 2: Create DTM \& DSM for SJER
 
-Use the files in the `data/NEON-DS-Airborne-Remote-Sensing/SJER/` directory to 
+Use the files in the `data/NEON-DS-Airborne-Remote-Sensing/SJER/` (or
+`data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/` depending on your setup) directory to 
 create a Digital Terrain Model map and Digital Surface Model map of the San 
 Joaquin Experimental Range field site.
 
@@ -398,12 +407,22 @@ Make sure to:
 # import DSM data
 DSM_SJER <- 
   rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif"
+
 # convert to a df for plotting
 DSM_SJER_df <- as.data.frame(DSM_SJER, xy = TRUE)
 
 # import DSM hillshade
 DSM_hill_SJER <- 
   rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmHill.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmHill.tif"
+
 # convert to a df for plotting
 DSM_hill_SJER_df <- as.data.frame(DSM_hill_SJER, xy = TRUE)
 
@@ -429,11 +448,21 @@ ggplot() +
 # import DTM
 DTM_SJER <- 
   rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif"
+
 DTM_SJER_df <- as.data.frame(DTM_SJER, xy = TRUE)
 
 # DTM Hillshade
 DTM_hill_SJER <- 
   rast("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmHill.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmHill.tif"
+
 DTM_hill_SJER_df <- as.data.frame(DTM_hill_SJER, xy = TRUE)
 
 ggplot() +

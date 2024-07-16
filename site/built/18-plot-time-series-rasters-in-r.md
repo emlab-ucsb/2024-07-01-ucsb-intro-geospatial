@@ -86,6 +86,10 @@ NDVI_HARV_path <- "data/NEON-DS-Landsat-NDVI/HARV/2011/NDVI"
 all_NDVI_HARV <- list.files(NDVI_HARV_path,
                             full.names = TRUE,
                             pattern = ".tif$")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Landsat-NDVI/HARV/2011/NDVI"
 ```
 
 It's a good idea to look at the file names that matched our search to make sure 

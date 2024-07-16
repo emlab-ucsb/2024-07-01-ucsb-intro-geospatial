@@ -45,9 +45,23 @@ library(sf)
 ```r
 point_HARV <-
     st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
+
 lines_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"
+
 aoi_boundary_HARV <-
     st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"
 ```
 
 ## Query Vector Feature Metadata
@@ -847,6 +861,10 @@ Geodetic CRS:  WGS 84
 ```
 
 ```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-State-Boundaries-Census-2014.shp"
+
 state_boundary_US$region <- as.factor(state_boundary_US$region)
 levels(state_boundary_US$region)
 ```

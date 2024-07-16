@@ -39,8 +39,22 @@ library(sf)
 
 ```r
 aoi_boundary_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"
+
 country_boundary_US <- st_read("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp"
+
 point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
 ```
 
 ## Spatial Data in Text Format
@@ -74,6 +88,10 @@ look at the structure of that new object:
 ```r
 plot_locations_HARV <-
   read.csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv"
 
 str(plot_locations_HARV)
 ```
@@ -403,6 +421,11 @@ First we will read in the new csv file and look at the data structure.
 ```r
 newplot_locations_HARV <-
   read.csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv"
+
 str(newplot_locations_HARV)
 ```
 

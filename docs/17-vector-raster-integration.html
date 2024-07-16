@@ -372,7 +372,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Manipulate Raster Data</h1>
-        <p>Last updated on 2024-04-23 |
+        <p>Last updated on 2024-07-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/17-vector-raster-integration.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -429,12 +429,25 @@ episode:</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">point_HARV</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span></span>
+<span></span>
 <span><span class="va">aoi_boundary_HARV</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">st_read</span><span class="op">(</span><span class="st">"data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"</span></span>
 <span></span>
 <span><span class="co"># CHM data, and convert it to a dataframe</span></span>
 <span><span class="va">CHM_HARV</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"</span></span>
 <span></span>
 <span><span class="va">CHM_HARV_df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">CHM_HARV</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
@@ -950,8 +963,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/17-vector-raster-integration.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/17-vector-raster-integration.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-23",
-  "datePublished": "2024-07-08"
+  "dateModified": "2024-07-16",
+  "datePublished": "2024-07-16"
 }
 
   </script><script>

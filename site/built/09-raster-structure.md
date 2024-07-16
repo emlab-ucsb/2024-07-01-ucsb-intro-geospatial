@@ -142,6 +142,12 @@ describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 [65] "    STATISTICS_STDDEV=17.83169335933"                                                                                                                                                                                                                                           
 ```
 
+```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
+```
+
 If you wish to store this information in R, you can do the following:
 
 
@@ -149,6 +155,10 @@ If you wish to store this information in R, you can do the following:
 HARV_dsmCrop_info <- capture.output(
   describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 )
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
 ```
 
 Each line of text that was printed to the console is now stored as an element of
@@ -179,6 +189,10 @@ First we will load our raster file into R and view the data structure.
 ```r
 DSM_HARV <-
   rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
 
 DSM_HARV
 ```
@@ -758,6 +772,12 @@ describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif")
 [63] "    STATISTICS_MEAN=0.31255246777216"                                                                                                                                                                                                                                           
 [64] "    STATISTICS_MINIMUM=-0.71362979358008"                                                                                                                                                                                                                                       
 [65] "    STATISTICS_STDDEV=0.48129385401108"                                                                                                                                                                                                                                         
+```
+
+```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif"
 ```
 
 

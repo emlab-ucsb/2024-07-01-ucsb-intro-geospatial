@@ -79,6 +79,12 @@ Bounding box:  xmin: 732128 ymin: 4713209 xmax: 732251.1 ymax: 4713359
 Projected CRS: WGS 84 / UTM zone 18N
 ```
 
+```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"
+```
+
 ## Vector Layer Metadata \& Attributes
 
 When we import the `HarClip_UTMZ18` vector layer from an ESRI `shapefile` into R (as our
@@ -260,6 +266,10 @@ Projected CRS: WGS 84 / UTM zone 18N
 ```
 
 ```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"
+
 point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
 ```
 
@@ -272,6 +282,12 @@ Geometry type: POINT
 Dimension:     XY
 Bounding box:  xmin: 732183.2 ymin: 4713265 xmax: 732183.2 ymax: 4713265
 Projected CRS: WGS 84 / UTM zone 18N
+```
+
+```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
 ```
 
 Then we check its geometry type. 

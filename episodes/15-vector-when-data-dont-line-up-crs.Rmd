@@ -42,6 +42,10 @@ library(dplyr)
 
 ```{r load-data, message=FALSE, warning=FALSE, results="hide"}
 point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
 ```
 
 ## Working With Spatial Data From Different Sources
@@ -97,6 +101,10 @@ care about the x and y coordinates, not the z or m dimensions, so we will use
 ```{r read-shp}
 state_boundary_US <- st_read("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-State-Boundaries-Census-2014.shp") %>%
   st_zm()
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-State-Boundaries-Census-2014.shp"
 ```
 
 Next, let's plot the U.S. states data:
@@ -117,6 +125,10 @@ nicer. We will import
 ```{r}
 country_boundary_US <- st_read("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp") %>%
   st_zm()
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp"
 ```
 
 If we specify a thicker line width using `linewidth = 0.5` for the border layer, it
@@ -259,6 +271,10 @@ Create a map of the North Eastern United States as follows:
 ```{r ne-states-harv}
 NE.States.Boundary.US <- st_read("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/Boundary-US-State-NEast.shp") %>%
   st_zm()
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/Boundary-US-State-NEast.shp"
 
 ggplot() +
     geom_sf(data = NE.States.Boundary.US, mapping = aes(color ="State Boundary")) +

@@ -369,7 +369,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Plot Raster Data</h1>
-        <p>Last updated on 2024-04-23 |
+        <p>Last updated on 2024-07-16 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/10-raster-plot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -429,6 +429,10 @@ lesson:</p>
 <span><span class="co"># DSM data for Harvard Forest</span></span>
 <span><span class="va">DSM_HARV</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"</span></span>
 <span></span>
 <span><span class="va">DSM_HARV_df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">DSM_HARV</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
@@ -694,6 +698,10 @@ structure:</p>
 <code class="sourceCode R"><span><span class="va">DSM_hill_HARV</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif"</span></span>
+<span></span>
 <span><span class="va">DSM_hill_HARV</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -786,9 +794,11 @@ SJER<a class="anchor" aria-label="anchor" href="#challenge-2-create-dtm-dsm-for-
 </h3>
 <div class="callout-content">
 <p>Use the files in the
-<code>data/NEON-DS-Airborne-Remote-Sensing/SJER/</code> directory to
-create a Digital Terrain Model map and Digital Surface Model map of the
-San Joaquin Experimental Range field site.</p>
+<code>data/NEON-DS-Airborne-Remote-Sensing/SJER/</code> (or
+<code>data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/</code>
+depending on your setup) directory to create a Digital Terrain Model map
+and Digital Surface Model map of the San Joaquin Experimental Range
+field site.</p>
 <p>Make sure to:</p>
 <ul><li>include hillshade in the maps,</li>
 <li>label axes on the DSM map and exclude them from the DTM map,</li>
@@ -814,12 +824,22 @@ the data.</li>
 <span><span class="co"># import DSM data</span></span>
 <span><span class="va">DSM_SJER</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif"</span></span>
+<span></span>
 <span><span class="co"># convert to a df for plotting</span></span>
 <span><span class="va">DSM_SJER_df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">DSM_SJER</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># import DSM hillshade</span></span>
 <span><span class="va">DSM_hill_SJER</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmHill.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmHill.tif"</span></span>
+<span></span>
 <span><span class="co"># convert to a df for plotting</span></span>
 <span><span class="va">DSM_hill_SJER_df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">DSM_hill_SJER</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -845,11 +865,21 @@ the data.</li>
 <span><span class="co"># import DTM</span></span>
 <span><span class="va">DTM_SJER</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif"</span></span>
+<span></span>
 <span><span class="va">DTM_SJER_df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">DTM_SJER</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># DTM Hillshade</span></span>
 <span><span class="va">DTM_hill_SJER</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rast</span><span class="op">(</span><span class="st">"data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmHill.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If you are getting an error, check your file path: </span></span>
+<span><span class="co"># You might need change your file path to: </span></span>
+<span><span class="co"># "data/2009586/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmHill.tif"</span></span>
+<span></span>
 <span><span class="va">DTM_hill_SJER_df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">DTM_hill_SJER</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -950,8 +980,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/10-raster-plot.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/instructor/10-raster-plot.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-04-23",
-  "datePublished": "2024-07-08"
+  "dateModified": "2024-07-16",
+  "datePublished": "2024-07-16"
 }
 
   </script><script>

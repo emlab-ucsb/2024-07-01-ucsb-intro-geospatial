@@ -49,9 +49,28 @@ library(sf)
 ```r
 # Load the data
 aoi_boundary_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"
+
 lines_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"
+
 point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
+
 CHM_HARV <- rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"
 
 # Load the color palette from earlier lessons
 road_colors <- c("blue", "green", "navy", "purple")
@@ -227,6 +246,10 @@ Projected CRS: WGS 84 / UTM zone 18N
 ```
 
 ```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp"
+
 unique(plot_locations$soilTypeOr)
 ```
 
@@ -316,7 +339,9 @@ We'll first go into how to do this using `ggplot`, and then we'll create
 a similar plot using `tmap`. 
 
 Together, let's create a plot that uses the NEON AOI Canopy Height Model
-`data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif` as a base
+`data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif` (or 
+`data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif` depending 
+on your set up) as a base
 layer. On top of the CHM, we will add the study site AOI, roads, and the tower
 location. 
 

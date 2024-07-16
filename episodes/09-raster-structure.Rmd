@@ -77,6 +77,10 @@ get to the desired location/file
 
 ```{r view-attributes-gdal}
 describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
 ```
 
 If you wish to store this information in R, you can do the following:
@@ -85,6 +89,10 @@ If you wish to store this information in R, you can do the following:
 HARV_dsmCrop_info <- capture.output(
   describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 )
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
 ```
 
 Each line of text that was printed to the console is now stored as an element of
@@ -114,6 +122,10 @@ First we will load our raster file into R and view the data structure.
 ```{r}
 DSM_HARV <-
   rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
 
 DSM_HARV
 ```
@@ -546,6 +558,10 @@ Notice: this file is a hillshade. We will learn about hillshades in the [Working
 
 ```{r challenge-code-attributes}
 describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif"
 ```
 
 

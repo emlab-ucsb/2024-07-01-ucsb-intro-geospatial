@@ -42,6 +42,10 @@ library(dplyr)
 
 ```r
 point_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"
 ```
 
 ## Working With Spatial Data From Different Sources
@@ -112,6 +116,12 @@ z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84
 ```
 
+```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-State-Boundaries-Census-2014.shp"
+```
+
 Next, let's plot the U.S. states data:
 
 
@@ -146,6 +156,12 @@ Dimension:     XYZ
 Bounding box:  xmin: -124.7258 ymin: 24.49813 xmax: -66.9499 ymax: 49.38436
 z_range:       zmin: 0 zmax: 0
 Geodetic CRS:  WGS 84
+```
+
+```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp"
 ```
 
 If we specify a thicker line width using `linewidth = 0.5` for the border layer, it
@@ -339,6 +355,10 @@ Geodetic CRS:  WGS 84
 ```
 
 ```r
+# If you are getting an error, check your file path: 
+# You might need change your file path to: 
+# "data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/Boundary-US-State-NEast.shp"
+
 ggplot() +
     geom_sf(data = NE.States.Boundary.US, mapping = aes(color ="State Boundary")) +
     scale_color_manual(values = c("State Boundary" = "gray18")) +
