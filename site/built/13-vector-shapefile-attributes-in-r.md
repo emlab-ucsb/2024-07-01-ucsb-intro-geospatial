@@ -531,7 +531,7 @@ a named vector:
 
 
 ```r
-road_colors <- c("stone wall" = "blue", "board walk" = "green",
+road_colors <- c("stone wall" = "blue", "boardwalk" = "green",
                  "footpath" = "navy", "woods road" = "purple")
 ```
 

@@ -45,8 +45,8 @@ We also have a great group of instructors and helpers for this workshop:
 - [Danielle Ferraro](https://emlab.ucsb.edu/about/our-team/danielle-ferraro) (she/her), Project Scientist at Environmental Markets Lab at University of California, Santa Barbara
 - [Jason Flower](https://emlab.ucsb.edu/about/our-team/jason-flower) (he/him), Senior Project Scientist at Environmental Markets Lab at University of California, Santa Barbara
 - [Lennon Thomas](https://emlab.ucsb.edu/index.php/about/our-team/lennon-thomas) (she/her), Senior Project Scientist at Environmental Markets Lab at University of California, Santa Barbara
-- [Dr. Racine Rangel](https://racinerangel.wixsite.com/racinerangel) (she/her), Postdoctoral Researcher at University of California, Santa Cruz
 - [Tracey Mangin](https://emlab.ucsb.edu/about/our-team/tracey-mangin) (she/her), Senior Project Scientist at Environmental Markets Lab at University of California, Santa Barbara
+- [Gavin McDonald](https://emlab.ucsb.edu/about/our-team/gavin-mcdonald) (he/him), Senior Project Scientist at Environmental Markets Lab at University of California, Santa Barbara
 - [Jose Niño Muriel](https://www.library.ucsb.edu/staff/jose-nino-muriel) (he/him), Data Science Community Lead at DREAM Lab at University of California, Santa Barbara
 - [Kristi Liu](https://www.library.ucsb.edu/staff/kristi-liu) (she/her), DREAM Lab Services Analyst at University of California, Santa Barbara Library
 

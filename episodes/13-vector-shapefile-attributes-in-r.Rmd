@@ -338,7 +338,7 @@ road types. You can specify which colors to use for which road type by creating
 a named vector: 
 
 ```{r, eval = FALSE, echo = TRUE}
-road_colors <- c("stone wall" = "blue", "board walk" = "green",
+road_colors <- c("stone wall" = "blue", "boardwalk" = "green",
                  "footpath" = "navy", "woods road" = "purple")
 ```
 
