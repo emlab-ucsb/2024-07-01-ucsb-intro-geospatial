@@ -401,9 +401,6 @@ tm_shape(raster_object) + # first we specify the object to plot first
 You can specify things like color and shape within the `tm_sf()` function as
 `col = "black"` or `shape = 8` for example. 
 
-Once we make our plot, we can add a title by adding `tm_title("Title here")`
-at the end.
-
 
 ```r
 # Create the plot
@@ -414,8 +411,7 @@ tm_shape(CHM_HARV) +
   tm_shape(aoi_boundary_HARV) + 
   tm_sf(col = "grey20") + 
   tm_shape(point_HARV) + 
-  tm_sf(col = "black") + 
-  tm_title("NEON Harvard Forest Field Site w/ Canopy Height Model")
+  tm_sf(col = "black") 
 ```
 
 ```{.output}

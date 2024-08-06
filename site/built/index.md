@@ -17,11 +17,11 @@ Week | Date | Topics Covered
 Week 1 | 2024-07-01 | [Introduction to R and RStudio](01-rstudio-intro.html), [Project Management with R](02-project-intro.html), [Data Structures](03-data-structures-part1.html)
 Week 2 | 2024-07-08 | [Exploring Data Frames](04-data-structures-part2.html), [Subsetting Data](05-data-subsetting.html), [Data frame Manipulation with dplyr](06-dplyr.html)
 Week 3 | 2024-07-15 | [Introduction to Visualization](07-plot-ggplot2.html), [Writing Data](08-writing-data.html), [Intro to Raster Data](09-raster-structure.html)
-Week 4 | 2024-07-22 | [Plot Raster Data](10-raster-plot.html), [Reproject Raster Data Part 1](11-raster-reproject-in-r.html)
-Week 5 | 2024-07-29 | [Reproject Raster Data Part 2](11-raster-reproject-in-r.html), [Open and Plot Vector Layers](12-vector-open-shapefile-in-r.html), [Explore and Plot by Vector Layer Attributes Part 1](13-vector-shapefile-attributes-in-r.html)
-Week 6 | 2024-08-05 | [Explore and Plot by Vector Layer Attributes Part 2](13-vector-shapefile-attributes-in-r.html), [Plot Multiple Vector Layers](14-vector-plot-shapefiles-custom-legend.html), [Handling Spatial Projection & CRS Part 1](15-vector-when-data-dont-line-up-crs.html)
-Week 7 | 2024-08-12 | [Handling Spatial Projection & CRS Part 2](15-vector-when-data-dont-line-up-crs.html), [Convert from .csv to a Vector Layer](16-vector-csv-to-shapefile-in-r.html), [Manipulate Raster Data Part 1](17-vector-raster-integration.html)
-Week 8 | 2024-08-19 | [Manipulate Raster Data Part 2](17-vector-raster-integration.html), [Create Publication-quality Graphics](18-plot-time-series-rasters-in-r.html)
+Week 4 | 2024-07-22 | [Plot Raster Data](10-raster-plot.html), [Reproject Raster Data](11-raster-reproject-in-r.html)
+Week 5 | 2024-07-29 | [Open and Plot Vector Layers](12-vector-open-shapefile-in-r.html), [Explore and Plot by Vector Layer Attributes](13-vector-shapefile-attributes-in-r.html)
+Week 6 | 2024-08-05 | [Plot Multiple Vector Layers](14-vector-plot-shapefiles-custom-legend.html), [Handling Spatial Projection & CRS](15-vector-when-data-dont-line-up-crs.html)
+Week 7 | 2024-08-12 | [Convert from .csv to a Vector Layer](16-vector-csv-to-shapefile-in-r.html), [Manipulate Raster Data](17-vector-raster-integration.html)
+Week 8 | 2024-08-19 | [Create Publication-quality Graphics](18-plot-time-series-rasters-in-r.html)
 
 ## Office Hours & SharkyR Talks (Thur, 4-5p PT)
 
