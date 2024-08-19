@@ -245,7 +245,7 @@ ggplot() +
 
 ## Challenge 1
 
-Change the plot title (but not the subtitle) to bold font. You can (and 
+Change the plot subtitle to italic font. You can (and 
 should!) use the help menu in RStudio or any internet resources to figure out 
 how to change this setting.
 
@@ -270,7 +270,7 @@ ggplot() +
        fill = "NDVI") + 
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        plot.subtitle = element_text(hjust = 0.5))
+        plot.subtitle = element_text(hjust = 0.5, face = "italic"))
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-use-bold-face-1.png" style="display: block; margin: auto;" />
@@ -296,6 +296,8 @@ We can view the palettes available in `RColorBrewer`:
 
 
 ```r
+library(RColorBrewer)
+
 display.brewer.all()
 ```
 
@@ -307,7 +309,6 @@ color codes:
 
 
 ```r
-library(RColorBrewer)
 brewer.pal(9, "YlGn")
 ```
 
@@ -316,19 +317,14 @@ brewer.pal(9, "YlGn")
 [8] "#006837" "#004529"
 ```
 
-Then we will pass those color codes to the `colorRampPalette` function, which
-will interpolate from those colors a more nuanced color range.
+We can save these colors to add to our plot later.
 
 
 ```r
-green_colors <- brewer.pal(9, "YlGn") %>%
-  colorRampPalette()
+green_colors <- brewer.pal(9, "YlGn") 
 ```
 
-We can tell the `colorRampPalette()` function how many discrete colors within 
-this color range to create. In our case, we will use 20 colors when we plot our 
-graphic. We can specify this in the `scale_fill_gradientn()` function.
-
+Now we can go ahead and build our plot!
 
 
 ```r
@@ -336,7 +332,7 @@ ggplot() +
   geom_raster(data = NDVI_HARV_stack_df, 
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~variable) +
-  scale_fill_gradientn(colours = green_colors(20)) + 
+  scale_fill_gradientn(colours = green_colors) + 
   labs(title = "Landsat NDVI", 
        subtitle = "NEON Harvard Forest", 
        fill = "NDVI") + 
@@ -446,15 +442,36 @@ ggplot() +
   geom_raster(data = NDVI_HARV_stack_df, 
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~panel_name) +
-  scale_fill_gradientn(colours = green_colors(20)) + 
+  scale_fill_gradientn(colours = green_colors) + 
   labs(title = "Landsat NDVI", 
-       subtitle = "NEON Harvard Forest") + 
+       subtitle = "NEON Harvard Forest", 
+       fill = "NDVI") + 
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
         plot.subtitle = element_text(hjust = 0.5)) 
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-1.png" style="display: block; margin: auto;" />
+
+The "Day" looks a little bit cut off on our plots. We can fix that using the "theme" again! This time, we will want to add something for the `strip.text` area - let's increase the margin on the bottom of the text area to accommodate the text size. We can do this using `theme(strip.text = element_text(margin = unit(c(0,0,2,0), "pt")))`. The `c(0,0,2,0)` tells us the new margins we want for the top (0 pt), right (0 pt), bottom (2 pt), and left (0 pt) sides. 
+
+
+```r
+ggplot() +
+  geom_raster(data = NDVI_HARV_stack_df, 
+              mapping = aes(x = x, y = y, fill = value)) +
+  facet_wrap(~panel_name) +
+  scale_fill_gradientn(colours = green_colors) + 
+  labs(title = "Landsat NDVI", 
+       subtitle = "NEON Harvard Forest", 
+       fill = "NDVI") + 
+  theme_void() + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
+        plot.subtitle = element_text(hjust = 0.5), 
+        strip.text = element_text(margin = unit(c(0,0,2,0), "pt"))) 
+```
+
+<img src="fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-margins-1.png" style="display: block; margin: auto;" />
 
 ## Change Layout of Panels
 
@@ -468,12 +485,14 @@ ggplot() +
   geom_raster(data = NDVI_HARV_stack_df, 
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~panel_name, ncol = 5) +
-  scale_fill_gradientn(colours = green_colors(20)) + 
+  scale_fill_gradientn(colours = green_colors) + 
   labs(title = "Landsat NDVI", 
-       subtitle = "NEON Harvard Forest") + 
+       subtitle = "NEON Harvard Forest", 
+       fill = "NDVI") + 
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
-        plot.subtitle = element_text(hjust = 0.5))
+        plot.subtitle = element_text(hjust = 0.5), 
+        strip.text = element_text(margin = unit(c(0,0,2,0), "pt")))
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-adjust-layout-1.png" style="display: block; margin: auto;" />
@@ -517,19 +536,20 @@ color ramp may be best?
 NDVI_HARV_stack_df <- NDVI_HARV_stack_df %>% 
   mutate(panel_name = gsub("Day", "Julian Day", panel_name))
 
-brown_green_colors <- colorRampPalette(brewer.pal(9, "BrBG"))
+brown_green_colors <- brewer.pal(9, "BrBG")
 
 ggplot() +
   geom_raster(data = NDVI_HARV_stack_df, 
               mapping = aes(x = x, y = y, fill = value)) +
   facet_wrap(~panel_name, ncol = 5) +
-  scale_fill_gradientn(colours = brown_green_colors(20)) + 
+  scale_fill_gradientn(colours = brown_green_colors) + 
   labs(title = "Landsat NDVI - Julian Days", 
        subtitle = "Harvard Forest 2011", 
        fill = "NDVI") +
   theme_void() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
-        plot.subtitle = element_text(hjust = 0.5)) 
+        plot.subtitle = element_text(hjust = 0.5), 
+        strip.text = element_text(margin = unit(c(0,0,2,0), "pt")))
 ```
 
 <img src="fig/18-plot-time-series-rasters-in-r-rendered-final-figure-1.png" style="display: block; margin: auto;" />

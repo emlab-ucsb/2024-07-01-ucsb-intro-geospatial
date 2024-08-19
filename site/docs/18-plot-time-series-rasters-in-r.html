@@ -371,7 +371,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Create Publication-quality Graphics</h1>
-        <p>Last updated on 2024-07-16 |
+        <p>Last updated on 2024-08-19 |
         
         <a href="https://github.com/echelleburns/2024-07-01-ucsb-intro-geospatial/edit/main/episodes/18-plot-time-series-rasters-in-r.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -636,9 +636,9 @@ adjust the <code>face</code> parameter.</p>
 <h3 class="callout-title">Challenge 1<a class="anchor" aria-label="anchor" href="#challenge-1"></a>
 </h3>
 <div class="callout-content">
-<p>Change the plot title (but not the subtitle) to bold font. You can
-(and should!) use the help menu in RStudio or any internet resources to
-figure out how to change this setting.</p>
+<p>Change the plot subtitle to italic font. You can (and should!) use
+the help menu in RStudio or any internet resources to figure out how to
+change this setting.</p>
 <p><em>Hint</em>: Use <code>?element_text()</code> to pull up the help
 file and see how you might be able to change the appearance of text in
 the <code>theme()</code> function.</p>
@@ -668,7 +668,7 @@ the <code>theme()</code> function.</p>
 <span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
-<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"italic"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-use-bold-face-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 </div>
@@ -691,7 +691,9 @@ it using:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">display.brewer.all</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">display.brewer.all</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-display-color-brewer-options-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We will select a set of nine colors from the “YlGn” (yellow-green)
 color palette. This returns a set of hex color codes:</p>
@@ -699,8 +701,7 @@ color palette. This returns a set of hex color codes:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span></span>
-<span><span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">9</span>, <span class="st">"YlGn"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">9</span>, <span class="st">"YlGn"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -708,20 +709,14 @@ color palette. This returns a set of hex color codes:</p>
 <pre class="output" tabindex="0"><code>[1] "#FFFFE5" "#F7FCB9" "#D9F0A3" "#ADDD8E" "#78C679" "#41AB5D" "#238443"
 [8] "#006837" "#004529"</code></pre>
 </div>
-<p>Then we will pass those color codes to the
-<code>colorRampPalette</code> function, which will interpolate from
-those colors a more nuanced color range.</p>
+<p>We can save these colors to add to our plot later.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">green_colors</span> <span class="op">&lt;-</span> <span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">9</span>, <span class="st">"YlGn"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">colorRampPalette</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">green_colors</span> <span class="op">&lt;-</span> <span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">9</span>, <span class="st">"YlGn"</span><span class="op">)</span> </span></code></pre>
 </div>
-<p>We can tell the <code>colorRampPalette()</code> function how many
-discrete colors within this color range to create. In our case, we will
-use 20 colors when we plot our graphic. We can specify this in the
-<code>scale_fill_gradientn()</code> function.</p>
+<p>Now we can go ahead and build our plot!</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -730,7 +725,7 @@ use 20 colors when we plot our graphic. We can specify this in the
 <span>  <span class="fu">geom_raster</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NDVI_HARV_stack_df</span>, </span>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">variable</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="fu">green_colors</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="va">green_colors</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
 <span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
 <span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -844,19 +839,22 @@ we’ll facet by the <code>panel_name</code> column.</p>
 <span>  <span class="fu">geom_raster</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NDVI_HARV_stack_df</span>, </span>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">panel_name</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="fu">green_colors</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="va">green_colors</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
-<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
+<span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
 <span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
 </div>
-<figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="change-layout-of-panels"><h2 class="section-heading">Change Layout of Panels<a class="anchor" aria-label="anchor" href="#change-layout-of-panels"></a>
-</h2>
-<hr class="half-width"><p>We can adjust the columns of our plot by setting the number of
-columns <code>ncol</code> and the number of rows <code>nrow</code> in
-<code>facet_wrap</code>. Let’s make our plot so that it has a width of
-five panels.</p>
+<figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The “Day” looks a little bit cut off on our plots. We can fix that
+using the “theme” again! This time, we will want to add something for
+the <code>strip.text</code> area - let’s increase the margin on the
+bottom of the text area to accommodate the text size. We can do this
+using
+<code>theme(strip.text = element_text(margin = unit(c(0,0,2,0), "pt")))</code>.
+The <code>c(0,0,2,0)</code> tells us the new margins we want for the top
+(0 pt), right (0 pt), bottom (2 pt), and left (0 pt) sides.</p>
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -864,13 +862,38 @@ five panels.</p>
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_raster</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NDVI_HARV_stack_df</span>, </span>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">panel_name</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="fu">green_colors</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">panel_name</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="va">green_colors</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
-<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
+<span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
-<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, </span>
+<span>        strip.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>margin <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">0</span><span class="op">)</span>, <span class="st">"pt"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
+</div>
+<figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-create-levelplot-margins-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="change-layout-of-panels"><h2 class="section-heading">Change Layout of Panels<a class="anchor" aria-label="anchor" href="#change-layout-of-panels"></a>
+</h2>
+<hr class="half-width"><p>We can adjust the columns of our plot by setting the number of
+columns <code>ncol</code> and the number of rows <code>nrow</code> in
+<code>facet_wrap</code>. Let’s make our plot so that it has a width of
+five panels.</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_raster</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NDVI_HARV_stack_df</span>, </span>
+<span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">panel_name</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="va">green_colors</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"NEON Harvard Forest"</span>, </span>
+<span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, </span>
+<span>        strip.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>margin <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">0</span><span class="op">)</span>, <span class="st">"pt"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-adjust-layout-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Now we have a beautiful, publication quality plot!</p>
 <p>We can save this plot using the <code>ggsave()</code> function.
@@ -878,7 +901,7 @@ Remember that by default R will save the last rendered plot. We can
 specify the height, width, and dpi for the figure when we save it. This
 makes it super easy to meet your target journal’s figure formatting
 requirements.</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -914,26 +937,27 @@ best?</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NDVI_HARV_stack_df</span> <span class="op">&lt;-</span> <span class="va">NDVI_HARV_stack_df</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>panel_name <span class="op">=</span> <span class="fu">gsub</span><span class="op">(</span><span class="st">"Day"</span>, <span class="st">"Julian Day"</span>, <span class="va">panel_name</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">brown_green_colors</span> <span class="op">&lt;-</span> <span class="fu">colorRampPalette</span><span class="op">(</span><span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">9</span>, <span class="st">"BrBG"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">brown_green_colors</span> <span class="op">&lt;-</span> <span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">9</span>, <span class="st">"BrBG"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_raster</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NDVI_HARV_stack_df</span>, </span>
 <span>              mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">panel_name</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="fu">brown_green_colors</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="va">brown_green_colors</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Landsat NDVI - Julian Days"</span>, </span>
 <span>       subtitle <span class="op">=</span> <span class="st">"Harvard Forest 2011"</span>, </span>
 <span>       fill <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>, </span>
-<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span></code></pre>
+<span>        plot.subtitle <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, </span>
+<span>        strip.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>margin <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">0</span><span class="op">)</span>, <span class="st">"pt"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/18-plot-time-series-rasters-in-r-rendered-final-figure-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>For NDVI data, the sequential color ramp is better than the divergent
 as it is more akin to the process of greening up, which starts off at
@@ -1024,8 +1048,8 @@ any links that you are not going to use.
   "url": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/18-plot-time-series-rasters-in-r.html",
   "identifier": "https://echelleburns.github.io/2024-07-01-ucsb-intro-geospatial/18-plot-time-series-rasters-in-r.html",
   "dateCreated": "2024-04-02",
-  "dateModified": "2024-07-16",
-  "datePublished": "2024-08-06"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>
